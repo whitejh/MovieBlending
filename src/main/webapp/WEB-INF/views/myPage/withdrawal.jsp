@@ -33,38 +33,52 @@
 					정보</a><br> <a class="myMenu" href="/myPage/Review">작성한 리뷰</a><br>
 				<a class="myMenu" href="/myPage/Favorite">즐겨찾기</a>
 			</div>
-			<div class="middle">
-				<p class="user_info_name">아이디</p>
-				<p class="user_info_name">비밀번호</p>
-				<p class="user_info_name">이름</p>
-				<p class="user_info_name">닉네임</p>
-				<p class="user_info_name">이메일</p>
-				<p class="user_info_name">가입날짜</p>
+
+			<div class="login-wrap">
+				<div class="login-html">
+					<input id="tab-1" type="radio" name="tab" class="sign-in" checked>
+					<label for="tab-1" class="tab" style="cursor: pointer">회원
+						탈퇴</label>
+
+
+					<!-- 회원탈퇴 -->
+					<div class="login-form">
+						<div class="sign-in-htm">
+							<form method="post" role="form" autocomplete="off">
+								<div class="group">
+									<label for="user" class="label">ID</label> <input id="user"
+										type="text" class="input" name="userID" value="${user.userID}">
+								</div>
+								<div class="group">
+									<label for="pass" class="label">Password</label> <input
+										id="pass" type="password" class="input" data-type="password"
+										name="userPassword">
+								</div>
+
+								<div class="group">
+									<input type="submit" class="button" value="회원탈퇴"
+										style="cursor: pointer">
+								</div>
+								<div class="hr"></div>
+								<div class="foot-lnk">
+									<a href="/myPage">처음으로</a>
+								</div>
+
+							</form>
+							<c:if test ="${msg == false }">
+								<p>입력한 비밀번호가 잘못되었습니다</p>
+							</c:if>
+						</div>
+					</div>
+				</div>
 			</div>
 
-			<div class="right">
-				<p class="user_info">${user.userID}</p>
-				<p class="user_info">${user.userPassword}</p>
-				<p class="user_info">${user.userName}</p>
-				<p class="user_info">${user.userNickname}</p>
-				<p class="user_info">${user.userEmail}</p>
-				<p class="user_info">${user.regDate}</p>
-			</div>
-
-			<div class="withdrawal">
-				<button type="submit" class="btn btn-danger" onclick="location.href='/withdraw'">회원
-					탈퇴</button>
-			</div>
 		</main>
 	</div>
 
 
 	<script>
-	/* 	function withdraw() {
-			if (window.confirm("탈퇴하시겠습니까?")) {
-				location.href = "/withdraw";
-			}
-		} */
+	
 	</script>
 
 </body>
