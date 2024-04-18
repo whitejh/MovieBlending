@@ -40,7 +40,7 @@ public class MovieController {
         } catch (IOException e) {
             e.printStackTrace();	// 예외 처리
         }
-        return "boxOffice/boxOffice";
+        return "movie/boxOffice";
     }	
 	
 	//어제 날짜 가져오는 함수
