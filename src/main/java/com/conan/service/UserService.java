@@ -35,18 +35,27 @@ public class UserService {
 	
 	public void join(User user) {
 		log.info("join...");
-		
 		mapper.join(user);
 	}
 	
-	public List<Review> getReviews(String userID) {
-		log.info("getReviews...");
-		return mapper.getReviews(userID);
+	public User getAccount(String userID) {
+		log.info("getAccount");
+		return mapper.getAccount(userID);
+	}
+	
+	public List<Review> getMyReviews(String userID) {
+		log.info("getMyReviews...");
+		return mapper.getMyReviews(userID);
 	}
 	
 	
-	public List<Favorite> getFavorites(String userID) {
-		log.info("getFavorites...");
-		return mapper.getFavorites(userID);
+	public List<Favorite> getMyFavorites(String userID) {
+		log.info("getMyFavorites...");
+		return mapper.getMyFavorites(userID);
+	}
+	
+	public void deleteUser(String userID) {
+		log.info("회원 탈퇴...");
+		mapper.deleteUser(userID);
 	}
 }
