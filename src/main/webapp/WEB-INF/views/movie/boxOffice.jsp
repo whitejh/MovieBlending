@@ -48,7 +48,7 @@ a, a:hover {
 		<div class="boxoffice">
 			<div class="boxoffice_name">
 				<ul>
-					<li><a href="#" class="boxoffice-btn active" data-type="daily">일별
+					<li><a href="#" class="boxoffice-btn" data-type="daily">일별
 							박스오피스</a></li>
 					<li><a href="#" class="boxoffice-btn" data-type="weekly">주간
 							박스오피스</a></li>
@@ -78,7 +78,7 @@ a, a:hover {
 								<li class="list-group-item">당일 관객수: ${item.audiCnt}명</li>
 								<li class="list-group-item">누적관객수: ${item.audiAcc}명</li>
 							</ul>
-							<a href="movieDetail.jsp?movieCd=${item.movieCd}"
+							<a href="movie/movieDetail?movieCd=${item.movieCd}"
 								class="btn btn-primary">상세 보기</a>
 						</div>
 					</div>
@@ -112,7 +112,7 @@ a, a:hover {
     	let result = $(".boxoffice_movie");
         let dateRange = $(".date_range");
         let yesterdayDate;
-        
+      
         //어제의 날짜를 계산
         let d = new Date();
 		d.setDate(d.getDate() -1);	//-1이면 하루전, +1이면 내일
@@ -129,20 +129,23 @@ a, a:hover {
             format: 'yyyy-mm-dd',
             autoclose: true,
             todayHighlight: true,
-        });        
+        });
+        
+        let type = "daily";
+        fetchFirstData(yesterdayDate, type);	//초기 화면 설정(버튼 클릭 없이 나오게)
 
         //박스오피스 버튼 클릭 시 해당 타입의 데이터 조회
         $('.boxoffice_name ul li a').on('click', function () {
-        	fetchDataFlag = true; //데이터 조회 플래그를 true로 설정
+        	result.empty();
+        	dateRange.empty();
         	$('.boxoffice_name ul li a').removeClass('active');
             $(this).addClass('active');
             let type = $(this).data('type');
             let selectedDate = $('#datepicker').val(); //선택한 날짜 가져오기
-            fetchData(selectedDate, type); //선택한 날짜와 타입을 fetchData 함수에 전달
+            updateNewData(selectedDate, type); //선택한 날짜와 타입을 fetchData 함수에 전달
         });    
         
         //페이지 로드 시 자동으로 일별 박스오피스 버튼 클릭
-        //이 함수 위치 바뀌면 절대 실행 X
         $('.boxoffice-btn[data-type="daily"]').click();
         
         //btn-primary 버튼 클릭 이벤트 함수(상세보기)
@@ -161,7 +164,8 @@ a, a:hover {
         });
     });
     
-    function fetchData(selectedDate, type) {
+    //페이지 로드 시 초기 데이터 화면에 출력
+    function fetchFirstData(selectedDate, type) {
         // AJAX 요청 보내기
         $.ajax({
             url: 'http://localhost:9090/boxOffice',
@@ -171,7 +175,6 @@ a, a:hover {
                 type: type
             },
             success: function(data) {
-            	//showCard(data);
                 console.log('AJAX 요청 성공 !!!');
             },
             error: function (xhr, status, error) {
@@ -180,40 +183,56 @@ a, a:hover {
         }); 
     }
     
-/*     function showCard(data) {
-    	var dataStr = "${mList}";
-    	console.log("dataStr : " + dataStr);
-    	// 정규 표현식을 사용하여 Movie 객체 추출
-    	var regex = /Movie\(movieCd=(\d+),\s*movieNm=(.*?),\s*openDt=(.*?),\s*posterUrl=(.*?),\s*rank=(\d+),\s*rankOldAndNew=(.*?),\s*audiCnt=(\d+),\s*audiAcc=(\d+)\)/g;
-    	var movies = [];
-    	// 문자열에서 각 Movie 객체 추출
-    	dataStr.replace(regex, function(match, movieCd, movieNm, openDt, posterUrl, rank, rankOldAndNew, audiCnt, audiAcc) {
-    	    movies.push({
-    	        movieCd: movieCd,
-    	        movieNm: movieNm,
-    	        openDt: openDt,
-    	        posterUrl: posterUrl,
-    	        rank: parseInt(rank),
-    	        rankOldAndNew: rankOldAndNew,
-    	        audiCnt: parseInt(audiCnt),
-    	        audiAcc: parseInt(audiAcc)
-    	    });
-    	});
-    	
-    	// 각 Movie의 데이터 출력
-    	$.each(movies, function(index, movie) {
-    	    console.log("Movie " + (index + 1) + ":");
-    	    console.log("MovieCd: " + movie.movieCd);
-    	    console.log("MovieNm: " + movie.movieNm);
-    	    console.log("OpenDt: " + movie.openDt);
-    	    console.log("PosterUrl: " + movie.posterUrl);
-    	    console.log("Rank: " + movie.rank);
-    	    console.log("RankOldAndNew: " + movie.rankOldAndNew);
-    	    console.log("AudiCnt: " + movie.audiCnt);
-    	    console.log("AudiAcc: " + movie.audiAcc);
-    	});
-    } */
-    
+    //버튼 클릭 후 새로운 데이터 화면에 출력
+    function updateNewData(selectedDate, type) {
+        // AJAX 요청 보내기
+        $.getJSON({
+            url: 'http://localhost:9090/boxOffice1.json',
+            type: 'GET',
+            data: {
+                selectedDate: selectedDate,
+                type: type
+            },
+            success: function(data) {
+            	updateCardData(data, type);
+                console.log('AJAX 요청 성공 !!! ', data);
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX 요청 실패 ??? : ' + status + " " + error);
+            }
+        }); 
+    }
+     
+	//데이터 출력 함수(카드에다 출력)
+	function updateCardData(data, type) {
+         console.log('업데이트된 data : ' + data);
+         $.each(data, function (index, item) {       	
+         	let cardHtml =
+    	        '<div class="card mb-3">' +
+    	        '<div class="card-header">' +
+    	        '<span>' + item.rankOldAndNew + '</span>' +
+    	        '<div class="numberCircle">' + item.rank + '</div>' +
+    	        '<button class="bookmark-btn" data-bookmarked="false">&#9734;</button>' +
+    	        '</div>' +
+    	        '<div class="row g-0">' +
+    	        '<div class="col-md-12 text-center">' +
+    	        '<h5 class="card-title">' + item.movieNm + '</h5>' +
+    	        '<img src="' + item.posterUrl + '" class="card-img-top" alt="' + item.movieNm + ' 이미지">' +
+    	        '</div>' +
+    	        '</div>' +
+    	        '<div class="card-body text-center">' +
+    	        '<p class="card-text">개봉일 : ' + item.openDt + '</p>' +
+    	        '<ul class="list-group list-group-flush">' +
+    	        '<li class="list-group-item">당일 관객수: ' + item.audiCnt + '명</li>' +
+    	        '<li class="list-group-item">누적관객수: ' + item.audiAcc + '명</li>' +
+    	        '</ul>' +
+    	        '<a href="movie/movieDetail?movieCd=' + item.movieCd + '" class="btn btn-primary">상세 보기</a>' +
+    	        '</div>' +
+    	        '</div>';
+    	        $(".boxoffice_movie").append(cardHtml);
+         });
+	}
+
     </script>
 
 </body>
