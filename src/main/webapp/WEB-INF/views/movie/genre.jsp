@@ -1,13 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
+<%@ page import="java.io.*"%>
+<%@ page import="java.sql.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>박스오피스</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/boxOffice.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/boxOffice.css" />
 <script src="https://kit.fontawesome.com/87f959d9dc.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <link
@@ -32,12 +37,14 @@ a, a:hover {
 
 </head>
 <body>
-	<jsp:include page="${application.contextPath}/header.jsp" />
+	<jsp:include
+		page="${pageContext.request.contextPath}/WEB-INF/views/include/header.jsp" />
 
 	<main>
 		<div class="datepicker-container">
 			<div class="datepicker-btn-group">
-				<input type="text" id="datepicker" class="form-control" placeholder="날짜 선택">
+				<input type="text" id="datepicker" class="form-control"
+					placeholder="날짜 선택">
 			</div>
 		</div>
 		<div class="boxoffice">
@@ -52,10 +59,35 @@ a, a:hover {
 				</ul>
 			</div>
 			<div class="date_range"></div>
-			<div class="boxoffice_movie"></div>
+			<div class="boxoffice_movie">
+				<c:forEach items="${mList}" var="item">
+					<div class="card mb-3">
+						<div class="card-header">
+							<button class="bookmark-btn" data-bookmarked="false">&#9734;</button>
+						</div>
+						<div class="row g-0">
+							<div class="col-md-12 text-center">
+								<h5 class="card-title">${item.movieNm}</h5>
+								<img src="${item.posterUrl}" class="card-img-top"
+									alt="${item.movieNm} 이미지">
+							</div>
+						</div>
+						<div class="card-body text-center">
+							<p class="card-text">개봉일 : ${item.openDt}</p>
+							<form id="movieForm" action="/movie/movieDetail" method="get">
+								<input type="hidden" id="movieCd" name="movieCd"
+									value="${item.movieCd}" />
+								<button type="submit" id="movieButton" class="btn btn-primary">상세
+									보기</button>
+							</form>
+
+						</div>
+					</div>
+				</c:forEach>
+			</div>
 		</div>
 	</main>
-	
+
 	<!-- Footer -->
 	<footer id="contact" class="section">
 		<div class="max-container">
@@ -75,29 +107,82 @@ a, a:hover {
 			<p>©BlackLight - All rights reserved</p>
 		</div>
 	</footer>
+	<script>
+		$(document).ready(function() { //페이지 로드 후 실행될 함수     	
+			let result = $(".boxoffice_movie");
+			let dateRange = $(".date_range");
+			let yesterdayDate;
 
+			//어제의 날짜를 계산
+			let d = new Date();
+			d.setDate(d.getDate() - 1); //-1이면 하루전, +1이면 내일
+			let year = d.getFullYear();
+			let month = ('0' + (d.getMonth() + 1)).slice(-2);
+			let day = ('0' + d.getDate()).slice(-2);
+			yesterdayDate = year + "-" + month + "-" + day;
+
+			//어제의 날짜를 datepicker에 표시
+			$('#datepicker').val(yesterdayDate);
+
+			//Datepicker 설정
+			$('#datepicker').datepicker({
+				format : 'yyyy-mm-dd',
+				autoclose : true,
+				todayHighlight : true,
+			});
+
+			//박스오피스 버튼 클릭 시 해당 타입의 데이터 조회
+			$('.boxoffice_name ul li a').on('click', function() {
+				fetchDataFlag = true; //데이터 조회 플래그를 true로 설정
+				$('.boxoffice_name ul li a').removeClass('active');
+				$(this).addClass('active');
+				let type = $(this).data('type');
+				let selectedDate = $('#datepicker').val(); //선택한 날짜 가져오기
+				fetchData(selectedDate, type); //선택한 날짜와 타입을 fetchData 함수에 전달
+			});
+
+			//페이지 로드 시 자동으로 일별 박스오피스 버튼 클릭
+			//이 함수 위치 바뀌면 절대 실행 X
+			$('.boxoffice-btn[data-type="daily"]').click();
+
+			//movieButton 버튼 클릭 이벤트 함수(상세보기)
+			$("#movieButton").on('click', function() {
+				document.getElementById('movieForm').submit();
+			});
+
+			//별 아이콘 클릭 시 색 채우기
+			$('.bookmark-btn').click(function() {
+				$(this).toggleClass('bookmarked'); //색상 클래스 토글
+				let isBookmarked = $(this).hasClass('bookmarked'); //북마크 여부 확인
+				$(this).attr('data-bookmarked', isBookmarked); //북마크 상태를 데이터 속성에 반영
+			});
+		});
+
+		function fetchData(selDate) {
+			// AJAX 요청 보내기
+			$.ajax({
+				url : 'http://localhost:9090/genre',
+				type : 'GET',
+				data : {
+					searchText : selDate,
+				},
+				success : function(data) {
+					showCard(data);
+					console.log('AJAX 요청 성공 !!!');
+				},
+				error : function(xhr, status, error) {
+					console.error('AJAX 요청 실패 ??? : ' + status + " " + error);
+				}
+			});
+		}
+	</script>
+
+	<!-- 
+	
 	<script>
     $(document).ready(function () {
         let result = $(".boxoffice_movie");
         let dateRange = $(".date_range");
-        
-        //어제의 날짜를 계산
-        let d = new Date();
-	d.setDate(d.getDate() -1);	//-1이면 하루전, +1이면 내일
-	let year = d.getFullYear();
-	let month = ('0' + (d.getMonth() + 1)).slice(-2);
-	let day = ('0' + d.getDate()).slice(-2);
-	yesterdayDate = year + "-" + month + "-" + day;
-        
-        //어제의 날짜를 datepicker에 표시
-        $('#datepicker').val(yesterdayDate);
-        
-        // Datepicker 설정
-        $('#datepicker').datepicker({
-            format: 'yyyy-mm-dd',
-            autoclose: true,
-            todayHighlight: true,
-        });
 
         // 박스오피스 버튼 클릭 시 해당 타입의 데이터 조회
         $('.boxoffice_name ul li a').on('click', function () {
@@ -118,22 +203,8 @@ a, a:hover {
             dateRange.empty();	// 초기화 2.
             let apiUrl;
 
-            // type(박스오피스 버튼의 data-type)에 따라 url 링크 구분
-            switch (type) {
-                case 'daily':	//일별
-                    apiUrl = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888";
-                    break;
-                case 'weekly':	//주간(weekGb=0)
-                    apiUrl = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&weekGb=0";
-                    break;
-                case 'weekend':	//주말(weekGb=1)
-                    apiUrl = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&weekGb=1";
-                    break;
-            }
 		apiUrl= "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=7b796b1d850b70abfe1543c0d0fbe58b&movieNm=듄"
-/* let targetDt = selectedDate.split('-').join('');	//'2024-03-01'을 '20240301'로 변형
-            apiUrl += "&targetDt=" + targetDt;		 */			// 변형한 날짜값을 url 파라미터에 추가 
-
+				
             $.ajax({
                 url: apiUrl,
                 method: "GET",
@@ -245,7 +316,7 @@ a, a:hover {
             $(this).attr('data-bookmarked', isBookmarked); // 북마크 상태를 데이터 속성에 반영
         });
     });
-    </script>
+    </script> -->
 
 </body>
 </html>

@@ -80,7 +80,7 @@
 			<div class="trailer">
 				<div class="video-container">
 					<p>${movie.vodClass}</p>
-					<iframe src=${movie.vodUrl } title=vodClass frameborder="0"
+					<iframe src=${movie.vodUrl} alt=${movie.movieNm} title=vodClass frameborder="0"
 						allowfullscreen="true"
 						allow="fullscreen; autoplay; encrypted-media" muted="false"
 						autoplay="0"></iframe>

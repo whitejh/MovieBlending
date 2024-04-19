@@ -14,7 +14,7 @@ public interface MovieMapper {
 	// 1. 박스오피스 데이터만 테이블에 1차 저장(movieCd, movieNm, openDt)
 	@Insert("INSERT INTO MOVIE (movieCd, movieNm, openDt)"
 			+ "VALUES (#{movieCd}, #{movieNm}, #{openDt})"
-			+ "ON DUPLICATE KEY UPDATE movieCd=VALUES(movieCd)")
+			+ "ON DUPLICATE KEY UPDATE movieCd=VALUES(movieCd), movieNm=VALUES(movieNm)")
 	public int insertBoxOfficeKobisData(Movie movie);
 	
 	
