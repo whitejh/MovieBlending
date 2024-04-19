@@ -174,6 +174,10 @@
 			</div>
 		</div>
 	</section>
+	<aside>
+            <a class="arrow-up" title="back to top" onclick="window.scrollTo(0,0);">
+            <i class="fa-solid fa-arrow-up"></i></a>
+          </aside>
 	<!-- Footer -->
 	<jsp:include
 		page="${pageContext.request.contextPath}/WEB-INF/views/include/footer.jsp" />
