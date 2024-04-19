@@ -2,6 +2,8 @@ package com.conan.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.conan.domain.Movie;
 import com.conan.domain.Review;
 
@@ -17,6 +19,6 @@ public interface ReviewMapper {
 	public Movie getMovieDetail(String movieCd);
 	
 	/*상세페이지 평균 평점 출력*/
-	public Movie getAvgRate(String movieCd); 
+	public double getAvgRate(@Param("movieCd") String movieCd); 
 	
 }

@@ -68,7 +68,7 @@
 						<dd>${movie.actorNm}</dd>
 						<dt>평점</dt>
 						<dd class="vote-average">
-							<span class="popover-trigger">⭐ &nbsp; ${avgRate}</span>
+							<span class="popover-trigger">⭐&nbsp;${avgRate}</span>
 						</dd>
 					</dl>
 				</div>
@@ -84,7 +84,7 @@
 						allowfullscreen="true"
 						allow="fullscreen; autoplay; encrypted-media" muted="false"
 						autoplay="0"></iframe>
-				</div>
+				</div> 
 
 			</div>
 		</div>
@@ -107,9 +107,12 @@
 					<div class="card card-body">
 						<div class="reviewform">
 							<form method="post" name="reviewForm"
-								action="${pageContext.request.contextPath}/movieDetail">
+								action="${pageContext.request.contextPath}/movie/writeReview">
 								<!-- Hidden field to store movieCd -->
 								<input type="hidden" name="movieCd" value="${movie.movieCd}">
+								<input type="hidden" name="movieNm" value="${movie.movieNm}">
+								<input type="hidden" name="imgUrl" value="${movie.posterUrl}">
+								<input type="hidden" name="userNickname" value="${user.userNickname}">
 
 								<!-- 사용자 프로필 -->
 								<div class="userProfile">

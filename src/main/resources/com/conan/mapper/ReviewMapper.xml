@@ -6,7 +6,7 @@
 	<!-- 관람평 db 저장 -->
 	<insert id="write">
 		insert into review (userID, userNickname, movieCd,movieNm, rate, content,imgUrl) 
-		values(#{user.userID},#{user.userNickname},#{movieCd},#{movie.movieNm},#{rate},#{content},#{movie.imgUrl})
+		values(#{userID},#{userNickname},#{movieCd},#{movieNm},#{rate},#{content},#{imgUrl})
 	</insert>
 	
 
@@ -22,8 +22,8 @@
 	</select>
 	
 	<!-- 상세페이지 평균 평점 출력 -->
-	<select id="getAvgRate" resultType="com.conan.domain.Movie">
-		select avg(rate) from review where movieCd = #{movieCd}
+	<select id="getAvgRate" resultType="double">
+		select COALESCE(round(AVG(rate),2), 0.0) from review where movieCd = #{movieCd}
 	</select>
 
 </mapper>

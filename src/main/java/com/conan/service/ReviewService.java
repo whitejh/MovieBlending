@@ -36,14 +36,9 @@ public class ReviewService {
 		return mapper.getMovieDetail(movieCd);
 	}
 	/*상세페이지 평균 평점 출력*/
-	public Movie getAvgRate(String movieCd) {
+	public double getAvgRate(String movieCd) {
 		log.info("get.. ..." + movieCd);
 		return mapper.getAvgRate(movieCd);
 	}
-	
-	
-	
-	
-	
 
 }

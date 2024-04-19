@@ -15,4 +15,5 @@ public class Review {
 	private String content;
 	private Date regDate;
 	private String imgUrl;
+
 }
