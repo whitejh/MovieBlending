@@ -161,7 +161,7 @@ a, a:hover {
 		function fetchData(selDate) {
 			// AJAX 요청 보내기
 			$.ajax({
-				url : 'http://localhost:9090/genre',
+				url : 'http://localhost:8080/genre',
 				type : 'GET',
 				data : {
 					searchText : selDate,

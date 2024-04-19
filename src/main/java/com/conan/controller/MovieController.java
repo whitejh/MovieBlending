@@ -75,7 +75,7 @@ public class MovieController {
 		return yesterDayDate;
 	}
 	
-	@GetMapping("/genre")	//박스오피스 페이지
+	@GetMapping("/movieSearch")	//박스오피스 페이지
     public String viewSearch(@RequestParam(required = false) String searchText, Model model) {
 		if (searchText == null) {
 			searchText = "쿵푸";
@@ -84,10 +84,11 @@ public class MovieController {
 		try {
             List<Movie> mList = service.fetchSearchData(searchText);
             model.addAttribute("mList", mList);	//프론트에 쓸 mList 세팅
+            model.addAttribute("searchText", searchText); // 검색 (4/19 추가)
         } catch (IOException e) {
             e.printStackTrace();	// 예외 처리
         }
-        return "movie/genre";
+        return "movie/movieSearch";
     }
 
 }

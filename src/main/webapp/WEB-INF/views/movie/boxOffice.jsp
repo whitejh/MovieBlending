@@ -187,7 +187,7 @@ a, a:hover {
     function updateNewData(selectedDate, type) {
         // AJAX 요청 보내기
         $.getJSON({
-            url: 'http://localhost:9090/boxOffice1.json',
+            url: 'http://localhost:8080/boxOffice1.json',
             type: 'GET',
             data: {
                 selectedDate: selectedDate,
@@ -212,7 +212,7 @@ a, a:hover {
     	        '<div class="card-header">' +
     	        '<span>' + item.rankOldAndNew + '</span>' +
     	        '<div class="numberCircle">' + item.rank + '</div>' +
-    	        '<button class="bookmark-btn" data-bookmarked="false">&#9734;</button>' +
+    	        '<button class="bookmark-btn" data-bookmarked="false"><i class="fa-solid fa-star"></i></button>' +
     	        '</div>' +
     	        '<div class="row g-0">' +
     	        '<div class="col-md-12 text-center">' +

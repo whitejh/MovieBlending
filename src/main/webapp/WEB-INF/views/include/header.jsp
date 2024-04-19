@@ -69,7 +69,7 @@
 			<nav>
 				<ul class="header__menu">
 					<li><a class="header__menu__item" href="/boxOffice">박스오피스</a></li>
-					<li><a class="header__menu__item" href="/genre">영화조회</a></li>
+					<li><a class="header__menu__item" href="/movieSearch">영화조회</a></li>
 					<li><a class="header__menu__item" href="/board">영화Talk</a></li>
 				</ul>
 			</nav>

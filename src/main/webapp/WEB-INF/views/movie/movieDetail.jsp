@@ -80,11 +80,11 @@
 			<div class="trailer">
 				<div class="video-container">
 					<p>${movie.vodClass}</p>
-					<iframe src=${movie.vodUrl} alt=${movie.movieNm} title=vodClass frameborder="0"
-						allowfullscreen="true"
+					<iframe src=${movie.vodUrl } alt=${movie.movieNm } title=vodClass
+						frameborder="0" allowfullscreen="true"
 						allow="fullscreen; autoplay; encrypted-media" muted="false"
 						autoplay="0"></iframe>
-				</div> 
+				</div>
 
 			</div>
 		</div>
@@ -112,7 +112,8 @@
 								<input type="hidden" name="movieCd" value="${movie.movieCd}">
 								<input type="hidden" name="movieNm" value="${movie.movieNm}">
 								<input type="hidden" name="imgUrl" value="${movie.posterUrl}">
-								<input type="hidden" name="userNickname" value="${user.userNickname}">
+								<input type="hidden" name="userNickname"
+									value="${user.userNickname}">
 
 								<!-- 사용자 프로필 -->
 								<div class="userProfile">
@@ -175,9 +176,9 @@
 		</div>
 	</section>
 	<aside>
-            <a class="arrow-up" title="back to top" onclick="window.scrollTo(0,0);">
-            <i class="fa-solid fa-arrow-up"></i></a>
-          </aside>
+		<a class="arrow-up" title="back to top"onclick="window.scrollTo(0,0);">
+		 <i class="fa-solid fa-arrow-up"></i></a>
+	</aside>
 	<!-- Footer -->
 	<jsp:include
 		page="${pageContext.request.contextPath}/WEB-INF/views/include/footer.jsp" />

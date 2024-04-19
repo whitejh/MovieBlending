@@ -15,5 +15,8 @@ public interface UserMapper {
 	public List<Review> getMyReviews(String userID);	// 회원 영화 리뷰
 	public List<Favorite> getMyFavorites(String userID);	// 회원 영화 즐겨찾기
 	public void deleteUser(String userID); // 회원 탈퇴
+	
+	/* 리뷰 삭제 */
+	public int deleteReview(int reviewID);
 
 }

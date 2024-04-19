@@ -32,4 +32,9 @@
 		delete from user where userID = #{userID} and userPassword = #{userPassword}
 	</delete>
 	
+	<!--  마이페이지 리뷰 삭제 -->
+	<delete id="deleteReview">
+		delete from review where reviewID = #{reviewID}
+	</delete>
+	
 </mapper>
