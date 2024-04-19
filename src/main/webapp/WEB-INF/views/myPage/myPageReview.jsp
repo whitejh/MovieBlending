@@ -37,6 +37,7 @@
             success : function(response) {
                 // 요청이 성공하면 수행할 작업
                 console.log('GET 요청 성공');
+                document.location.href = document.location.href;
             },
             error : function(xhr, status, error) {
                 // 요청이 실패하면 수행할 작업
