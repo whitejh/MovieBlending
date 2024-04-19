@@ -40,22 +40,6 @@ a, a:hover {
 	<jsp:include
 		page="${pageContext.request.contextPath}/WEB-INF/views/include/header.jsp" />
 
-
-	<!-- movieCd값 전달 -->
-
-	<form id="movieForm" action="/movie/movieDetail" method="post">
-		<input type="hidden" id="movieCd" name="movieCd" value="20234675" />
-		<button type="submit" id="movieButton">MovieCd 값</button>
-	</form>
-
-	<script>
-		$("#movieButton").on('click', function() {
-			document.getElementById('movieForm').submit();
-		});
-	</script>
-
-	<!-- movieCd값 전달 -->
-
 	<main>
 		<div class="datepicker-container">
 			<div class="datepicker-btn-group">
@@ -179,23 +163,23 @@ a, a:hover {
 			});
 		});
 
-		function fetchData(selectedDate, type) {
-			// AJAX 요청 보내기
-			$.ajax({
-				url : 'http://localhost:9090/boxOffice',
-				type : 'GET',
-				data : {
-					selectedDate : selectedDate,
-					type : type
-				},
-				success : function(data) {
-					showCard(data);
-					console.log('AJAX 요청 성공 !!!');
-				},
-				error : function(xhr, status, error) {
-					console.error('AJAX 요청 실패 ??? : ' + status + " " + error);
-				}
-			});
+		function fetchData(selDate, type) {
+		    // AJAX 요청 보내기
+		    $.ajax({
+		        url : 'http://localhost:9090/boxOffice',
+		        type : 'GET',
+		        data : {
+		            selectedDate : selDate,
+		            type : type
+		        },
+		        success : function(data) {
+		            showCard(data);
+		            console.log('AJAX 요청 성공 !!!');
+		        },
+		        error : function(xhr, status, error) {
+		            console.error('AJAX 요청 실패 ??? : ' + status + " " + error);
+		        }
+		    });
 		}
 
 		/*      function showCard(data) {
@@ -230,7 +214,7 @@ a, a:hover {
 		 console.log("AudiCnt: " + movie.audiCnt);
 		 console.log("AudiAcc: " + movie.audiAcc);
 		 }); */
-}
+
 	</script>
 
 </body>
