@@ -19,12 +19,17 @@
 		select * from user where userID = #{userID}
 	</select>
 	
-    <select id="getReviews" resultType="com.conan.domain.Review">
-		select review.movieID, rate, movieName, content, imgUrl from review inner join movie on review.movieID = movie.movieID where userID = #{userID}
+    <select id="getMyReviews" resultType="com.conan.domain.Review">
+		select userNickname, movieCd, movieNm, rate, content, imgUrl from review where userID = #{userID}
 	</select>
 	
-	<select id="getFavorites" resultType="com.conan.domain.Favorite">
-		select favorite.movieID, movieName, rateAvg, imgUrl from favorite inner join movie on favorite.movieID = movie.movieID where userID = #{userID}
+	<select id="getMyFavorites" resultType="com.conan.domain.Favorite">
+		select movieCd, movieNm, rate, imgUrl from favorite where userID = #{userID}
 	</select>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteUser">
+		delete from user where userID = #{userID} and userPassword = #{userPassword}
+	</delete>
 	
 </mapper>
