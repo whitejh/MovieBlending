@@ -21,4 +21,5 @@ public interface ReviewMapper {
 	/*상세페이지 평균 평점 출력*/
 	public double getAvgRate(@Param("movieCd") String movieCd); 
 	
+
 }

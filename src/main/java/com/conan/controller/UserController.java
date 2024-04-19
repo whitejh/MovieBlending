@@ -138,5 +138,12 @@ public class UserController {
 	 * 
 	 * if(service.deleteUser(userPassword)) }
 	 */
+	
+
+	@GetMapping("/deleteReview")
+	public String deleteReview(Model model, Integer reviewID) {
+		service.deleteReview(reviewID);
+		return "redirect:/myPage/Review";
+	}
 
 }

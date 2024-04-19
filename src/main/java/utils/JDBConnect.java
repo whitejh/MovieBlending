@@ -19,7 +19,7 @@ public class JDBConnect {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			String url = "jdbc:mysql://localhost:3306/mb_db?useSSL=false&allowPublicKeyRetrieval=true";
 			String id = "root";
-			String pwd = "1234";
+			String pwd = "12341234";
 			conn = DriverManager.getConnection(url, id, pwd);
 			System.out.println("conn 값은 = " + conn);
 			System.out.println("DB 연결 성공(기본생성자)");

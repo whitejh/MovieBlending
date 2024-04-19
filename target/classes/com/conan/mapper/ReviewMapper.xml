@@ -26,5 +26,6 @@
 		select COALESCE(round(AVG(rate),2), 0.0) from review where movieCd = #{movieCd}
 	</select>
 
+
 </mapper>
 

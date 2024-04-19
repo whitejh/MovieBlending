@@ -41,4 +41,5 @@ public class ReviewService {
 		return mapper.getAvgRate(movieCd);
 	}
 
+
 }

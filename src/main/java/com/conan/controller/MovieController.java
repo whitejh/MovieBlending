@@ -84,6 +84,7 @@ public class MovieController {
 		try {
             List<Movie> mList = service.fetchSearchData(searchText);
             model.addAttribute("mList", mList);	//프론트에 쓸 mList 세팅
+            model.addAttribute("searchText", searchText);
         } catch (IOException e) {
             e.printStackTrace();	// 예외 처리
         }

@@ -58,4 +58,11 @@ public class UserService {
 		log.info("회원 탈퇴...");
 		mapper.deleteUser(userID);
 	}
+	
+	/* 리뷰 삭제 */
+	public int deleteReview(int reviewID) {
+		log.info("delete...." + reviewID);
+		return mapper.deleteReview(reviewID);
+	}
+	
 }

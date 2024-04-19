@@ -41,24 +41,15 @@ a, a:hover {
 		page="${pageContext.request.contextPath}/WEB-INF/views/include/header.jsp" />
 
 	<main>
-		<div class="datepicker-container">
-			<div class="datepicker-btn-group">
-				<input type="text" id="datepicker" class="form-control"
-					placeholder="날짜 선택">
-			</div>
-		</div>
 		<div class="boxoffice">
 			<div class="boxoffice_name">
+				<input id="searchInput" name="search" type="text"
+					placeholder="찾고 있는 영화가 있나요?" size="60" /> <input id="searchButton"
+					class="header__search__button" type="submit" value="검색" />
 				<ul>
-					<li><a href="#" class="boxoffice-btn active" data-type="daily">일별
-							박스오피스</a></li>
-					<li><a href="#" class="boxoffice-btn" data-type="weekly">주간
-							박스오피스</a></li>
-					<li><a href="#" class="boxoffice-btn" data-type="weekend">주말
-							박스오피스</a></li>
+					<li><h1>${searchText}</h1></li>
 				</ul>
 			</div>
-			<div class="date_range"></div>
 			<div class="boxoffice_movie">
 				<c:forEach items="${mList}" var="item">
 					<div class="card mb-3">
@@ -156,18 +147,24 @@ a, a:hover {
 				let isBookmarked = $(this).hasClass('bookmarked'); //북마크 여부 확인
 				$(this).attr('data-bookmarked', isBookmarked); //북마크 상태를 데이터 속성에 반영
 			});
+
+ 			$("#searchButton").on('click', function() {
+				var inputText = $("#searchInput").val();
+				fetchData(inputText); //선택한 날짜와 타입을 fetchData 함수에 전달
+			}); 
+			
 		});
 
-		function fetchData(selDate) {
+		
+		function fetchData(inputText) {
 			// AJAX 요청 보내기
 			$.ajax({
 				url : 'http://localhost:9090/genre',
 				type : 'GET',
 				data : {
-					searchText : selDate,
+					searchText : inputText,
 				},
 				success : function(data) {
-					showCard(data);
 					console.log('AJAX 요청 성공 !!!');
 				},
 				error : function(xhr, status, error) {
