@@ -9,7 +9,7 @@ public class Review {
 	private int reviewID;
 	private String userID;
 	private String userNickname;
-	private String movieCD;
+	private String movieCd;
 	private String movieNm;
 	private Double rate;
 	private String content;

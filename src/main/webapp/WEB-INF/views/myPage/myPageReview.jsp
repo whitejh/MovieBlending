@@ -28,11 +28,13 @@
 		
 	<main>
 		<div class="left">
-			<a class="myMenu" href="/myPage">사용자 정보</a><br> <a
+		<h1 class="myTitle">마이페이지</h1>
+			<a class="myMenu" href="/myPage">사용자 정보<i class="fa-regular fa-greater-than"></i></a><br> <a
 				class="myMenu" href="/myPage/Review"
-				style="text-decoration: underline;">작성한 리뷰</a><br> <a
-				class="myMenu" href="/myPage/Favorite">즐겨찾기</a>
+				style="text-decoration: underline;">작성한 리뷰<i class="fa-regular fa-greater-than"></i></a><br> <a
+				class="myMenu" href="/myPage/Favorite">즐겨찾기<i class="fa-regular fa-greater-than"></i></a>
 		</div>
+		<span class = mTitle><h1 class="mText">작성한 리뷰</h1></span><hr>
 		<c:forEach var="review" items="${reviews}">
 			<div class="reviewBox">
 				<img class="posterImg" src="${review.imgUrl}" width="200px"> <img

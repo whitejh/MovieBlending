@@ -50,7 +50,7 @@
 					</div>
 					<div class="head-section2">
 						<div>
-							${movie.titleEng}<span>ㆍ</span> ${movie.prdtYear}
+							${movie.titleEng}<span>ㆍ</span> ${movie.prodYear}
 						</div>
 					</div>
 				</div>
@@ -68,7 +68,7 @@
 						<dd>${movie.actorNm}</dd>
 						<dt>평점</dt>
 						<dd class="vote-average">
-							<span class="popover-trigger">⭐ &nbsp; 0.0</span>
+							<span class="popover-trigger">⭐ &nbsp; ${avgRate}</span>
 						</dd>
 					</dl>
 				</div>
@@ -107,7 +107,10 @@
 					<div class="card card-body">
 						<div class="reviewform">
 							<form method="post" name="reviewForm"
-								action="${pageContext.request.contextPath}/movie/reviewAction.jsp">
+								action="${pageContext.request.contextPath}/movieDetail">
+								<!-- Hidden field to store movieCd -->
+								<input type="hidden" name="movieCd" value="${movie.movieCd}">
+
 								<!-- 사용자 프로필 -->
 								<div class="userProfile">
 									<a class="user_profile"
@@ -115,9 +118,13 @@
 										<i class="fa-regular fa-user"></i>
 									</a>
 									<div>
-										<a
-											href="${pageContext.request.contextPath}/movie/userDetail.jsp">${user.UserNickname()}</a>
+										<c:if test="${not empty user.userNickname}">
+											<a
+												href="${pageContext.request.contextPath}/movie/userDetail.jsp">${user.userNickname}</a>
+										</c:if>
+										<c:if test="${empty user.userNickname}"> 비 로그인 사용자 </c:if>
 									</div>
+									<!-- Rating input -->
 									<div>
 										⭐&nbsp;<input type="text" id="rate" name="rate"
 											style="width: 70px">/10.0
@@ -128,9 +135,10 @@
 									<textarea class="form-control" id="exampleFormControlTextarea1"
 										name="content" rows="3"></textarea>
 									<div class="rbox">
+										<!-- Character count -->
 										<span class="count"><strong id="charCount">0/255자</strong></span>
-										<button type="submit" class="round red on" id="regBtn"
-											onclick="checkReview()">
+										<!-- Submit button -->
+										<button type="submit" class="round red on" id="regBtn">
 											<span>작성완료!</span>
 										</button>
 									</div>
@@ -169,7 +177,6 @@
 
 	<!-- jQuery Script -->
 	<script>
-		
 		$(document).ready(function() {
 
 		});

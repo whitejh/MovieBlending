@@ -31,9 +31,19 @@ public class ReviewService {
 	}
 
 	/* 상세페이지 movie db 출력 */
-	public Movie getMovie(String movieCd) {
+	public Movie getMovieDetail(String movieCd) {
 		log.info("get.. ..." + movieCd);
-		return mapper.getMovie(movieCd);
+		return mapper.getMovieDetail(movieCd);
 	}
+	/*상세페이지 평균 평점 출력*/
+	public Movie getAvgRate(String movieCd) {
+		log.info("get.. ..." + movieCd);
+		return mapper.getAvgRate(movieCd);
+	}
+	
+	
+	
+	
+	
 
 }

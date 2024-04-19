@@ -14,5 +14,9 @@ public interface ReviewMapper {
 	public List<Review> getMovieReviews(String movieCd);
 
 	/* 상세페이지 movie db 출력 */
-	public Movie getMovie(String movieCd);
+	public Movie getMovieDetail(String movieCd);
+	
+	/*상세페이지 평균 평점 출력*/
+	public Movie getAvgRate(String movieCd); 
+	
 }

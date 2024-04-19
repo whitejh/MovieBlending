@@ -10,7 +10,7 @@
 <body>
 
 	<jsp:include
-		page="${pageContext.request.contextPath}/WEB-INF/views/movie/boxOffice.jsp" />
+		page="${pageContext.request.contextPath}/boxOffice" />
 
 </body>
 </html>

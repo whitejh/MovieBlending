@@ -400,6 +400,22 @@ footer {
     margin: 0 0 60px 0;
 }
 
+.numberCircle {
+    width: 39.6px;
+    height: 39.6px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 21.6px;
+    border: 2px solid #3498db;
+    color: white;
+    background: #3498db;
+    position: absolute;
+    margin: auto;
+    top: -20px;
+    right: 0;
+    left: 0;
+}
+
 
 /* 즐겨찾기 테두리 스타일 */
 .bookmark-btn {

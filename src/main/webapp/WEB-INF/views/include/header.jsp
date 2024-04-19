@@ -38,7 +38,7 @@
 					src="${pageContext.request.contextPath}/resources/images/favicon.ico"
 					alt="logo" />
 				<h1 class="header__logo__title">
-					<a href="#">Movie Blending</a>
+					<a href="${pageContext.request.contextPath}/boxOffice">Movie Blending</a>
 				</h1>
 			</div>
 

@@ -29,10 +29,12 @@
 	<div class="wrapper">
 		<main>
 			<div class="left">
-				<a class="myMenu" href="/myPage" style="text-decoration: underline;">사용자
-					정보</a><br> <a class="myMenu" href="/myPage/Review">작성한 리뷰</a><br>
-				<a class="myMenu" href="/myPage/Favorite">즐겨찾기</a>
+			 <h1 class="myTitle">마이페이지</h1>
+				<a class="myMenu" href="/myPage" style="text-decoration: underline;">사용자 정보<i class="fa-regular fa-greater-than"></i></a><br> 
+				<a class="myMenu" href="/myPage/Review">작성한 리뷰<i class="fa-regular fa-greater-than"></i></a><br>
+				<a class="myMenu" href="/myPage/Favorite">즐겨찾기<i class="fa-regular fa-greater-than"></i></a>
 			</div>
+			<span class = mTitle><h1 class="mText">사용자 정보</h1></span><hr>
 			<div class="middle">
 				<p class="user_info_name">아이디</p>
 				<p class="user_info_name">비밀번호</p>
