@@ -4,9 +4,10 @@ import lombok.Data;
 
 @Data
 public class Favorite {
-	private int movieID;
+	private String movieCd;
+	private String userID;
 	private String movieNm;
-	private int rateAvg;
 	private Double rate;
 	private String imgUrl;
+	private boolean state;
 }

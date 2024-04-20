@@ -17,7 +17,6 @@ public interface MovieMapper {
 			+ "ON DUPLICATE KEY UPDATE movieCd=VALUES(movieCd), movieNm=VALUES(movieNm)")
 	public int insertBoxOfficeKobisData(Movie movie);
 	
-	
 	// 2. 포스터 URL만 따로 테이블에 2차 저장
 	@Update("UPDATE MOVIE SET posterUrl=#{movie.posterUrl}"
 			+ "WHERE movieCd=#{movieCd}")

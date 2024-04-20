@@ -9,12 +9,12 @@ import com.conan.domain.User;
 public interface UserMapper {
 	public String getDate();
 	
-	public User login(String userID); // 로그인 
+	public User login(User user); // 로그인 
 	public void join(User user);  // 회원가입
 	public User getAccount(String userID);	// 회원 정보
 	public List<Review> getMyReviews(String userID);	// 회원 영화 리뷰
 	public List<Favorite> getMyFavorites(String userID);	// 회원 영화 즐겨찾기
-	public void deleteUser(String userID); // 회원 탈퇴
+	public void withdrawal(User user); // 회원 탈퇴
 	
 	/* 리뷰 삭제 */
 	public int deleteReview(int reviewID);

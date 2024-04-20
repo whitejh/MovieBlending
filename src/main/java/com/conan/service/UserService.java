@@ -24,13 +24,9 @@ public class UserService {
 		return mapper.getDate();
 	}
 	
-	public String login(String userID, String userPassword) {
+	public User login(User user) {
 		log.info("login...");
-		User user = mapper.login(userID);
-		if(user.getUserPassword().equals(userPassword)) {
-			return user.getUserID();
-		}
-		return null;
+		return mapper.login(user);
 	}
 	
 	public void join(User user) {
@@ -43,6 +39,11 @@ public class UserService {
 		return mapper.getAccount(userID);
 	}
 	
+	public void withdrawal(User user) {
+		log.info("회원 탈퇴..." + user);
+		mapper.withdrawal(user);
+	}
+	
 	public List<Review> getMyReviews(String userID) {
 		log.info("getMyReviews...");
 		return mapper.getMyReviews(userID);
@@ -52,11 +53,6 @@ public class UserService {
 	public List<Favorite> getMyFavorites(String userID) {
 		log.info("getMyFavorites...");
 		return mapper.getMyFavorites(userID);
-	}
-	
-	public void deleteUser(String userID) {
-		log.info("회원 탈퇴...");
-		mapper.deleteUser(userID);
 	}
 	
 	/* 리뷰 삭제 */

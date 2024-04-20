@@ -80,10 +80,14 @@
 			<div class="trailer">
 				<div class="video-container">
 					<p>${movie.vodClass}</p>
-					<iframe src=${movie.vodUrl } alt=${movie.movieNm } title=vodClass
-						frameborder="0" allowfullscreen="true"
-						allow="fullscreen; autoplay; encrypted-media" muted="false"
-						autoplay="0"></iframe>
+					<c:if
+						test="${movie != null && movie.getVodUrl() != null && !movie.getVodUrl().isEmpty()}">
+						<iframe src="${movie.vodUrl}" alt="${movie.movieNm}"
+							title="${movie.vodClass}" frameborder="0" allowfullscreen="true"
+							allow="fullscreen; autoplay; encrypted-media" muted="false"
+							autoplay="0"></iframe>
+					</c:if>
+
 				</div>
 
 			</div>
@@ -106,48 +110,81 @@
 				<div class="collapse" id="collapseExample">
 					<div class="card card-body">
 						<div class="reviewform">
-							<form method="post" name="reviewForm"
-								action="${pageContext.request.contextPath}/movie/writeReview">
-								<!-- Hidden field to store movieCd -->
-								<input type="hidden" name="movieCd" value="${movie.movieCd}">
-								<input type="hidden" name="movieNm" value="${movie.movieNm}">
-								<input type="hidden" name="imgUrl" value="${movie.posterUrl}">
-								<input type="hidden" name="userNickname"
-									value="${user.userNickname}">
+							<!-- 로그인한 사용자의 경우 -->
+							<c:if test="${not empty user.userID}">
 
-								<!-- 사용자 프로필 -->
-								<div class="userProfile">
-									<a class="user_profile"
-										href="${pageContext.request.contextPath}/movie/userDetail.jsp">
-										<i class="fa-regular fa-user"></i>
-									</a>
-									<div>
-										<c:if test="${not empty user.userNickname}">
-											<a
-												href="${pageContext.request.contextPath}/movie/userDetail.jsp">${user.userNickname}</a>
-										</c:if>
-										<c:if test="${empty user.userNickname}"> 비 로그인 사용자 </c:if>
+								<form method="post" name="reviewForm"
+									action="${pageContext.request.contextPath}/movie/writeReview">
+									<!-- Hidden field to store movieCd -->
+									<input type="hidden" name="movieCd" value="${movie.movieCd}">
+									<input type="hidden" name="movieNm" value="${movie.movieNm}">
+									<input type="hidden" name="imgUrl" value="${movie.posterUrl}">
+									<input type="hidden" name="userNickname" value="${user.userNickname}">
+
+									<!-- 사용자 프로필 -->
+									<div class="userProfile">
+										<a class="user_profile" href="userDetail"> <i
+											class="fa-regular fa-user"></i>
+										</a>
+										<div>
+											<a href="/userDetail">${user.userNickname}</a>
+										</div>
+										<!-- 평점 입력 -->
+										<div>
+											⭐&nbsp;<input type="text" id="rate" name="rate" style="width: 70px">/10.0
+										</div>
 									</div>
-									<!-- Rating input -->
-									<div>
-										⭐&nbsp;<input type="text" id="rate" name="rate"
-											style="width: 70px">/10.0
+									<!-- 관람평 입력 -->
+									<div class="userReview">
+										<textarea class="form-control"
+											id="textarea" name="content" rows="3"></textarea>
+										<div class="rbox">
+											<!-- Character count -->
+											<span class="count"><strong id="charCount">0/255자</strong></span>
+											<!-- Submit button -->
+											<button type="submit" class="btn btn-primary" id="regBtn">
+												<span>작성완료!</span>
+											</button>
+										</div>
 									</div>
-								</div>
-								<!-- 관람평 입력 -->
-								<div class="userReview">
-									<textarea class="form-control" id="exampleFormControlTextarea1"
-										name="content" rows="3"></textarea>
-									<div class="rbox">
-										<!-- Character count -->
-										<span class="count"><strong id="charCount">0/255자</strong></span>
-										<!-- Submit button -->
-										<button type="submit" class="round red on" id="regBtn">
-											<span>작성완료!</span>
-										</button>
+								</form>
+							</c:if>
+							<!-- 로그인하지 않은 사용자의 경우 -->
+							<c:if test="${empty user.userID}">
+								<form method="post" name="reviewForm"
+									action="${pageContext.request.contextPath}/movie/writeReview">
+									<!-- Hidden field to store movieCd -->
+									<input type="hidden" name="movieCd" value="${movie.movieCd}">
+									<input type="hidden" name="movieNm" value="${movie.movieNm}">
+									<input type="hidden" name="imgUrl" value="${movie.posterUrl}">
+									<input type="hidden" name="userNickname" value="${user.userNickname}">
+
+									<!-- 사용자 프로필 -->
+									<div class="userProfile">
+										<a class="user_profile" href="userDetail"> <i
+											class="fa-regular fa-user"></i>
+										</a>
+										<div>비 로그인 사용자</div>
+										<!-- 평점 입력 -->
+										<div>
+											⭐&nbsp;<input type="text" id="rate" name="rate" style="width: 70px">/10.0
+										</div>
 									</div>
-								</div>
-							</form>
+									<!-- 관람평 입력 -->
+									<div class="userReview">
+										<textarea class="form-control"
+											id="exampleFormControlTextarea1" name="content" rows="3"></textarea>
+										<div class="rbox">
+
+											<span class="count"><strong id="charCount">0/255자</strong></span>
+
+											<button type="button" class="btn btn-primary" id="regBtn1">
+												<span>작성완료!</span>
+											</button>
+										</div>
+									</div>
+								</form>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -156,13 +193,11 @@
 				<c:forEach var="item" items="${reviews}">
 					<div class="reviewform">
 						<div class="userProfile">
-							<a class="user_profile"
-								href="${pageContext.request.contextPath}/movie/userDetail.jsp">
-								<i class="fa-regular fa-user"></i>
+							<a class="user_profile" href="/userDetail"> <i
+								class="fa-regular fa-user"></i>
 							</a>
 							<div>
-								<a
-									href="${pageContext.request.contextPath}/movie/userDetail.jsp">${item.userNickname}</a>
+								<a href="userDetail">${item.userNickname}</a>
 							</div>
 							<div>⭐&nbsp;${item.rate}/10.0</div>
 						</div>
@@ -176,8 +211,8 @@
 		</div>
 	</section>
 	<aside>
-		<a class="arrow-up" title="back to top"onclick="window.scrollTo(0,0);">
-		 <i class="fa-solid fa-arrow-up"></i></a>
+		<a class="arrow-up" title="back to top"
+			onclick="window.scrollTo(0,0);"> <i class="fa-solid fa-arrow-up"></i></a>
 	</aside>
 	<!-- Footer -->
 	<jsp:include
@@ -186,19 +221,42 @@
 	<!-- jQuery Script -->
 	<script>
 		$(document).ready(function() {
-
-		});
-
-		//관람평 작성시 최대 글자수 출력
-		$("#exampleFormControlTextarea1").keyup(function(e) {
-			var content = $(this).val();
-			var contentLength = content.length; // 변수에 글자수 저장
-			$("#charCount").text("(" + contentLength + " / 255자)"); // 글자수 카운팅
-			if (contentLength > 255) {
-				alert("최대 255자까지 입력 가능합니다.");
-				$(this).val(content.substring(0, 255));
-				$('#charCount').text("(255 / 최대 255자)");
-			}
+			
+			/* 로그인 하지 않고 관람평을 작성했을 경우 */
+			$('#regBtn1').on('click', function(event) {
+				event.preventDefault();
+				alert('비 로그인 사용자입니다.\n로그인 후 이용해 주세요.');
+				window.location.reload();
+			});
+			
+			/* 평점에 숫자가 아니거나 0~10사이의 숫자가 아닌경우 */
+			$('form[name="reviewForm"]').submit(function() {
+				var rate = parseFloat($('#rate').val());
+				if (isNaN(rate) || rate < 0 || rate > 10) {
+					alert('평점은 0에서 10까지의 숫자로 입력해주세요.');
+					return false;
+				}
+				return true;
+			});
+			
+			/* 입력한 관람평 text 몇글자 확인 */
+			$("#textarea").keyup(function(e) {
+				var content = $(this).val();
+				var contentLength = content.length;
+				$("#charCount").text("(" + contentLength + " / 255자)");
+				if (contentLength > 255) {
+					alert("최대 255자까지 입력 가능합니다.");
+					$(this).val(content.substring(0, 255));
+					$('#charCount').text("(255 / 최대 255자)");
+				}
+			});
+			
+			/* 즐겨찾기 */
+			$('.fa-solid').click(function() {
+		        $(this).toggleClass('clicked');
+		        
+		        window.location.href="/favorite"
+		    });
 		});
 	</script>
 </body>

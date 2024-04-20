@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.conan.domain.Favorite;
 import com.conan.domain.Review;
 import com.conan.service.ReviewService;
 import com.conan.service.UserService;
@@ -26,18 +27,25 @@ public class ReviewController {
 	
 	@GetMapping("/movieDetail")
 	public String getMovie(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userID");
+		
 		/* 영화 상세페이지 db출력 */
 		String movieCd = request.getParameter("movieCd");
 		log.info("getMovieDetail : " + movieCd);
-		model.addAttribute("movie", reviewservice.getMovieDetail(movieCd));
+		
+		if(userId != null) {
+			model.addAttribute("movie", reviewservice.getUserMovieDetail(movieCd));
+		}else {
+			model.addAttribute("movie", reviewservice.getMovieDetail(movieCd));
+		}
 		
 		/*상세페이지 평균 평점 출력*/
 		model.addAttribute("avgRate", reviewservice.getAvgRate(movieCd));
 		log.info("getAvgRate : " + reviewservice.getAvgRate(movieCd));
 		
 		/* 영화 유저 닉네임 출력 */
-		HttpSession session = request.getSession();
-		String userId = (String) session.getAttribute("userID");
+		
 		model.addAttribute("user", userservice.getAccount(userId));
 		
 
@@ -77,4 +85,26 @@ public class ReviewController {
 
         return "redirect:/movie/movieDetail?movieCd="+movieCd;
     }
+	
+	/* 즐겨찾기 */
+	@PostMapping("/favorite")
+	public String favorite(Model model, HttpServletRequest request, HttpSession session) {
+		String movieCd = request.getParameter("movieCd");
+		String userID = (String) session.getAttribute("userID");
+        String movieNm = request.getParameter("movieNm");
+        Double rate = Double.parseDouble(request.getParameter("rate"));
+        String imgUrl = request.getParameter("imgUrl");
+		
+		// favorite 객체 생성
+		Favorite favorite = new Favorite();
+		favorite.setMovieCd(movieCd);
+		favorite.setUserID(userID);
+		favorite.setMovieNm(movieNm);
+		favorite.setRate(rate);
+		favorite.setImgUrl(imgUrl);
+		
+		reviewservice.getFavorite(favorite);
+		
+		return "redirect:/movie/movieDetail?movieCd="+movieCd;
+	}
 }

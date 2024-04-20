@@ -23,12 +23,12 @@
 	rel="stylesheet" />
 </head>
 <body>
-	<%
-	String userID = null;
-	if (session.getAttribute("userID") != null) {
-		userID = (String) session.getAttribute("userID");
+<%-- 	<%
+	User user = null;
+	if (session.getAttribute("user") != null) {
+		user = (User) session.getAttribute("user");
 	}
-	%>
+	%> --%>
 
 	<!-- Header-->
 	<header class="header">
@@ -43,7 +43,7 @@
 			</div>
 
 			<!-- 상단 우측 nav바 -->
-			<c:if test="${userID == null }">
+			<c:if test="${user == null }">
 				<nav>
 					<ul class="header__menu">
 						<!-- 로그인 안 되어있을 때 -->
@@ -52,11 +52,11 @@
 					</ul>
 				</nav>
 			</c:if>
-			<c:if test="${userID != null }">
+			<c:if test="${user != null }">
 				<nav>
 					<ul class="header__menu">
 						<!-- 로그인 되어있을 때 -->
-						<li><a class="header__menu__item">${userID}님 환영합니다!</a></li>
+						<li><a class="header__menu__item">${user.userID}님 환영합니다!</a></li>
 						<li><a class="header__menu__item" href="/myPage">마이페이지</a></li>
 						<li><a class="header__menu__item" href="/logout">로그아웃</a></li>
 					</ul>
@@ -80,5 +80,6 @@
 			</div>
 		</div>
 	</header>
+	
 </body>
 </html>

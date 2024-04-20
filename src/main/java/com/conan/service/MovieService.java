@@ -1,3 +1,4 @@
+
 package com.conan.service;
 
 import java.io.BufferedReader;
@@ -95,9 +96,14 @@ public class MovieService {
 				String movieCd = movieObj.getString("movieCd");
 				String movieNm = movieObj.getString("movieNm");
 				String openDt = movieObj.getString("openDt");
-				String rankOldAndNew = movieObj.getString("rankOldAndNew");
-				String audiCnt = movieObj.getString("audiCnt");
-				String audiAcc = movieObj.getString("audiAcc");
+				//숫자를 1000 단위로 끊어서 출력(가독성 향상)
+				String audiCnt = String.format("%, d", Integer.parseInt(movieObj.getString("audiCnt")));
+				String audiAcc = String.format("%, d", Integer.parseInt(movieObj.getString("audiAcc")));	
+				String rankOldAndNew = movieObj.getString("rankOldAndNew");	
+				if(rankOldAndNew.equals("OLD")) {
+					rankOldAndNew = " ";
+				}
+				log.info("변경된 랭크값 : " + rankOldAndNew);
 				//=============================================================
 				Movie movie = new Movie();
 				movie.setRank(rank);
@@ -132,7 +138,7 @@ public class MovieService {
 			StringBuilder urlBuilder = new StringBuilder(
 					"http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2");
 			urlBuilder.append("&ServiceKey=6CO85UB1I0DP2Y32897W").append("&title=").append(encodedMovieNm)
-					.append("&releaseDts=").append(openDt); // .replace("-", "")
+					.append("&releaseDts=").append(openDt.replace("-", "")); // .replace("-", "")
 			
 			URL url = new URL(urlBuilder.toString());
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -167,7 +173,7 @@ public class MovieService {
 					if (posterUrls.length > 0) {
 						// 첫 번째 포스터 URL 가져오기
 						posterUrl = posterUrls[0];
-						log.info("포스터 URL: " + posterUrl);
+						log.info("posterUrl 값: " + posterUrl);
 					}
 				}
 			}
@@ -180,9 +186,9 @@ public class MovieService {
 			movie.setRankOldAndNew(rankOldAndNew);
 			movie.setAudiCnt(audiCnt);
 			movie.setAudiAcc(audiAcc);
-	        log.info("updatePosterUrl 결과 : "	// 포스터 url만 db에 저장
+	        log.info("updatePosterUrl 결과 : "	
 					+ mapper.updatePosterUrl(movie, movieCd));
-			mList.add(movie);
+			mList.add(movie);// 포스터 url만 db에 저장
 
 			// KMDB 데이터들을 테이블에 저장
 			// 여기다 선언해야지, KMDB API를 두번씩이나 조회할 필요가 없어짐
@@ -196,7 +202,7 @@ public class MovieService {
 	public void saveMovieDetails(JSONArray dataArray, String movieNm, String openDt)
 			throws IOException {
 		try {
-			String titleEng = "", genre = "", prodYear = "", directorNm = "", actorNm = "", company = "", rating = "",
+			String titleEng = "", genre = "", prodYear = "", directorNm = "", actorNmList = "", company = "", rating = "",
 					vodUrl = "", vodClass = "";
 			String[] titleEngs, genres, prodYears, directorNms, actorNms, companies, ratings, vodUrls, vodClasses;
 
@@ -207,28 +213,37 @@ public class MovieService {
 					JSONObject resultObject = resultArray.getJSONObject(0);
 
 					// titleEng 값 가져오기
-					// XML에서 위치는 titleEng
+					// 위치는 Data->Result->titleEng
 					titleEng = resultObject.getString("titleEng");
 					titleEngs = titleEng.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					titleEng = titleEngs[0];
+					if(titleEng.equals(null)) {
+						titleEng = " ";
+					}
 					log.info("titleEng 값: " + titleEng);
 
 					// genre 값 가져오기
-					// XML에서 위치는 genre
+					// 위치는 Data->Result->genre
 					genre = resultObject.getString("genre");
 					genres = genre.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					genre = genres[0];
+					if(genre.equals(null)) {
+						genre = " ";
+					}
 					log.info("genre 값: " + genre);
 
 					// prodYear 값 가져오기
-					// XML에서 위치는 prodYear
+					// 위치는 Data->Result->prodYear
 					prodYear = resultObject.getString("prodYear");
 					prodYears = prodYear.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					prodYear = prodYears[0];
+					if(prodYear.equals(null)) {
+						prodYear = " ";
+					}
 					log.info("prodYear 값: " + prodYear);
 
 					// directorNm 값 가져오기
-					// XML에서 위치는 directors->director->directorNm
+					// 위치는 Data->Result->directors->director->directorNm
 					// 주의!! directors는 [가 없고 {로만 둘러싸여, Array 생성이 불가능('[{' 둘다 있어야 Array 생성 가능)
 					// 때문에 directors는 Object만 선언하고 그다음 아랫층 director로 이동
 					JSONObject directorsObject = resultObject.getJSONObject("directors");
@@ -239,38 +254,58 @@ public class MovieService {
 					}
 					directorNms = directorNm.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					directorNm = directorNms[0];
+					if(directorNm.equals(null)) {
+						directorNm = " ";
+					}
 					log.info("directorNm 값: " + directorNm);
-
+					
 					// actorNm 값 가져오기
-					// XML에서 위치는 actors->actor->actorNm
+					// 위치는 Data->Result->actors->actor->actorNm
 					// 주의!! actors는 [가 없고 {로만 둘러싸여, Array 생성이 불가능('[{' 둘다 있어야 Array 생성 가능)
 					// 때문에 actors는 Object만 선언하고 그다음 아랫층 director로 이동
 					JSONObject actorsObject = resultObject.getJSONObject("actors");
 					JSONArray actorArray = actorsObject.getJSONArray("actor");
 					if (actorArray.length() > 0) {
-						JSONObject actorNmObject = actorArray.getJSONObject(0);
-						actorNm = actorNmObject.getString("actorNm");
+						for (int i = 0; i < actorArray.length(); i++) {
+							JSONObject actorNmObject = actorArray.getJSONObject(i);
+						    String actorNm = actorNmObject.getString("actorNm");
+						    actorNms = actorNm.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
+						    actorNmList += actorNms[0];	// actorNm를 리스트에 추가
+						    if (i < actorArray.length() - 1) {
+						        actorNmList += ",";	// 마지막 요소가 아니면 쉼표 추가
+						    }					    
+						    if(i >= 4) {
+						    	break;						    	
+						    }
+						}
 					}
-					actorNms = actorNm.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
-					actorNm = actorNms[0];
-					log.info("actorNm 값: " + actorNm);
+					if(actorNmList.equals(null)) {
+						actorNmList = " ";
+					}
+					log.info("actorNm 값: " + actorNmList);					
 
 					// company 값 가져오기
-					// XML에서 위치는 company
+					// 위치는 Data->Result->company
 					company = resultObject.getString("company");
 					companies = company.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					company = companies[0];
+					if(company.equals(null)) {
+						company = " ";
+					}
 					log.info("company 값: " + company);
 
 					// rating 값 가져오기
-					// XML에서 위치는 rating
+					// 위치는 Data->Result->rating
 					rating = resultObject.getString("rating");
 					ratings = rating.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					rating = ratings[0];
+					if(rating.equals(null)) {
+						rating = " ";
+					}
 					log.info("rating 값: " + rating);
 
 					// vodUrl, vodClass 값 가져오기
-					// XML에서 위치는 vods->vod->vodUrl(vodClass)
+					// 위치는 Data->Result->vods->vod->vodUrl(vodClass)
 					// 주의!! vods는 [가 없고 {로만 둘러싸여, Array 생성이 불가능('[{' 둘다 있어야 Array 생성 가능)
 					// 때문에 vods는 Object만 선언하고 그다음 아랫층 vod로 이동
 					JSONObject vodsObject = resultObject.getJSONObject("vods");
@@ -295,7 +330,7 @@ public class MovieService {
 			movie.setGenre(genre);
 			movie.setProdYear(prodYear);
 			movie.setDirectorNm(directorNm);
-			movie.setActorNm(actorNm);
+			movie.setActorNm(actorNmList);
 			movie.setCompany(company);
 			movie.setRating(rating);
 			movie.setVodUrl(vodUrl);

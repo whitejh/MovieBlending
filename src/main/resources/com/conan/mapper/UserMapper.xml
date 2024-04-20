@@ -6,31 +6,36 @@
          select now()
      </select>
      
+    <!--  로그인 -->
     <select id="login" resultType="com.conan.domain.User">
-		select * from user where userID = #{userID}
+		select * from user where userID = #{userID} and userPassword = #{userPassword}
 	</select>
 	
+	<!-- 회원가입 -->
 	<insert id="join">
 		insert into user (userID, userPassword, userName, userNickname, userEmail)
 		values(#{userID}, #{userPassword}, #{userName}, #{userNickname}, #{userEmail})
 	</insert>
-	     
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="withdrawal">
+		delete from user where userID = #{userID} and userPassword = #{userPassword}
+	</delete>
+	
+	<!-- 마이페이지 회원 정보 -->     
     <select id="getAccount" resultType="com.conan.domain.User">
 		select * from user where userID = #{userID}
 	</select>
 	
+	<!-- 마이페이지 회원 관람평 -->
     <select id="getMyReviews" resultType="com.conan.domain.Review">
 		select userNickname, movieCd, movieNm, rate, content, imgUrl from review where userID = #{userID}
 	</select>
 	
+	<!-- 마이페이지 회원 영화 즐겨찾기 -->
 	<select id="getMyFavorites" resultType="com.conan.domain.Favorite">
 		select movieCd, movieNm, rate, imgUrl from favorite where userID = #{userID}
 	</select>
-	
-	<!-- 회원 탈퇴 -->
-	<delete id="deleteUser">
-		delete from user where userID = #{userID} and userPassword = #{userPassword}
-	</delete>
 	
 	<!--  마이페이지 리뷰 삭제 -->
 	<delete id="deleteReview">

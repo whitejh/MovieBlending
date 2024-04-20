@@ -2,12 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마이페이지</title>
+<title>회원 탈퇴</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/myPage.css" />
 <script src="https://kit.fontawesome.com/87f959d9dc.js"></script>
@@ -22,68 +21,75 @@
 	crossorigin="anonymous"></script>
 </head>
 <body>
-	<!-- Header-->
 	<jsp:include
 		page="${pageContext.request.contextPath}/WEB-INF/views/include/header.jsp" />
 
 	<div class="wrapper">
 		<main>
 			<div class="left">
+				<h1 class="myTitle">마이페이지</h1>
 				<a class="myMenu" href="/myPage" style="text-decoration: underline;">사용자
-					정보</a><br> <a class="myMenu" href="/myPage/Review">작성한 리뷰</a><br>
-				<a class="myMenu" href="/myPage/Favorite">즐겨찾기</a>
+					정보<i class="fa-regular fa-greater-than"></i>
+				</a><br> <a class="myMenu" href="/myPage/Review">작성한 리뷰<i
+					class="fa-regular fa-greater-than"></i></a><br> <a class="myMenu"
+					href="/myPage/Favorite">즐겨찾기<i
+					class="fa-regular fa-greater-than"></i></a>
 			</div>
 
 			<div class="login-wrap">
 				<div class="login-html">
-					<input id="tab-1" type="radio" name="tab" class="sign-in" checked>
-					<label for="tab-1" class="tab" style="cursor: pointer">회원
-						탈퇴</label>
+					<input id="tab-2" type="radio" name="tab" class="sign-up" checked>
+					<label for="tab-2" class="tab" style="cursor: pointer">회원탈퇴</label>
 
-
-					<!-- 회원탈퇴 -->
 					<div class="login-form">
-						<div class="sign-in-htm">
+						<!-- 회원탈퇴 -->
+						<div class="sign-up-htm">
 							<form method="post" role="form" autocomplete="off">
 								<div class="group">
-									<label for="user" class="label">ID</label> <input id="user"
+									<label for="id" class="label">UserID</label> <input id="id"
 										type="text" class="input" name="userID" value="${user.userID}">
 								</div>
 								<div class="group">
 									<label for="pass" class="label">Password</label> <input
-										id="pass" type="password" class="input" data-type="password"
-										name="userPassword">
+										id="userPassword" type="password" class="input"
+										data-type="password" name="userPassword">
 								</div>
-
 								<div class="group">
-									<input type="submit" class="button" value="회원탈퇴"
-										style="cursor: pointer">
+									<a href="/myPage" class="before">
+									<button type="button" class="btn btn-success">이전으로</button>
+									</a>
+									<button type="submit" class="btn btn-danger" style="cursor: pointer">
+										회원탈퇴
+									</button>
 								</div>
-								<div class="hr"></div>
-								<div class="foot-lnk">
-									<a href="/myPage">처음으로</a>
-								</div>
-
+					
 							</form>
-							<c:if test ="${msg == false }">
-								<p>입력한 비밀번호가 잘못되었습니다</p>
-							</c:if>
+							<div>
+								<c:if test="${msg == false }">
+									<p style="color: red;" align="center">입력한 비밀번호가 잘못 되었습니다!</p>
+								</c:if>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</main>
 	</div>
 
-
-	<script>
-	
-	</script>
-
-</body>
-<script>
-	
+	<jsp:include
+		page="${pageContext.request.contextPath}/WEB-INF/views/include/footer.jsp" />
+</head>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#submit").on("click", function() {
+			if ($("#userPassword").val() == "") {
+				alert("비밀번호를 입력해주세요.");
+				$("#userPassword").focus();
+				return false;
+			}
+		});
+	})
 </script>
 
+</body>
 </html>

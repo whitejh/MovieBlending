@@ -54,24 +54,10 @@
 			</div>
 
 			<div class="withdrawal">
-				<button type="submit" class="btn btn-danger" onclick="location.href='/withdraw'">회원
+				<button type="submit" class="btn btn-danger" onclick="location.href='myPage/withdrawal'">회원
 					탈퇴</button>
 			</div>
 		</main>
 	</div>
-
-
-	<script>
-	/* 	function withdraw() {
-			if (window.confirm("탈퇴하시겠습니까?")) {
-				location.href = "/withdraw";
-			}
-		} */
-	</script>
-
-</body>
-<script>
-	
-</script>
 
 </html>

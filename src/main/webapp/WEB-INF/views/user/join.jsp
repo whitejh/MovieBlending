@@ -16,8 +16,8 @@
 <title>Movie Blending 웹사이트</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/login.css" />
-<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css?after" /> --%>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
 
 <script>
 	
@@ -29,34 +29,38 @@
 
 	<div class="login-wrap">
 		<div class="login-html">
-			<input id="tab-2" type="radio" name="tab" class="sign-up" checked>
-			<label for="tab-2" class="tab" style="cursor: pointer">회원가입</label>
+			<input id="tab-1" type="radio" name="tab" class="sign-in">
+			<label for="tab-1" class="tab" style="cursor: pointer">로그인</label> <input
+				id="tab-2" type="radio" name="tab" class="sign-up" checked> <label
+				for="tab-2" class="tab" style="cursor: pointer">회원가입</label>
 
 			<!-- 로그인 -->
 			<div class="login-form">
 				<div class="sign-in-htm">
 					<form method="post" action="/login">
 						<div class="group">
-							<label for="user" class="label">ID</label> <input id="user"
+							<label for="user" class="label">ID</label> <input id="userID"
 								type="text" class="input" name="userID">
 						</div>
 						<div class="group">
-							<label for="pass" class="label">Password</label> <input id="pass"
-								type="password" class="input" data-type="password"
-								name="userPassword">
+							<label for="pass" class="label">Password</label> <input
+								id="userPassword" type="password" class="input"
+								data-type="password" name="userPassword">
 						</div>
-						<div class="group">
+						<!-- 	<div class="group">
 							<input id="check" type="checkbox" class="check" checked>
 							<label for="check"><span class="icon"></span> 아이디 저장하기</label>
-						</div>
+						</div> -->
 						<div class="group">
 							<input type="submit" class="button" value="Sign In"
 								style="cursor: pointer">
 						</div>
 					</form>
 					<div class="hr"></div>
-					<div class="foot-lnk">
-						<a href="#forgot">Forgot Password?</a>
+					<div>
+						<c:if test="${msg == false }">
+							<p style="color: red;">로그인 실패! 아이디와 비밀번호를 확인해주세요!</p>
+						</c:if>
 					</div>
 				</div>
 
@@ -64,43 +68,74 @@
 				<div class="sign-up-htm">
 					<form method="post" action="/join">
 						<div class="group">
-							<label for="id" class="label">UserID</label> <input id="id"
+							<label for="id" class="label">UserID</label> <input id="userID2"
 								type="text" class="input" name="userID">
 						</div>
 						<div class="group">
-							<label for="pass" class="label">Password</label> <input id="pass"
-								type="password" class="input" data-type="password"
-								name="userPassword">
+							<label for="pass" class="label">Password</label> <input
+								id="userPassword2" type="password" class="input"
+								data-type="password" name="userPassword">
 						</div>
 						<div class="group">
 							<label for="username" class="label">Username</label> <input
-								id="username" type="text" class="input" name="userName">
+								id="userName2" type="text" class="input" name="userName">
 						</div>
 						<div class="group">
 							<label for="nickname" class="label">Nickname</label> <input
-								id="nickname" type="text" class="input" name="userNickname">
+								id="userNickname2" type="text" class="input" name="userNickname">
 						</div>
 						<div class="group">
-							<label for="email" class="label">Email</label> <input id="email"
-								type="email" class="input" name="userEmail">
+							<label for="email" class="label">Email</label> <input
+								id="userEmail2" type="email" class="input" name="userEmail">
 						</div>
 						<div class="hr"></div>
 						<div class="group">
-							<input type="submit" class="button" value="Sign Up"
+							<input id="submit" type="submit" class="button" value="Sign Up"
 								style="cursor: pointer">
 						</div>
 					</form>
-
-					<!-- 					<div class="foot-lnk">
+					<div class="foot-lnk">
 						<label for="tab-1" style="cursor: pointer">Already Member?</label>
-					</div> -->
-
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-		<jsp:include
+
+	<jsp:include
 		page="${pageContext.request.contextPath}/WEB-INF/views/include/footer.jsp" />
+	<script>
+		$(document).ready(function() {
+			$("#submit").on("click", function() {
+				if ($("#userID2").val() == "") {
+					alert("아이디를 입력해주세요.");
+					$("#userID").focus();
+					return false;
+				}
+				if ($("#userPassword2").val() == "") {
+					alert("비밀번호를 입력해주세요.");
+					$("#userPassword").focus();
+					return false;
+				}
+				if ($("#userName2").val() == "") {
+					alert("이름을 입력해주세요.");
+					$("#userName").focus();
+					return false;
+				}
+				if ($("#userNickname2").val() == "") {
+					alert("닉네임을 입력해주세요.");
+					$("#userNickname").focus();
+					return false;
+				}
+				if ($("#userEmail2").val() == "") {
+					alert("이메일을 입력해주세요.");
+					$("#userEmail").focus();
+					return false;
+				}
+			});
+
+		})
+	</script>
+
 </body>
 </html>

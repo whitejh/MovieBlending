@@ -1,5 +1,6 @@
 package com.conan.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -22,35 +23,45 @@ import lombok.extern.log4j.Log4j;
 public class UserController {
 	private UserService service;
 
+	// 회원가입 Get
 	@GetMapping("/join")
 	public String Join() {
 		return "user/join";
 	}
 
+	// 회원가입 Post
 	@PostMapping("/join")
 	public String join(User user) { // body 값을 받을 DTO 필요
-		log.info("join :aaa");
-//		log.info("join : " + user);
+		log.info("join : " + user);
 		service.join(user);
 		return "redirect:/login";
 	}
 
-	@GetMapping("/login") // 로그인 페이지
+	// 로그인 Get
+	@GetMapping("/login") 
 	public String Login(HttpSession session) {
-		String userID = (String) session.getAttribute("userID"); // 세션처리
-		if (userID != null) {
+		User user = (User) session.getAttribute("user"); // 세션처리
+		if (user != null) {
 			return "redirect:/"; // 로그인 성공, 박스오피스 메인페이지로 이동
 		}
 		return "/user/login"; // 로그인 되지 않은 상태
 	}
 
+	// 로그인 Post
 	@PostMapping("/login")
-	public String login(String userID, String userPassword, HttpSession session) {
-		String id = service.login(userID, userPassword);
-		if (id == null) { // 로그인실패
+	public String login(User user, HttpServletRequest req, RedirectAttributes rttr) {
+		log.info("Post login");
+		HttpSession session = req.getSession();
+		User login = service.login(user);
+		
+		if(login == null) {
+			session.setAttribute("user", null);
+			rttr.addFlashAttribute("msg", false);
 			return "redirect:/login";
+		} else {
+			session.setAttribute("user",  login);
 		}
-		session.setAttribute("userID", id);
+	
 		return "redirect:/";
 	}
 
@@ -59,7 +70,35 @@ public class UserController {
 		session.invalidate(); // 세션에 저장되어있는 값과 세션을 삭제
 		return "redirect:/login"; // 로그인 페이지로 이동
 	}
+	
+	// 회원 탈퇴 Get
+	@GetMapping("/myPage/withdrawal")
+	public String withdraw(HttpSession session) {
+		log.info("get withdrawal");
+		return "myPage/withdrawal";
+	}
+	
+	// 회원 탈퇴 Post
+	@PostMapping("/myPage/withdrawal")
+	public String withdraw(User vo, HttpSession session, RedirectAttributes rttr) {
+		log.info("PostMapping withdrawal");
+		User user = (User) session.getAttribute("user"); // 세션에 있는 user를 가져와 user변수에 넣어줌
 
+		String sessionPass = user.getUserPassword(); // 세션에 있는 비밀번호
+		String voPass = vo.getUserPassword();	// 새로 들어오는 비밀번호 (회원탈퇴페이지)
+
+		if (!(sessionPass.equals(voPass))) {
+			rttr.addFlashAttribute("msg", false);
+			return "redirect:/myPage/withdrawal";
+		}
+
+		service.withdrawal(vo);
+		session.invalidate();
+		rttr.addFlashAttribute("msg", "이용해주셔서 감사합니다.");
+		return "redirect:/";
+	}
+
+	// 마이페이지
 	@GetMapping("/myPage")
 	public String myPage(HttpSession session, Model model) {
 		log.info("Enter myPage: try");
@@ -87,59 +126,7 @@ public class UserController {
 		return "myPage/myPageFavorite";
 	}
 
-	// 회원 탈퇴 Get
-	@GetMapping("/withdraw")
-	public String withdraw(HttpSession session) {
-		String userID = (String) session.getAttribute("userID");
-		if (userID != null) {
-			service.deleteUser(userID);
-		}
-		session.invalidate();
-		return "redirect:/";
-	}
-
-	@PostMapping("/withdraw")
-	public String withdraw(User user, HttpSession session, RedirectAttributes rttr) {
-		log.info("PostMapping /withdraw");
-		User member = (User) session.getAttribute("user");
-
-		String userID = member.getUserID();
-		String oldPass = member.getUserPassword();
-		String newPass = member.getUserPassword();
-
-		if (!(oldPass.equals(newPass))) {
-			rttr.addFlashAttribute("msg", false);
-			return "redirect:/myPage/withdrawl";
-		}
-
-		service.deleteUser(userID);
-		session.invalidate();
-		rttr.addFlashAttribute("msg", "이용해주셔서 감사합니다.");
-		return "redirect:/";
-	}
-
-	/*
-	 * @GetMapping("/deleteView") public String deleteView() { return
-	 * "/myPage/deleteView"; }
-	 */
-
-	@PostMapping("/delete")
-	public String delete(String userID, RedirectAttributes rttr, HttpSession session) {
-		service.deleteUser(userID);
-		session.invalidate();
-		rttr.addFlashAttribute("msg", "이용해주셔서 감사합니다");
-		return "redirect:/login";
-	}
-
-	/*
-	 * @RequestMapping("/delete") public String deleteUser(String userPassword,
-	 * Model model, HttpSession session) { User user = (User)
-	 * session.getAttribute("user");
-	 * 
-	 * if(service.deleteUser(userPassword)) }
-	 */
-	
-
+	// 마이페이지 리뷰 삭제
 	@GetMapping("/deleteReview")
 	public String deleteReview(Model model, Integer reviewID) {
 		service.deleteReview(reviewID);
