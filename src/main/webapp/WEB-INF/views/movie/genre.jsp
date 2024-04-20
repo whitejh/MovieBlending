@@ -100,42 +100,7 @@ a, a:hover {
 	</footer>
 	<script>
 		$(document).ready(function() { //페이지 로드 후 실행될 함수     	
-			let result = $(".boxoffice_movie");
-			let dateRange = $(".date_range");
-			let yesterdayDate;
-
-			//어제의 날짜를 계산
-			let d = new Date();
-			d.setDate(d.getDate() - 1); //-1이면 하루전, +1이면 내일
-			let year = d.getFullYear();
-			let month = ('0' + (d.getMonth() + 1)).slice(-2);
-			let day = ('0' + d.getDate()).slice(-2);
-			yesterdayDate = year + "-" + month + "-" + day;
-
-			//어제의 날짜를 datepicker에 표시
-			$('#datepicker').val(yesterdayDate);
-
-			//Datepicker 설정
-			$('#datepicker').datepicker({
-				format : 'yyyy-mm-dd',
-				autoclose : true,
-				todayHighlight : true,
-			});
-
-			//박스오피스 버튼 클릭 시 해당 타입의 데이터 조회
-			$('.boxoffice_name ul li a').on('click', function() {
-				fetchDataFlag = true; //데이터 조회 플래그를 true로 설정
-				$('.boxoffice_name ul li a').removeClass('active');
-				$(this).addClass('active');
-				let type = $(this).data('type');
-				let selectedDate = $('#datepicker').val(); //선택한 날짜 가져오기
-				fetchData(selectedDate, type); //선택한 날짜와 타입을 fetchData 함수에 전달
-			});
-
-			//페이지 로드 시 자동으로 일별 박스오피스 버튼 클릭
-			//이 함수 위치 바뀌면 절대 실행 X
-			$('.boxoffice-btn[data-type="daily"]').click();
-
+		
 			//movieButton 버튼 클릭 이벤트 함수(상세보기)
 			$("#movieButton").on('click', function() {
 				document.getElementById('movieForm').submit();
@@ -150,7 +115,7 @@ a, a:hover {
 
  			$("#searchButton").on('click', function() {
 				var inputText = $("#searchInput").val();
-				fetchData(inputText); //선택한 날짜와 타입을 fetchData 함수에 전달
+				fetchData(inputText); //입력한 검색어를 fetchData 함수에 전달
 			}); 
 			
 		});
@@ -159,7 +124,7 @@ a, a:hover {
 		function fetchData(inputText) {
 			// AJAX 요청 보내기
 			$.ajax({
-				url : 'http://localhost:9090/genre',
+				url : '/genre',
 				type : 'GET',
 				data : {
 					searchText : inputText,
