@@ -1,5 +1,5 @@
-<%@page import="com.conan.domain.Review"%>
-<%@page import="com.conan.domain.Movie"%>
+<%@page import="com.movie.domain.Review"%>
+<%@page import="com.movie.domain.Movie"%>
 <%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
