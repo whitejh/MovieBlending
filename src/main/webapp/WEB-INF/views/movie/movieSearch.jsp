@@ -108,7 +108,7 @@ a, a:hover {
 		function fetchData(inputText) {
 			// AJAX 요청 보내기
 			$.ajax({
-				url : '/genre',
+				url : '/movieSearch',
 				type : 'GET',
 				data : {
 					searchText : inputText,
