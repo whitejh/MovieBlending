@@ -120,6 +120,7 @@
 									<input type="hidden" name="movieNm" value="${movie.movieNm}">
 									<input type="hidden" name="imgUrl" value="${movie.posterUrl}">
 									<input type="hidden" name="userNickname" value="${user.userNickname}">
+									<input type="hidden" name="userID" value="${user.userID}">
 
 									<!-- 사용자 프로필 -->
 									<div class="userProfile">

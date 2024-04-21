@@ -29,7 +29,8 @@
 	
 	<!-- 마이페이지 회원 관람평 -->
     <select id="getMyReviews" resultType="com.movie.domain.Review">
-		select userNickname, movieCd, movieNm, rate, content, imgUrl from review where userID = #{userID}
+		select userNickname, movieCd, movieNm, rate, content, imgUrl from review 
+		where userID =	#{userID}
 	</select>
 	
 	<!-- 마이페이지 회원 영화 즐겨찾기 -->

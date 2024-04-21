@@ -17,6 +17,7 @@
 	rel="stylesheet"
 	integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
 	crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
@@ -72,20 +73,20 @@
 		</div>
 		<span class=mTitle><h1 class="mText">작성한 리뷰</h1></span>
 		<hr>
-		<c:forEach var="review" items="${reviews}">
+		<c:forEach var="item" items="${reviews}">
 			<div class="reviewBox">
-				<img class="posterImg" src="${review.imgUrl}" width="200px"> <img
+				<img class="posterImg" src="${item.imgUrl}" width="200px"> <img
 					class="xmark"
 					src="${pageContext.request.contextPath}/resources/images/xmark@2x.png"
-					value="${review.reviewID}" onclick="sendGetRequest(this)"> <input class="reviewUpdate"
+					value="${item.reviewID}" onclick="sendGetRequest(this)"> <input class="reviewUpdate"
 					type="submit" onclick="openNewWindow()" value="내용 수정"> <span
-					class="movieName">${review.movieNm}</span><br>
+					class="movieName">${item.movieNm}</span><br>
 				<div class="starBox">
 					<img class="star"
 						src="${pageContext.request.contextPath}/resources/images/star.fill@2x.png">
-					<span class="movieRate">&nbsp;${review.rate} / 10.0</span><br>
+					<span class="movieRate">&nbsp;${item.rate} / 10.0</span><br>
 				</div>
-				<span class="reviewDes">${review.content}</span>
+				<span class="reviewDes">${item.content}</span>
 			</div>
 		</c:forEach>
 	</main>

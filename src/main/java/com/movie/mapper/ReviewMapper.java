@@ -12,6 +12,7 @@ public interface ReviewMapper {
 	
 	/* 관람평 db 저장 */
 	public int write(Review review);
+	List<Review> getAllReviews();
 
 	/* 상세페이지 관람평 출력 */
 	public List<Review> getMovieReviews(String movieCd);

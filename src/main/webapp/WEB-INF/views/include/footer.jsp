@@ -12,7 +12,6 @@
 	href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap"
 	rel="stylesheet" />
 <script src="https://kit.fontawesome.com/87f959d9dc.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 </head>
 <body>

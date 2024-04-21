@@ -11,9 +11,9 @@ public interface UserMapper {
 	
 	public User login(User user); // 로그인 
 	public void join(User user);  // 회원가입
-	public User getAccount(String userID);	// 회원 정보
-	public List<Review> getMyReviews(String userID);	// 회원 영화 리뷰
-	public List<Favorite> getMyFavorites(String userID);	// 회원 영화 즐겨찾기
+	public User getAccount(User user);	// 회원 정보
+	public List<Review> getMyReviews(User user);	// 회원 영화 리뷰
+	public List<Favorite> getMyFavorites(User user);	// 회원 영화 즐겨찾기
 	public void withdrawal(User user); // 회원 탈퇴
 	
 	/* 리뷰 삭제 */

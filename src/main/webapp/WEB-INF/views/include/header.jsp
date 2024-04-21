@@ -23,13 +23,6 @@
 	rel="stylesheet" />
 </head>
 <body>
-<%-- 	<%
-	User user = null;
-	if (session.getAttribute("user") != null) {
-		user = (User) session.getAttribute("user");
-	}
-	%> --%>
-
 	<!-- Header-->
 	<header class="header">
 		<div class="header1">

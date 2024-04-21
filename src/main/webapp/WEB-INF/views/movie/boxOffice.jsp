@@ -78,7 +78,7 @@ a, a:hover {
 							<p class="card-text">개봉일 : ${item.openDt}</p>
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item">당일 관객수: ${item.audiCnt}명</li>
-								<li class="list-group-item">누적관객수: ${item.audiAcc}명</li>
+								<li class="list-group-item">누적 관객수: ${item.audiAcc}명</li>
 							</ul>
 							<a href="movie/movieDetail?movieCd=${item.movieCd}"
 								class="btn btn-primary">상세 보기</a>

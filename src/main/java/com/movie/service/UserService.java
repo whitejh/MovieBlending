@@ -34,9 +34,9 @@ public class UserService {
 		mapper.join(user);
 	}
 	
-	public User getAccount(String userID) {
+	public User getAccount(User user) {
 		log.info("getAccount");
-		return mapper.getAccount(userID);
+		return mapper.getAccount(user);
 	}
 	
 	public void withdrawal(User user) {
@@ -44,15 +44,15 @@ public class UserService {
 		mapper.withdrawal(user);
 	}
 	
-	public List<Review> getMyReviews(String userID) {
+	public List<Review> getMyReviews(User user) {
 		log.info("getMyReviews...");
-		return mapper.getMyReviews(userID);
+		return mapper.getMyReviews(user);
 	}
 	
 	
-	public List<Favorite> getMyFavorites(String userID) {
+	public List<Favorite> getMyFavorites(User user) {
 		log.info("getMyFavorites...");
-		return mapper.getMyFavorites(userID);
+		return mapper.getMyFavorites(user);
 	}
 	
 	/* 리뷰 삭제 */
