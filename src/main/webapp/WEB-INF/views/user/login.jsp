@@ -13,7 +13,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Movie Blending 웹사이트</title>
+<title>로그인</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/login.css" />
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>

@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>박스오피스</title>
+<title>영화 조회 페이지</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/boxOffice.css" />
 <script src="https://kit.fontawesome.com/87f959d9dc.js"></script>
