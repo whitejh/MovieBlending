@@ -18,19 +18,6 @@
 	<!-- Footer -->
 	<footer id="contact" class="section">
 		<div class="max-container">
-			<h2 class="title">세미 프로젝트 3팀</h2>
-			<!-- <p class="description">세미 프로젝트 3팀</p> -->
-			<ul class="contact__links">
-				<li><a class="contact__link"
-					href="https://www.instagram.com/netflixkr/" title="netflixkr link"
-					target="_blank"> <i class="fa-brands fa-instagram"></i>
-				</a></li>
-				<li><a class="contact__link"
-					href="https://www.instagram.com/disneypluskr/"
-					title="disneypluskr link" target="_blank"> <i
-						class="fa-brands fa-instagram"></i>
-				</a></li>
-			</ul>
 			<p>©BlackLight - All rights reserved</p>
 		</div>
 	</footer>
