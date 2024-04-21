@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.conan.domain.Movie;
@@ -75,7 +76,7 @@ public class MovieController {
 		return yesterDayDate;
 	}
 	
-	@GetMapping("/genre")	//박스오피스 페이지
+	@PostMapping("/genre")	//박스오피스 페이지
     public String viewSearch(@RequestParam(required = false) String searchText, Model model) {
 		if (searchText == null) {
 //			searchText = "쿵푸";
@@ -91,4 +92,19 @@ public class MovieController {
         return "movie/genre";
     }
 
+	@GetMapping("/genre")	//박스오피스 페이지
+    public String viewSearchP(@RequestParam(required = false) String searchText, Model model) {
+		if (searchText == null) {
+//			searchText = "쿵푸";
+		}
+		log.info("전달받은 검색어: " + searchText);
+		try {
+            List<Movie> mList = service.fetchSearchData(searchText);
+            model.addAttribute("mList", mList);	//프론트에 쓸 mList 세팅
+            model.addAttribute("searchText", searchText);
+        } catch (IOException e) {
+            e.printStackTrace();	// 예외 처리
+        }
+        return "movie/genre";
+    }
 }

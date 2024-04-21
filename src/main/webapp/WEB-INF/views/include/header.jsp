@@ -21,7 +21,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap"
 	rel="stylesheet" />
-	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 </head>
 <body>
 	<%
@@ -39,7 +39,8 @@
 					src="${pageContext.request.contextPath}/resources/images/favicon.ico"
 					alt="logo" />
 				<h1 class="header__logo__title">
-					<a href="${pageContext.request.contextPath}/boxOffice">Movie Blending</a>
+					<a href="${pageContext.request.contextPath}/boxOffice">Movie
+						Blending</a>
 				</h1>
 			</div>
 
@@ -75,9 +76,12 @@
 				</ul>
 			</nav>
 			<div class="header__search">
-				<input name="search" type="text" placeholder="찾고 있는 영화가 있나요?"
-					size="60" />
-				<button class="header__search__button" type="submit">검색</button>
+				<form action="/genre" method="post">
+					<input id="searchInput" name="searchText" type="text"
+						placeholder="찾고 있는 영화가 있나요?" size="60" />
+					<button id="searchButton" class="header__search__button"
+						type="submit">검색</button>
+				</form>
 			</div>
 		</div>
 	</header>

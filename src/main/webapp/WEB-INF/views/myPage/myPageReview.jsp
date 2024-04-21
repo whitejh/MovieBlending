@@ -18,9 +18,32 @@
 		if (newWindow && !newWindow.closed) {
 			newWindow.focus(); // 이미 열린 새 창을 포커스합니다.
 		} else {
-			newWindow = window.open("myPageReviewSub.jsp", "",
+			newWindow = window.open("/myPageReviewSub.jsp", "",
 					"width=600,height=800");
 		}
+	}
+	
+	function openNewWindow(areaId) {
+		console.log('함수 호출');
+
+	    // 새 창 열기
+	    var newWindow = window.open("", "", "width=600,height=800");
+
+	    // 폼 생성
+ 	    var form = document.createElement("form");
+	    form.setAttribute("method", "get");
+	    form.setAttribute("action", "/myPage/ReviewSub");
+	    form.setAttribute("target", "_blank");
+
+	    var hiddenField = document.createElement("input");
+	    hiddenField.setAttribute("type", "hidden");
+	    hiddenField.setAttribute("name", "reviewID");
+	    hiddenField.setAttribute("value", areaId);
+	    form.appendChild(hiddenField);
+
+	    newWindow.document.body.appendChild(form);
+	    form.submit(); 
+	    newWindow.location = "/myPage/ReviewSub";
 	}
 	
 	function sendGetRequest(image) {
@@ -68,8 +91,10 @@
 				<img class="posterImg" src="${review.imgUrl}" width="200px"> <img
 					class="xmark"
 					src="${pageContext.request.contextPath}/resources/images/xmark@2x.png"
-					value="${review.reviewID}" onclick="sendGetRequest(this)"> <input class="reviewUpdate"
-					type="submit" onclick="openNewWindow()" value="내용 수정"> <span
+					value="${review.reviewID}" onclick="sendGetRequest(this)"> 
+					<input class="reviewUpdate"
+					type="submit" onclick="openNewWindow(14)" value="내용 수정">
+					 <span
 					class="movieName">${review.movieNm}</span><br>
 				<div class="starBox">
 					<img class="star"

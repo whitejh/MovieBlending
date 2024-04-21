@@ -145,5 +145,13 @@ public class UserController {
 		service.deleteReview(reviewID);
 		return "redirect:/myPage/Review";
 	}
+	
+	@GetMapping("/myPage/ReviewSub")
+	public String ReviewSub(Model model, Integer reviewID) {
+		log.info("Review: try");
+		model.addAttribute("reviewID", reviewID);
+		log.info("Review: success" + reviewID);
+		return "myPage/myPageReviewSub";
+	}
 
 }

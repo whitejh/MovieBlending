@@ -43,9 +43,15 @@ a, a:hover {
 	<main>
 		<div class="boxoffice">
 			<div class="boxoffice_name">
-				<input id="searchInput" name="search" type="text"
+				<form action="/genre">
+					<input id="searchInput" name="searchText" type="text"
+						placeholder="찾고 있는 영화가 있나요?" size="60" />
+					<button id="searchButton" class="header__search__button"
+						type="submit">검색</button>
+				</form>
+<!-- 				<input id="searchInput" name="search" type="text"
 					placeholder="찾고 있는 영화가 있나요?" size="60" /> <input id="searchButton"
-					class="header__search__button" type="submit" value="검색" />
+					class="header__search__button" type="submit" value="검색" /> -->
 				<ul>
 					<li><h1>${searchText}</h1></li>
 				</ul>
@@ -113,10 +119,10 @@ a, a:hover {
 				$(this).attr('data-bookmarked', isBookmarked); //북마크 상태를 데이터 속성에 반영
 			});
 
- 			$("#searchButton").on('click', function() {
+/*  			$("#searchButton").on('click', function() {
 				var inputText = $("#searchInput").val();
 				fetchData(inputText); //입력한 검색어를 fetchData 함수에 전달
-			}); 
+			});  */
 			
 		});
 
@@ -124,13 +130,14 @@ a, a:hover {
 		function fetchData(inputText) {
 			// AJAX 요청 보내기
 			$.ajax({
-				url : '/genre',
+				url : '/genreSearch',
 				type : 'GET',
 				data : {
 					searchText : inputText,
 				},
 				success : function(data) {
 					console.log('AJAX 요청 성공 !!!');
+					$('#targetElement').load('newContent.html #sourceElement');
 				},
 				error : function(xhr, status, error) {
 					console.error('AJAX 요청 실패 ??? : ' + status + " " + error);
