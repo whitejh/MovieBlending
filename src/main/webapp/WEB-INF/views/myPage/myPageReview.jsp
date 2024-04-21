@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>내가 작성한 리뷰 페이지</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/myPage.css" />
 <script src="https://kit.fontawesome.com/87f959d9dc.js"></script>
