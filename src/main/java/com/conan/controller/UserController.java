@@ -1,7 +1,11 @@
 package com.conan.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -149,9 +153,18 @@ public class UserController {
 	@GetMapping("/myPage/ReviewSub")
 	public String ReviewSub(Model model, Integer reviewID) {
 		log.info("Review: try");
-		model.addAttribute("reviewID", reviewID);
+		model.addAttribute("review", service.getMyReview(reviewID));
 		log.info("Review: success" + reviewID);
 		return "myPage/myPageReviewSub";
 	}
 
+	@GetMapping("/modifyReview")
+	public void modifyReview(Model model, Integer reviewID, String content, Double rate) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		log.info("modifyReview: try" + rate + content);
+		map.put("reviewID", reviewID);
+		map.put("content", content);
+		map.put("rate", rate);
+		service.modifyReview(map);
+	}
 }

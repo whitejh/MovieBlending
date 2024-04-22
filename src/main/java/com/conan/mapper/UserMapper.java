@@ -1,5 +1,6 @@
 package com.conan.mapper;
 import java.util.List;
+import java.util.Map;
 
 import com.conan.domain.Favorite;
 import com.conan.domain.Review;
@@ -17,4 +18,6 @@ public interface UserMapper {
 	public void deleteUser(String userID); // 회원 탈퇴
 	/* 리뷰 삭제 */
 	public int deleteReview(int reviewID);
+	public Review getMyReview(int reviewID);
+	public void modifyReview(Map<String, Object> map);
 }

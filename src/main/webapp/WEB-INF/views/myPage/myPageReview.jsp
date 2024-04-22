@@ -23,28 +23,13 @@
 		}
 	}
 	
-	function openNewWindow(areaId) {
-		console.log('함수 호출');
+	function openNewWindow(id) {
+		console.log('함수 호출', id);
 
-	    // 새 창 열기
 	    var newWindow = window.open("", "", "width=600,height=800");
-
-	    // 폼 생성
- 	    var form = document.createElement("form");
-	    form.setAttribute("method", "get");
-	    form.setAttribute("action", "/myPage/ReviewSub");
-	    form.setAttribute("target", "_blank");
-
-	    var hiddenField = document.createElement("input");
-	    hiddenField.setAttribute("type", "hidden");
-	    hiddenField.setAttribute("name", "reviewID");
-	    hiddenField.setAttribute("value", areaId);
-	    form.appendChild(hiddenField);
-
-	    newWindow.document.body.appendChild(form);
-	    form.submit(); 
-	    newWindow.location = "/myPage/ReviewSub";
+	    newWindow.location.href = "/myPage/ReviewSub?reviewID=" + id;
 	}
+	
 	
 	function sendGetRequest(image) {
         var value = image.getAttribute('value'); // 이미지의 value 속성 가져오기
@@ -93,22 +78,11 @@
 					src="${pageContext.request.contextPath}/resources/images/xmark@2x.png"
 					value="${review.reviewID}" onclick="sendGetRequest(this)"> 
 					<input class="reviewUpdate"
-					type="submit" onclick="openNewWindow(14)" value="내용 수정">
+					type="submit" onclick="openNewWindow(${review.reviewID})" value="내용 수정">
 					 <span
 					class="movieName">${review.movieNm}</span><br>
-				<div class="starBox">
-					<img class="star"
-						src="${pageContext.request.contextPath}/resources/images/star.fill@2x.png">
-					<img class="star"
-						src="${pageContext.request.contextPath}/resources/images/star.fill@2x.png">
-					<img class="star"
-						src="${pageContext.request.contextPath}/resources/images/star.fill@2x.png">
-					<img class="star"
-						src="${pageContext.request.contextPath}/resources/images/star.fill@2x.png">
-					<img class="star"
-						src="${pageContext.request.contextPath}/resources/images/star.fill@2x.png">
-					<span class="movieRate">&nbsp;${review.rate} / 10.0</span><br>
-				</div>
+					<span class="star">⭐</span>
+					<span class="movieRate">${review.rate} / 10.0</span><br>
 				<span class="reviewDes">${review.content}</span>
 			</div>
 		</c:forEach>

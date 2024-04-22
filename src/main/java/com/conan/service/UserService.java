@@ -1,6 +1,7 @@
 package com.conan.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,4 +66,13 @@ public class UserService {
 		return mapper.deleteReview(reviewID);
 	}
 	
+	public Review getMyReview(int reviewID) {
+		log.info("getMyReview...");
+		return mapper.getMyReview(reviewID);
+	}
+	
+	public void modifyReview(Map<String, Object> map) {
+		log.info("modify...." + map);
+		mapper.modifyReview(map);
+	}
 }

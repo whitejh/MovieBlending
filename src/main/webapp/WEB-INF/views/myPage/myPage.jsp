@@ -29,13 +29,46 @@
 	<div class="wrapper">
 		<main>
 			<div class="left">
-			 <h1 class="myTitle">마이페이지</h1>
-				<a class="myMenu" href="/myPage" style="text-decoration: underline;">사용자 정보<i class="fa-regular fa-greater-than"></i></a><br> 
-				<a class="myMenu" href="/myPage/Review">작성한 리뷰<i class="fa-regular fa-greater-than"></i></a><br>
-				<a class="myMenu" href="/myPage/Favorite">즐겨찾기<i class="fa-regular fa-greater-than"></i></a>
+				<h1 class="myTitle">마이페이지</h1>
+				<a class="myMenu" href="/myPage" style="text-decoration: underline;">사용자
+					정보<i class="fa-regular fa-greater-than"></i>
+				</a><br> <a class="myMenu" href="/myPage/Review">작성한 리뷰<i
+					class="fa-regular fa-greater-than"></i></a><br> <a class="myMenu"
+					href="/myPage/Favorite">즐겨찾기<i
+					class="fa-regular fa-greater-than"></i></a>
 			</div>
-			<span class = mTitle><h1 class="mText">사용자 정보</h1></span><hr>
+			<span class=mTitle><h1 class="mText">사용자 정보</h1></span>
+			<hr>
 			<div class="middle">
+				<table class="table table-secondary align-middle">
+						<tr>
+							<th class="text-center">아이디</th>
+							<td class="table-light">${user.userID}</td>
+						</tr>
+						<tr>
+							<th class="text-center">비밀번호</th>
+							<td class="table-light">${user.userPassword}</td>
+						</tr>
+						<tr>
+							<th class="text-center">이름</th>
+							<td class="table-light">${user.userName}</td>
+						</tr>
+						<tr>
+							<th class="text-center">닉네임</th>
+							<td class="table-light">${user.userNickname}</td>
+						</tr>
+						<tr>
+							<th class="text-center">이메일</th>
+							<td class="table-light">${user.userEmail}</td>
+						</tr>
+						<tr>
+							<th class="text-center">가입날짜</th>
+							<td class="table-light"><fmt:formatDate
+									value="${user.regDate}" pattern="yyyy년 MM월 dd일 (E)" /></td>
+						</tr>
+				</table>
+			</div>
+			<%-- 			<div class="middle">
 				<p class="user_info_name">아이디</p>
 				<p class="user_info_name">비밀번호</p>
 				<p class="user_info_name">이름</p>
@@ -51,22 +84,22 @@
 				<p class="user_info">${user.userNickname}</p>
 				<p class="user_info">${user.userEmail}</p>
 				<p class="user_info">${user.regDate}</p>
-			</div>
+			</div> --%>
 
 			<div class="withdrawal">
-				<button type="submit" class="btn btn-danger" onclick="location.href='/withdraw'">회원
-					탈퇴</button>
+				<button type="submit" class="btn btn-danger"
+					onclick="location.href='/withdraw'">회원 탈퇴</button>
 			</div>
 		</main>
 	</div>
 
 
 	<script>
-	/* 	function withdraw() {
-			if (window.confirm("탈퇴하시겠습니까?")) {
-				location.href = "/withdraw";
-			}
-		} */
+		/* 	function withdraw() {
+				if (window.confirm("탈퇴하시겠습니까?")) {
+					location.href = "/withdraw";
+				}
+			} */
 	</script>
 
 </body>
