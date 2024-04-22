@@ -187,6 +187,7 @@ textarea::placeholder {
     align-items: center;
     padding-bottom: 200px; /* Footer와의 간격을 조정하기 위한 여분의 패딩 */
     min-height: 610px;
+    background: url("../images/bg5.png") no-repeat center;
 }
 
 .search-container {
@@ -316,6 +317,7 @@ footer {
 	max-height: calc(100vh - 250px); /* 화면 높이에서 헤더와 푸터의 높이를 제외한 값 */
 	position: relative;
 	width: 100%; /* 전체 너비에 맞게 설정 */
+/* 	min-height:1600px; */
 }
 
 .card {
@@ -330,6 +332,7 @@ footer {
 	
 	/* 마우스를 올렸을 때의 스타일 */
     transition: box-shadow 0.3s ease; /* 그림자 효과에 트랜지션 적용 */
+    /* min-height: 500px; */
 }
 
 .card.active {

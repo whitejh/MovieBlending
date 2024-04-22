@@ -1,19 +1,19 @@
 /*Global 변수*/
 :root {
     /*App Colors*/
-    -color-primary: var(--color-blue);
-    -color-primary-variant: var(--color-gray);
-    -color-accent: var(--color-sky);
-    -color-accent-variant: var(--color-orange);
-    -color-text: var(--color-white);
+    --color-primary: var(--color-blue);
+    --color-primary-variant: var(--color-gray);
+    --color-accent: var(--color-sky);
+    --color-accent-variant: var(--color-orange);
+    --color-text: var(--color-white);
     /* Colors */
-    -color-white: #ffffff;
-    -color-blue: #1b325c;
-    -color-sky: #697ef1;
-    -color-orange: #fd6413;
-    -color-gray: #1b1e26;
+    --color-white: #ffffff;
+    --color-blue: #1b325c;
+    --color-sky: #697ef1;
+    --color-orange: #fd6413;
+    --color-gray: #1b1e26;
     /*Size*/
-    -size-max-width: 1200px;
+    --size-max-width: 1200px;
 }
 * {
     box-sizing: border-box;
@@ -57,6 +57,20 @@ a {
 main {
     height: 650px;
 }
+
+table {
+    font-size: 20px;
+}
+
+th {
+    height: 70px;
+    width: 200px;
+}
+
+td {
+    width: 500px;
+}
+
 /* Left */
 .myTitle {
     margin-top: 30px;
@@ -116,8 +130,7 @@ div.right {
     font-size: 20px;
 }
 div.withdrawal {
-    margin-top: 400px;
-    margin-left: 500px;
+    margin-left: 580px;
     float: left;
 }
 div.withdrawal>button {
@@ -154,7 +167,7 @@ span.movieName, .movieNameSub, .movieRate, .reviewDes, .reviewUpdate {
 .starBox {
     width: 270px;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     margin-bottom: 10px;
 }

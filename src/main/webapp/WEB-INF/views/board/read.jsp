@@ -94,37 +94,44 @@
 								<th colspan="3"
 									style="background-color: #eeeeee; text-align: center;">댓글</th>
 							</tr>
-				
+							
+							<c:if
+								test="${user.userID != null}">
 								<tr>
 									<form method="post" action="/reply/write">
-										<td>
-											<input type="hidden" name="writer" value="${user.userID}">
-											<input type="hidden" name="boardID" value="${board.boardID}">
-										</td>
-										<td>
-											<textarea rows="5" cols="50"  name="content"></textarea>
+										<td><input type="hidden" name="writer"
+											value="${user.userID}"> <input type="hidden"
+											name="boardID" value="${board.boardID}"></td>
+										<td><textarea rows="5" cols="50" name="content"></textarea>
 											<button type="submit" class="btn btn-primary">댓글 작성</button>
 										</td>
-									</form>	
+									</form>
 								</tr>
-						
+							</c:if>
+
 							<tr>
 								<td>작성자 / 작성날짜</td>
 								<td colspan="2">댓글 내용</td>
 							</tr>
-							<c:forEach items="${reply}" var="reply">
+							<c:forEach var="reply" items="${reply}">
 								<tr>
 									<td>
 										<p>${reply.writer}</p>
-										<p><fmt:formatDate value="${reply.regDate}" pattern="yyyy-MM-dd HH:mm:ss" /></p>
+										<p>
+											<fmt:formatDate value="${reply.regDate}"
+												pattern="yyyy-MM-dd HH:mm:ss" />
+										</p>
 									</td>
 									<td colspan="2" style="text-align: left;">
-										${reply.content}
-										<c:if test="${user.userID != null && user.userID.equals(reply.getWriter()) }">
-											<div class="replyDelete"><a onclick="return confirm('댓글 삭제하시겠습니까?'')" class="btn btn-danger"
-											href="/reply/delete?replyID=${reply.replyID}&boardID=${reply.boardID}">삭제</a></div>	
+										${reply.content} <c:if
+											test="${user.userID != null && user.userID.equals(reply.getWriter()) }">
+											<div class="replyDelete">
+												<a onclick="return confirm('댓글 삭제하시겠습니까?'')"
+													class="btn btn-danger"
+													href="/reply/delete?replyID=${reply.replyID}&boardID=${reply.boardID}">삭제</a>
+											</div>
 										</c:if>
-									</td>		
+									</td>
 								<tr>
 							</c:forEach>
 						</tbody>

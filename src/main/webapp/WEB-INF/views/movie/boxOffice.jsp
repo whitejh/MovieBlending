@@ -203,15 +203,17 @@ a, a:hover {
 		//데이터 출력 함수(카드에다 출력)
 		function updateCardData(data) {
 			console.log('업데이트된 data : ' + data);
-			$.each(data, function(index, item) {								
+			$.each(data, function(index, item) {		
+				let isNew
+					= item.rankOldAndNew === "NEW"; // rankOldAndNew 값이 "New"인지 확인
 				let cardHtml = '<div class="card mb-3">'
 						+ '<div class="card-header text-center">'
 					    + '<span>'
 					    + item.movieNm
 					    + '</span>'
-					    + '<span style="float: left;">'
+					    + (isNew ? '<span class="rankOldAndNew">' : '') // rankOldAndNew 값이 "New"일 때만 클래스 추가
 					    + item.rankOldAndNew
-					    + '</span>'
+					    + (isNew ? '</span>' : '') // rankOldAndNew 값이 "New"일 때만 클래스 추가
 						+ '</div>'
 						+ '<div class="numberCircle"><strong>'
 						+ item.rank

@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>4/11 스프링 게시판</title>
+<title>영화Talk 게시판</title>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/board.css" />
@@ -77,10 +77,13 @@ $("#regBtn").on("click", function() {
 										</div>
 									</form>
 									<div class="write">
+										<c:if
+										test="${user.userID != null }">
 										<button id='regBtn' type="button" class=" write__button" 
 											onclick="location.href='/board/write';">
 											글쓰기
 										</button>
+										</c:if>
 									</div>
 								</div>
 							</div>

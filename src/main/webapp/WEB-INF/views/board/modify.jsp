@@ -54,8 +54,7 @@
 										id="title" value="${board.boardTitle}" /></td>
 								</tr>
 								<tr>
-									<td><input class="form-control" name="userID"
-										id="writer" value="${board.userID}"/></td>
+									<td><input type="hidden" name="boardID" value="${board.userID}"></td>
 								</tr>
 								<tr>
 									<td><textarea class="form-control" name="boardContent"

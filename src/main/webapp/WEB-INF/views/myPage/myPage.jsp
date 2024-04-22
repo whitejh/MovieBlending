@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>마이페이지</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/myPage.css" />
+	href="${pageContext.request.contextPath}/resources/css/myPage.css?after" />
 <script src="https://kit.fontawesome.com/87f959d9dc.js"></script>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
@@ -67,12 +67,14 @@
 									value="${user.regDate}" pattern="yyyy년 MM월 dd일 (E)" /></td>
 						</tr>
 				</table>
+				
+				<div class="withdrawal">
+					<button type="submit" class="btn btn-danger"
+						onclick="location.href='myPage/withdrawal'">회원 탈퇴</button>
+				</div>
 			</div>
 
-			<div class="withdrawal">
-				<button type="submit" class="btn btn-danger"
-					onclick="location.href='myPage/withdrawal'">회원 탈퇴</button>
-			</div>
+
 		</main>
 	</div>
 
