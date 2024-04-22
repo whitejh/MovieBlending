@@ -68,12 +68,16 @@ a {
 
 
 
-.fa-solid:hover {
+ .fa-solid:hover {
 	color: var(--color-accent-variant);
-}
+ }
 
 .fa-solid:focus {
 	color: var(--color-accent-variant);
+}
+
+.fa-solid.clicked {
+    color: var(--color-accent-variant);
 }
 
 .star {
@@ -283,7 +287,7 @@ a {
 }
 
 
-#exampleFormControlTextarea1{
+#textarea{
 	width: 100%;
 	font-size: 25px;
 }

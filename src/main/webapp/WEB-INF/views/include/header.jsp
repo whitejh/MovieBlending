@@ -13,7 +13,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/header.css" />
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -22,13 +23,6 @@
 	rel="stylesheet" />
 </head>
 <body>
-	<%
-	String userID = null;
-	if (session.getAttribute("userID") != null) {
-		userID = (String) session.getAttribute("userID");
-	}
-	%>
-
 	<!-- Header-->
 	<header class="header">
 		<div class="header1">
@@ -37,50 +31,39 @@
 					src="${pageContext.request.contextPath}/resources/images/favicon.ico"
 					alt="logo" />
 				<h1 class="header__logo__title">
-					<a href="#">Movie Blending</a>
+					<a href="${pageContext.request.contextPath}/boxOffice">Movie Blending</a>
 				</h1>
 			</div>
 
 			<!-- 상단 우측 nav바 -->
-			<%
-			if (userID == null) {
-			%>
-			<nav>
-				<ul class="header__menu">
-					<!-- 로그인 안 되어있을 때 -->
-					<li><a class="header__menu__item"
-						href="/login">로그인</a></li>
-					<li><a class="header__menu__item"
-						href="/join">회원가입</a></li>
-				</ul>
-			</nav>
-			<%
-			} else {
-			%>
-			<nav>
-				<ul class="header__menu">
-					<!-- 로그인 되어있을 때 -->
-					<li><a class="header__menu__item"
-						href="${pageContext.request.contextPath}/WEB-INF/views/myPage.jsp">마이페이지</a></li>
-					<li><a class="header__menu__item"
-						href="${pageContext.request.contextPath}/WEB-INF/views/logoutAction.jsp">로그아웃</a></li>
-				</ul>
-			</nav>
-			<%
-			}
-			%>
+			<c:if test="${user == null }">
+				<nav>
+					<ul class="header__menu">
+						<!-- 로그인 안 되어있을 때 -->
+						<li><a class="header__menu__item" href="/login">로그인</a></li>
+						<li><a class="header__menu__item" href="/join">회원가입</a></li>
+					</ul>
+				</nav>
+			</c:if>
+			<c:if test="${user != null }">
+				<nav>
+					<ul class="header__menu">
+						<!-- 로그인 되어있을 때 -->
+						<li><a class="header__menu__item">${user.userID}님 환영합니다!</a></li>
+						<li><a class="header__menu__item" href="/myPage">마이페이지</a></li>
+						<li><a class="header__menu__item" href="/logout">로그아웃</a></li>
+					</ul>
+				</nav>
+			</c:if>
 		</div>
 
 		<!-- 하단 header -->
 		<div class="header2">
 			<nav>
 				<ul class="header__menu">
-					<li><a class="header__menu__item"
-						href="${pageContext.request.contextPath}/main.jsp">박스오피스</a></li>
-					<li><a class="header__menu__item"
-						href="${pageContext.request.contextPath}/boxOffice/genre.jsp">영화조회</a></li>
-					<li><a class="header__menu__item"
-						href="${pageContext.request.contextPath}/board/movieTalkBoard.jsp">영화Talk</a></li>
+					<li><a class="header__menu__item" href="/boxOffice">박스오피스</a></li>
+					<li><a class="header__menu__item" href="/movieSearch">영화 조회</a></li>
+					<li><a class="header__menu__item" href="/board">영화 Talk</a></li>
 				</ul>
 			</nav>
 			<div class="header__search">
@@ -90,5 +73,6 @@
 			</div>
 		</div>
 	</header>
+	
 </body>
 </html>
