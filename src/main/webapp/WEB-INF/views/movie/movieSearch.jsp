@@ -42,12 +42,15 @@ a, a:hover {
 
 	<main>
 		<div class="movieSearch_movie">
-			<select id="searchType">
-				<option value="movieNm">영화 제목</option>
-				<option value="directorNm">감독명</option>
-			</select> <input id="searchInput" name="search" type="text"
-				placeholder="찾고 있는 영화가 있나요?" size="60" /> <input id="searchButton"
-				class="header__search__button" type="submit" value="검색" />
+			<div class="search-container">
+				<select id="searchType">
+					<option value="movieNm">영화 제목</option>
+					<option value="directorNm">감독명</option>
+				</select> <input id="searchInput" name="search" type="text"
+					placeholder="찾는 영화의 정보를 입력하세요" size="60" /> <input
+					id="searchButton" class="header__search__button" type="submit"
+					value="검색" />
+			</div>
 			<ul>
 				<li><h1>${searchText}</h1></li>
 			</ul>
@@ -60,15 +63,8 @@ a, a:hover {
 		page="${pageContext.request.contextPath}/WEB-INF/views/include/footer.jsp" />
 		
 	<script>
-		$(document).ready(function() { //페이지 로드 후 실행될 함수     
-			
-			adjustCardHeight(); // 페이지 로드 시 카드 높이 조정
-			
-			// 윈도우 크기가 변경될 때마다 카드 높이 다시 조정
-		    $(window).resize(function() {
-		        adjustCardHeight();
-		    });
-		
+		$(document).ready(function() { //페이지 로드 후 실행될 함수   		
+
 			//movieButton 버튼 클릭 이벤트 함수(상세보기)
 			$("#movieButton").on('click', function() {
 				document.getElementById('movieForm').submit();
@@ -80,6 +76,16 @@ a, a:hover {
 		        let inputText = $("#searchInput").val();
 		        let type = $("#searchType").val(); // 선택된 검색 유형 가져오기
 		        fetchSearchData(inputText, type); // 입력한 검색어와 선택된 검색 유형을 fetchData 함수에 전달
+		    });			
+			
+		    // 카드에 마우스를 갖다대면 주황색 그림자 효과 추가
+		    // 주의!! 검사기 모드에서는 클릭해야지만 효과가 보임
+		    $(document).on('mouseover', '.card', function() {
+		        $(this).addClass('active');
+		    });		    
+		    // 카드에서 마우스가 빠져나가면 주황색 그림자 효과 제거
+		    $(document).on('mouseout', '.card', function() {
+		        $(this).removeClass('active');
 		    });
 			
 		});
@@ -120,14 +126,16 @@ a, a:hover {
 		        }
 		    });
 		 	
-		    // posterUrl이 있는 영화들 먼저 출력
-		    $.each(moviesWithPoster, function(index, item) {    
-		    	showSearchCard(item);
+		 	// 포스터가 있는 영화들 중에서 가장 최근에 개봉한 영화 순으로 정렬하여 출력
+		    $.each(moviesWithPoster.sort(function(a, b) {
+		        return new Date(b.openDt) - new Date(a.openDt);
+		    }), function(index, item) {    
+		        showSearchCard(item);
 		    });
-		    // 그 후 posterUrl이 없는 영화들 이어서 출력
-		    $.each(moviesWithoutPoster, function(index, item) {  
-		    	showSearchCard(item);
-		    });
+			// 그 후 posterUrl이 없는 영화들 이어서 출력
+			$.each(moviesWithoutPoster, function(index, item) {  
+				showSearchCard(item);
+			});
 		}
 		
 		//데이터 출력 함수(카드에다 출력)
@@ -146,18 +154,18 @@ a, a:hover {
 					+ '</div>'
 					+ '<div class="row g-0">'
 					+ '<div class="col-md-12 text-center">'
-					+ '<img src="' + item.posterUrl + '" class="card-img-top" alt="' + item.movieNm + ' : 포스터가 존재하지 않습니다.">'
+					+ '<img src="' + item.posterUrl + '" class="card-img-top" alt="포스터가 존재하지 않습니다.">'
 					+ '</div>'
 					+ '</div>'
 					+ '<div class="card-body text-center">'
-					+ '<p class="card-text">개봉일 : '
+					+ '<p class="card-text"><strong>개봉일: </strong>'
 					+ formattedDate
 					+ '</p>'
 					+ '<ul class="list-group list-group-flush">'
-					+ '<li class="list-group-item">장르 : '
+					+ '<li class="list-group-item"><strong>장르: </strong>'
 					+ item.genre
 					+ '</li>'
-					+ '<li class="list-group-item">감독 : '
+					+ '<li class="list-group-item"><strong>감독: </strong>'
 					+ item.directorNm
 					+ '</li>'
 					+ '</ul>'
@@ -169,18 +177,4 @@ a, a:hover {
 			$(".movieSearch_list").append(cardHtml);
 		}
 		
-		function adjustCardHeight() {
-		    var maxHeight = 0;
-
-		    // 모든 카드의 높이를 측정하여 최대 높이를 찾음
-		    $('.card').each(function() {
-		        var cardHeight = $(this).outerHeight();
-		        if (cardHeight > maxHeight) {
-		            maxHeight = cardHeight;
-		        }
-		    });
-
-		    // 모든 카드에 최대 높이를 적용
-		    $('.card').css('height', maxHeight + 'px');
-		}
-</script>
+	</script>

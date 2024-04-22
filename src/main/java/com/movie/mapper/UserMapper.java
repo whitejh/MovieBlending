@@ -21,4 +21,5 @@ public interface UserMapper {
 	public int deleteReview(int reviewID);
 	public Review getMyReview(int reviewID);
 	public void modifyReview(Map<String, Object> map);
+
 }

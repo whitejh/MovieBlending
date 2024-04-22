@@ -68,43 +68,12 @@
 						</tr>
 				</table>
 			</div>
-			<%-- 			<div class="middle">
-				<p class="user_info_name">아이디</p>
-				<p class="user_info_name">비밀번호</p>
-				<p class="user_info_name">이름</p>
-				<p class="user_info_name">닉네임</p>
-				<p class="user_info_name">이메일</p>
-				<p class="user_info_name">가입날짜</p>
-			</div>
-
-			<div class="right">
-				<p class="user_info">${user.userID}</p>
-				<p class="user_info">${user.userPassword}</p>
-				<p class="user_info">${user.userName}</p>
-				<p class="user_info">${user.userNickname}</p>
-				<p class="user_info">${user.userEmail}</p>
-				<p class="user_info">${user.regDate}</p>
-			</div> --%>
 
 			<div class="withdrawal">
 				<button type="submit" class="btn btn-danger"
-					onclick="location.href='/withdraw'">회원 탈퇴</button>
+					onclick="location.href='myPage/withdrawal'">회원 탈퇴</button>
 			</div>
 		</main>
 	</div>
-
-
-	<script>
-		/* 	function withdraw() {
-				if (window.confirm("탈퇴하시겠습니까?")) {
-					location.href = "/withdraw";
-				}
-			} */
-	</script>
-
-</body>
-<script>
-	
-</script>
 
 </html>
