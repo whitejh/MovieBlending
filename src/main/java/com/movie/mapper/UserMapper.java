@@ -1,5 +1,6 @@
 package com.movie.mapper;
 import java.util.List;
+import java.util.Map;
 
 import com.movie.domain.Favorite;
 import com.movie.domain.Review;
@@ -18,5 +19,6 @@ public interface UserMapper {
 	
 	/* 리뷰 삭제 */
 	public int deleteReview(int reviewID);
-
+	public Review getMyReview(int reviewID);
+	public void modifyReview(Map<String, Object> map);
 }
