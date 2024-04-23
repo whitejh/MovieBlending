@@ -29,7 +29,7 @@
 	
 	<!-- 마이페이지 회원 관람평 -->
     <select id="getMyReviews" resultType="com.movie.domain.Review">
-		select userNickname, movieCd, movieNm, rate, content, imgUrl from review 
+		select reviewID, userNickname, movieCd, movieNm, rate, content, imgUrl from review 
 		where userID =	#{userID}
 	</select>
 	
@@ -43,4 +43,16 @@
 		delete from review where reviewID = #{reviewID}
 	</delete>
 	
+	<select id="getMyReview" resultType="com.movie.domain.Review">
+		select reviewID,
+		userNickname,
+		movieCd, movieNm, rate, content, imgUrl from review where
+		reviewID = #{reviewID}
+	</select>
+
+	<update id="modifyReview" parameterType="Map">
+		UPDATE review
+    	SET content = #{content}, rate = #{rate}
+    	WHERE reviewID = #{reviewID}
+	</update>
 </mapper>
