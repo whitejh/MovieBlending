@@ -29,7 +29,8 @@ public class MovieController {
 	@Autowired
 	private MovieService service;
 	
-	@GetMapping("/boxOffice")	//초기 화면 페이지
+	//박스오피스: 초기 페이지
+	@GetMapping("/boxOffice")
     public String viewBoxOffice(@RequestParam(required = false) String selectedDate,
             @RequestParam(required = false) String type, Model model) {
 		//맨 처음 페이지 로드할 때 파라미터 값이 둘다 null일 때 기본값 설정
@@ -48,7 +49,7 @@ public class MovieController {
         return "movie/boxOffice";
     }	
 
-	//@GetMapping("/boxOffice")	//버튼 누를 때마다 새로운 데이터 화면 페이지
+	//박스오피스: 버튼 누를 때마다 새로운 데이터 화면 페이지
 	@GetMapping(value="/boxOffice1",
 			produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<Movie>> viewBoxOffice1(@RequestParam(required = false) String selectedDate,
@@ -65,6 +66,7 @@ public class MovieController {
         }
         return  new ResponseEntity<> (mList, HttpStatus.OK);
     }	
+	
 	//어제 날짜 가져오는 함수
 	private String getYesterdayDate() {
 		Calendar calendar = new GregorianCalendar();
@@ -73,22 +75,31 @@ public class MovieController {
 		String yesterDayDate = sdf.format(calendar.getTime());
 		
 		return yesterDayDate;
-	}
+	}	
 	
-	@GetMapping("/movieSearch")	//박스오피스 검색 페이지
-    public String viewSearch(@RequestParam(required = false) String searchText, Model model) {
-		if (searchText == null) {
-			searchText = "쿵푸";
-		}
-		log.info("전달받은 검색어: " + searchText);
+	//영화 검색: 초기 페이지
+	@GetMapping("/movieSearch")
+	public String viewSearch() {
+
+		return "movie/movieSearch";
+	}
+
+	//영화 검색: 버튼 누를 때마다 새로운 데이터 화면 페이지
+	@GetMapping(value="/movieSearch1",
+			produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<Movie>> viewSearch1(@RequestParam(required = false) String inputText,
+    		@RequestParam(required = false) String type, Model model) {
+		
+		log.info("movieSearch로 전달받은 값 : " + inputText + " 그리고 " + type);
+		List<Movie> sList = null;
 		try {
-			List<Movie> mList = service.fetchSearchData(searchText);
-            model.addAttribute("mList", mList);	//프론트에 쓸 mList 세팅
-            model.addAttribute("searchText", searchText);
+			sList = service.fetchSearchData(inputText, type);
+            model.addAttribute("sList", sList);	//프론트에 쓸 mList 세팅
+            log.info("sList 객체 movieSearch: " + sList);
         } catch (IOException e) {
             e.printStackTrace();	// 예외 처리
         }
-        return "movie/movieSearch";
+        return new ResponseEntity<> (sList, HttpStatus.OK);
     }
 
 }

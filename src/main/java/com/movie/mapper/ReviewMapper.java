@@ -27,8 +27,14 @@ public interface ReviewMapper {
 	public double getAvgRate(@Param("movieCd") String movieCd);
 	
 	/* 즐겨찾기 추가 */
-	public int getFavorite(Favorite favorite);
+	public int insertFavorite(Favorite favorite);
 	
 	/*즐겨찾기 업뎃*/
-	public int getFavoriteUpdate(String userID, String MovieCd);
+	public int getFavoriteUpdate(@Param("userID") String userID, @Param("movieCd") String movieCd);
+	
+	/*즐겨찾기 값 가져오기*/
+	public Favorite getFavorite(@Param("userID") String userID, @Param("movieCd") String movieCd);
+	
+	/* 즐겨찾기 삭제하기 */
+	public int deleteFavorite(@Param("userID") String userID, @Param("movieCd")  String movieCd);
 }

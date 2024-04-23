@@ -1,4 +1,5 @@
 package com.movie.domain;
+
 import lombok.Data;
 
 @Data
@@ -22,4 +23,5 @@ public class Movie {
 	private String rankOldAndNew;
 	private String audiCnt;
 	private String audiAcc;
+	private String state;
 }

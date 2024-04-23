@@ -9,5 +9,5 @@ public class Favorite {
 	private String movieNm;
 	private Double rate;
 	private String imgUrl;
-	private boolean state;
+	private Boolean state;
 }

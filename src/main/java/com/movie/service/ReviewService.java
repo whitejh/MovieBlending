@@ -50,15 +50,27 @@ public class ReviewService {
 	}
 	
 	/* 즐겨찾기 추가 */
-	public int getFavorite(Favorite favorite) {
+	public int insertFavorite(Favorite favorite) {
 		log.info("get.. ..." + favorite);
-		return mapper.getFavorite(favorite);
+		return mapper.insertFavorite(favorite);
 	}
 	
 	/*즐겨찾기 업뎃*/
-	public int getFavoriteUpdate(String userID, String MovieCd) {
-		log.info("get.. ..." + MovieCd);
-		return mapper.getFavoriteUpdate(userID,MovieCd);
+	public int getFavoriteUpdate(String userID, String movieCd) {
+		log.info("get.. ..." + movieCd);
+		return mapper.getFavoriteUpdate(userID,movieCd);
+	}
+
+	/* 즐겨찾기 값 가져오기 */
+	public Favorite getFavorite(String userID, String movieCd) {
+	    return mapper.getFavorite(userID,movieCd);
+	}
+	
+	/* 즐겨찾기 삭제하기 */
+	public int deleteFavorite(String userID, String movieCd) {
+		log.info("get review service.. ..." + movieCd);
+		log.info("get review service.. ..." + userID);
+	    return mapper.deleteFavorite(userID,movieCd);
 	}
 
 }
