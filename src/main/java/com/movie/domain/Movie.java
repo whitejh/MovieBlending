@@ -23,4 +23,5 @@ public class Movie {
 	private String rankOldAndNew;
 	private String audiCnt;
 	private String audiAcc;
+	private String state;
 }

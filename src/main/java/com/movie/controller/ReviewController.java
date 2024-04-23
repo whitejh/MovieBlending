@@ -33,8 +33,10 @@ public class ReviewController {
 		/* 영화 상세페이지 db출력 */
 		String movieCd = request.getParameter("movieCd");
 		log.info("getMovieDetail : " + movieCd);
-		model.addAttribute("movie", reviewservice.getMovieDetail(movieCd));
-
+		
+		model.addAttribute("movie", reviewservice.getUserMovieDetail(movieCd));
+		log.info("getUserMovieDetail : " + reviewservice.getUserMovieDetail(movieCd));
+		
 		/* 상세페이지 평균 평점 출력 */
 		model.addAttribute("avgRate", reviewservice.getAvgRate(movieCd));
 		log.info("getAvgRate : " + reviewservice.getAvgRate(movieCd));
@@ -86,6 +88,7 @@ public class ReviewController {
 		return "redirect:/movie/movieDetail?movieCd=" + movieCd;
 	}
 
+	/* 즐겨찾기 기능 구현 */
 	@PostMapping("/insertFavorite") 
 	public String getFavorite(Favorite favorite, HttpServletRequest request, HttpSession session) { 
 		
