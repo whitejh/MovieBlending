@@ -62,10 +62,11 @@ a, a:hover {
 			<div class="boxoffice_movie">
 				<c:forEach items="${mList}" var="item">
 					<div class="card mb-3">
-						<div class="card-header">
-							<span>${item.rankOldAndNew}</span>
-							<div class="numberCircle">${item.rank}</div>
-							<button class="bookmark-btn" data-bookmarked="false">&#9734;</button>
+						<div class="card-header text-center">
+							<div>
+								<span>${item.movieNm}</span> <span>${item.rankOldAndNew}</span>
+							</div>
+							<div class="numberCircle"><strong>${item.rank}</strong></div>
 						</div>
 						<div class="row g-0">
 							<div class="col-md-12 text-center">
@@ -148,6 +149,16 @@ a, a:hover {
 				let isBookmarked = $(this).hasClass('bookmarked'); //북마크 여부 확인
 				$(this).attr('data-bookmarked', isBookmarked); //북마크 상태를 데이터 속성에 반영
 			});
+			
+			// 카드에 마우스를 갖다대면 주황색 그림자 효과 추가
+		    // 주의!! 검사기 모드에서는 클릭해야지만 효과가 보임
+		    $(document).on('mouseover', '.card', function() {
+		        $(this).addClass('active');
+		    });		    
+		    // 카드에서 마우스가 빠져나가면 주황색 그림자 효과 제거
+		    $(document).on('mouseout', '.card', function() {
+		        $(this).removeClass('active');
+		    });
 		});
 
 		//페이지 로드 시 초기 데이터 화면에 출력
@@ -180,7 +191,7 @@ a, a:hover {
 					type : type
 				},
 				success : function(data) {
-					updateCardData(data, type);
+					updateCardData(data);
 					console.log('AJAX 요청 성공 !!! ', data);
 				},
 				error : function(xhr, status, error) {
@@ -190,48 +201,46 @@ a, a:hover {
 		}
 
 		//데이터 출력 함수(카드에다 출력)
-		function updateCardData(data, type) {
+		function updateCardData(data) {
 			console.log('업데이트된 data : ' + data);
-			$
-					.each(
-							data,
-							function(index, item) {
-								let cardHtml = '<div class="card mb-3">'
-										+ '<div class="card-header">'
-										+ '<span>'
-										+ item.rankOldAndNew
-										+ '</span>'
-										+ '<div class="numberCircle">'
-										+ item.rank
-										+ '</div>'
-										+ '<button class="bookmark-btn" data-bookmarked="false">&#9734;</button>'
-										+ '</div>'
-										+ '<div class="row g-0">'
-										+ '<div class="col-md-12 text-center">'
-										+ '<h5 class="card-title">'
-										+ item.movieNm
-										+ '</h5>'
-										+ '<img src="' + item.posterUrl + '" class="card-img-top" alt="' + item.movieNm + ' 이미지">'
-										+ '</div>'
-										+ '</div>'
-										+ '<div class="card-body text-center">'
-										+ '<p class="card-text">개봉일 : '
-										+ item.openDt
-										+ '</p>'
-										+ '<ul class="list-group list-group-flush">'
-										+ '<li class="list-group-item">당일 관객수: '
-										+ item.audiCnt
-										+ '명</li>'
-										+ '<li class="list-group-item">누적관객수: '
-										+ item.audiAcc
-										+ '명</li>'
-										+ '</ul>'
-										+ '<a href="movie/movieDetail?movieCd='
-										+ item.movieCd
-										+ '" class="btn btn-primary">상세 보기</a>'
-										+ '</div>' + '</div>';
-								$(".boxoffice_movie").append(cardHtml);
-							});
+			$.each(data, function(index, item) {		
+				let isNew
+					= item.rankOldAndNew === "NEW"; // rankOldAndNew 값이 "New"인지 확인
+				let cardHtml = '<div class="card mb-3">'
+						+ '<div class="card-header text-center">'
+					    + '<span>'
+					    + item.movieNm
+					    + '</span>'
+					    + (isNew ? '<span class="rankOldAndNew">' : '') // rankOldAndNew 값이 "New"일 때만 클래스 추가
+					    + item.rankOldAndNew
+					    + (isNew ? '</span>' : '') // rankOldAndNew 값이 "New"일 때만 클래스 추가
+						+ '</div>'
+						+ '<div class="numberCircle"><strong>'
+						+ item.rank
+						+ '</strong></div>'
+						+ '<div class="row g-0">'
+						+ '<div class="col-md-12 text-center">'
+						+ '<img src="' + item.posterUrl + '" class="card-img-top" alt="' + item.movieNm + ': 포스터가 존재하지 않습니다.">'
+						+ '</div>'
+						+ '</div>'
+						+ '<div class="card-body text-center">'
+						+ '<p class="card-text"><strong>개봉일: </strong>'
+						+ item.openDt
+						+ '</p>'
+						+ '<ul class="list-group list-group-flush">'
+						+ '<li class="list-group-item"><strong>당일 관객수: </strong>'
+						+ item.audiCnt
+						+ '명</li>'
+						+ '<li class="list-group-item"><strong>누적관객수: </strong>'
+						+ item.audiAcc
+						+ '명</li>'
+						+ '</ul>'
+						+ '<a href="movie/movieDetail?movieCd='
+						+ item.movieCd
+						+ '" class="btn btn-primary">상세 보기</a>'
+						+ '</div>' + '</div>';	
+						$(".boxoffice_movie").append(cardHtml);							
+			});
 		}
 	</script>
 

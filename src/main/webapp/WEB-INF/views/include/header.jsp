@@ -23,6 +23,13 @@
 	rel="stylesheet" />
 </head>
 <body>
+<%-- 	<%
+	User user = null;
+	if (session.getAttribute("user") != null) {
+		user = (User) session.getAttribute("user");
+	}
+	%> --%>
+
 	<!-- Header-->
 	<header class="header">
 		<div class="header1">
@@ -62,8 +69,8 @@
 			<nav>
 				<ul class="header__menu">
 					<li><a class="header__menu__item" href="/boxOffice">박스오피스</a></li>
-					<li><a class="header__menu__item" href="/movieSearch">영화 조회</a></li>
-					<li><a class="header__menu__item" href="/board">영화 Talk</a></li>
+					<li><a class="header__menu__item" href="/movieSearch">영화조회</a></li>
+					<li><a class="header__menu__item" href="/board/list">영화Talk</a></li>
 				</ul>
 			</nav>
 			<div class="header__search">

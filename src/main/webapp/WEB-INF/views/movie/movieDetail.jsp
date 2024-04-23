@@ -46,7 +46,20 @@
 			<div class=mProfile-detail>
 				<div class="head-section">
 					<div class="head-section1">
-						${movie.movieNm} <i class="fa-solid fa-star"></i>
+						${movie.movieNm}
+						<c:if test="${not empty user.userID}">
+							<form method="post" name="insertFavorite"
+								action="${pageContext.request.contextPath}/movie/insertFavorite">
+								<button type="submit" class="btn-favorite">
+									<i class="fa-solid fa-star"></i>
+								</button>
+								<input type="hidden" name="movieCd" value="${movie.movieCd}">
+								<input type="hidden" name="userID" value="${user.userID}">
+								<input type="hidden" name="movieNm" value="${movie.movieNm}">
+								<input type="hidden" name="rate" value="${avgRate}"> <input
+									type="hidden" name="imgUrl" value="${movie.posterUrl}">
+							</form>
+						</c:if>
 					</div>
 					<div class="head-section2">
 						<div>
@@ -65,7 +78,7 @@
 						<dt>장르</dt>
 						<dd>${movie.genre}</dd>
 						<dt>출연</dt>
-						<dd>${movie.actorNm}</dd>
+						<dd>${movie.actorNm},,그외</dd>
 						<dt>평점</dt>
 						<dd class="vote-average">
 							<span class="popover-trigger">⭐&nbsp;${avgRate}</span>
@@ -110,82 +123,59 @@
 				<div class="collapse" id="collapseExample">
 					<div class="card card-body">
 						<div class="reviewform">
-							<!-- 로그인한 사용자의 경우 -->
-							<c:if test="${not empty user.userID}">
+							<form method="post" name="reviewForm"
+								action="${pageContext.request.contextPath}/movie/writeReview">
 
-								<form method="post" name="reviewForm"
-									action="${pageContext.request.contextPath}/movie/writeReview">
-									<!-- Hidden field to store movieCd -->
-									<input type="hidden" name="movieCd" value="${movie.movieCd}">
-									<input type="hidden" name="movieNm" value="${movie.movieNm}">
-									<input type="hidden" name="imgUrl" value="${movie.posterUrl}">
-									<input type="hidden" name="userNickname" value="${user.userNickname}">
-									<input type="hidden" name="userID" value="${user.userID}">
+								<input type="hidden" name="movieCd" value="${movie.movieCd}">
+								<input type="hidden" name="movieNm" value="${movie.movieNm}">
+								<input type="hidden" name="imgUrl" value="${movie.posterUrl}">
+								<input type="hidden" name="userNickname"
+									value="${user.userNickname}">
 
-									<!-- 사용자 프로필 -->
-									<div class="userProfile">
-										<a class="user_profile" href="userDetail"> <i
-											class="fa-regular fa-user"></i>
-										</a>
+								<!-- 사용자 프로필 -->
+								<div class="userProfile">
+									<a class="user_profile" href="userDetail"> <i
+										class="fa-regular fa-user"></i>
+									</a>
+									<!-- 로그인한 유저의 경우 -->
+									<c:if test="${not empty user.userID}">
 										<div>
-											<a href="/userDetail">${user.userNickname}</a>
+											<a
+												href="/member/memberDetail?userNickname=${user.userNickname}">${user.userNickname}</a>
 										</div>
-										<!-- 평점 입력 -->
-										<div>
-											⭐&nbsp;<input type="text" id="rate" name="rate" style="width: 70px">/10.0
-										</div>
+									</c:if>
+									<!-- 비로그인한 유저의 경우 -->
+									<c:if test="${empty user.userID}">
+										<div>비 로그인 사용자</div>
+									</c:if>
+									<!-- 평점 입력 -->
+									<div>
+										⭐&nbsp;<input type="text" id="rate" name="rate"
+											style="width: 70px">/10.0
 									</div>
-									<!-- 관람평 입력 -->
-									<div class="userReview">
-										<textarea class="form-control"
-											id="textarea" name="content" rows="3"></textarea>
-										<div class="rbox">
-											<!-- Character count -->
-											<span class="count"><strong id="charCount">0/255자</strong></span>
-											<!-- Submit button -->
+								</div>
+								<!-- 관람평 입력 -->
+								<div class="userReview">
+									<textarea class="form-control" id="exampleFormControlTextarea1"
+										name="content" rows="3"></textarea>
+									<div class="rbox">
+
+										<span class="count"><strong id="charCount">0/255자</strong></span>
+										<!-- 로그인한 유저의 경우 -->
+										<c:if test="${not empty user.userID}">
 											<button type="submit" class="btn btn-primary" id="regBtn">
 												<span>작성완료!</span>
 											</button>
-										</div>
-									</div>
-								</form>
-							</c:if>
-							<!-- 로그인하지 않은 사용자의 경우 -->
-							<c:if test="${empty user.userID}">
-								<form method="post" name="reviewForm"
-									action="${pageContext.request.contextPath}/movie/writeReview">
-									<!-- Hidden field to store movieCd -->
-									<input type="hidden" name="movieCd" value="${movie.movieCd}">
-									<input type="hidden" name="movieNm" value="${movie.movieNm}">
-									<input type="hidden" name="imgUrl" value="${movie.posterUrl}">
-									<input type="hidden" name="userNickname" value="${user.userNickname}">
-
-									<!-- 사용자 프로필 -->
-									<div class="userProfile">
-										<a class="user_profile" href="userDetail"> <i
-											class="fa-regular fa-user"></i>
-										</a>
-										<div>비 로그인 사용자</div>
-										<!-- 평점 입력 -->
-										<div>
-											⭐&nbsp;<input type="text" id="rate" name="rate" style="width: 70px">/10.0
-										</div>
-									</div>
-									<!-- 관람평 입력 -->
-									<div class="userReview">
-										<textarea class="form-control"
-											id="exampleFormControlTextarea1" name="content" rows="3"></textarea>
-										<div class="rbox">
-
-											<span class="count"><strong id="charCount">0/255자</strong></span>
-
+										</c:if>
+										<!-- 비로그인한 유저의 경우 -->
+										<c:if test="${empty user.userID}">
 											<button type="button" class="btn btn-primary" id="regBtn1">
 												<span>작성완료!</span>
 											</button>
-										</div>
+										</c:if>
 									</div>
-								</form>
-							</c:if>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -194,11 +184,13 @@
 				<c:forEach var="item" items="${reviews}">
 					<div class="reviewform">
 						<div class="userProfile">
-							<a class="user_profile" href="/userDetail"> <i
-								class="fa-regular fa-user"></i>
+							<a class="user_profile"
+								href="/member/memberDetail?userNickname=${item.userNickname}">
+								<i class="fa-regular fa-user"> </i>
 							</a>
 							<div>
-								<a href="userDetail">${item.userNickname}</a>
+								<a href="/member/memberDetail?userNickname=${item.userNickname}">
+									${item.userNickname}</a>
 							</div>
 							<div>⭐&nbsp;${item.rate}/10.0</div>
 						</div>
@@ -251,14 +243,8 @@
 					$('#charCount').text("(255 / 최대 255자)");
 				}
 			});
-			
-			/* 즐겨찾기 */
-			$('.fa-solid').click(function() {
-		        $(this).toggleClass('clicked');
-		        
-		        window.location.href="/favorite"
-		    });
-		});
-	</script>
+		}); 
+		
+		</script>
 </body>
 </html>

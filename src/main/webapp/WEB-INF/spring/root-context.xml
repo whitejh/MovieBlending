@@ -26,8 +26,8 @@
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl"
 			value="jdbc:log4jdbc:mysql://localhost:3306/mb_db?useSSL=false&amp;allowPublicKeyRetrieval=true"></property> -->
-		<property name="username" value="root"></property>
-		<property name="password" value="1234"></property>
+		<property name="username" value="scott"></property>
+		<property name="password" value="tiger"></property>
 	</bean>
 
 	<!-- HikariCP configuration -->

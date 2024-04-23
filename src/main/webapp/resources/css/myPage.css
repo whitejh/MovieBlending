@@ -1,19 +1,19 @@
 /*Global 변수*/
 :root {
-    /*App Colors*/ 
-    -color-primary: var(- -color-blue); 
-    -color-primary-variant: var(- -color-gray); 
-    -color-accent: var(- -color-sky); 
-    -color-accent-variant: var(- -color-orange); 
-    -color-text: var(- -color-white);
-    /* Colors */ 
-    -color-white: #ffffff; 
-    -color-blue: #1b325c; 
-    -color-sky: #697ef1; 
-    -color-orange: #fd6413; 
-    -color-gray: #1b1e26;
-    /*Size*/ 
-    -size-max-width: 1200px;
+    /*App Colors*/
+    --color-primary: var(--color-blue);
+    --color-primary-variant: var(--color-gray);
+    --color-accent: var(--color-sky);
+    --color-accent-variant: var(--color-orange);
+    --color-text: var(--color-white);
+    /* Colors */
+    --color-white: #ffffff;
+    --color-blue: #1b325c;
+    --color-sky: #697ef1;
+    --color-orange: #fd6413;
+    --color-gray: #1b1e26;
+    /*Size*/
+    --size-max-width: 1200px;
 }
 * {
     box-sizing: border-box;
@@ -33,7 +33,7 @@ ul {
 }
 a {
     text-decoration: none;
-    color: var(- -color-text);
+    color: var(--color-text);
 }
 /*Common (공통으로 사용하는 것)*/
 .section {
@@ -49,14 +49,28 @@ a {
     margin: 0.5rem 0;
 }
 .max-container {
-    max-width: var(- -size-max-width);
+    max-width: var(--size-max-width);
     /*창 늘어날 때 박스 간격 벌어지는 것 방지*/
     margin: auto;
     /*block 레벨 수평정렬 - auto는 자동으로 중간 정렬*/
 }
 main {
-    height: 700px;
+    height: 650px;
 }
+
+table {
+    font-size: 20px;
+}
+
+th {
+    height: 70px;
+    width: 200px;
+}
+
+td {
+    width: 500px;
+}
+
 /* Left */
 .myTitle {
     margin-top: 30px;
@@ -116,8 +130,7 @@ div.right {
     font-size: 20px;
 }
 div.withdrawal {
-    margin-top: 400px;
-    margin-left: 500px;
+    margin-left: 580px;
     float: left;
 }
 div.withdrawal>button {
@@ -136,6 +149,7 @@ img.posterImg {
     width: 112px;
     height: 160px;
     margin-right: 20px;
+    cursor: pointer;
 }
 .reviewUpdate {
     float: right;
@@ -146,6 +160,7 @@ img.posterImg {
     width: 32px;
     height: 32px;
     margin-top: 5px;
+    cursor: pointer;
 }
 span.movieName, .movieNameSub, .movieRate, .reviewDes, .reviewUpdate {
     font-size: 30px;
@@ -153,7 +168,7 @@ span.movieName, .movieNameSub, .movieRate, .reviewDes, .reviewUpdate {
 .starBox {
     width: 270px;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     margin-bottom: 10px;
 }
@@ -165,7 +180,7 @@ img.star {
 .subHeader {
     min-height: 50px;
     width: 100%;
-    background-color: var(- -color-primary);
+    background-color: var(--color-primary);
 }
 .title {
     font-size: 2.5rem;
@@ -321,7 +336,8 @@ span.favoriteMovieName {
     color: #fff;
     display: block;
 }
-.login-form .group .input, .login-form .group .button, .login-form .group .button2 {
+.login-form .group .input, .login-form .group .button, .login-form .group .button2
+    {
     border: none;
     padding: 15px 20px;
     border-radius: 25px;

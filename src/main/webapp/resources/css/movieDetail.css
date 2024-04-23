@@ -1,19 +1,19 @@
 /* 초기화 */
 /*Global 변수*/
 :root {
-	/*App Colors*/
-	--color-primary: var(--color-blue);
-	--color-primary-variant: var(--color-gray);
-	--color-accent: var(--color-sky);
-	--color-accent-variant: var(--color-orange);
+	/*App Colors*/ 
+	--color-primary: var(--color-blue); 
+	--color-primary-variant: var(--color-gray); 
+	--color-accent: var(--color-sky); 
+	--color-accent-variant: var(--color-orange); 
 	--color-text: var(--color-white);
-	/* Colors */
-	--color-white: #ffffff;
-	--color-blue: #1b325c;
-	--color-sky: #697ef1;
-	--color-orange: #fd6413;
+	/* Colors */ 
+	--color-white: #ffffff; 
+	--color-blue: #1b325c; 
+	--color-sky: #697ef1; 
+	--color-orange: #fd6413; 
 	--color-gray: #1b1e26;
-	/*Size*/
+	/*Size*/ 
 	--size-max-width: 1200px;
 }
 
@@ -66,24 +66,27 @@ a {
 	/*block 레벨 수평정렬 - auto는 자동으로 중간 정렬*/
 }
 
-
-
- .fa-solid:hover {
+.fa-solid:hover {
 	color: var(--color-accent-variant);
- }
+}
 
 .fa-solid:focus {
 	color: var(--color-accent-variant);
 }
 
 .fa-solid.clicked {
-    color: var(--color-accent-variant);
+	color: var(--color-accent-variant);
 }
 
 .star {
 	margin-left: auto;
 }
 
+.btn-favorite {
+	border: none; /* Remove border */
+    background: none; /* Remove background color */
+    padding: 0; /* Remove padding */
+}
 
 /* 메인 */
 .main {
@@ -239,7 +242,7 @@ a {
 	display: inline-table;
 }
 
-.userProfile {                                      /* 유저 프로필 */
+.userProfile { /* 유저 프로필 */
 	width: 24%;
 	float: left;
 	height: 100%;
@@ -268,16 +271,16 @@ a {
 }
 
 .fa-regular {
-	font-size : 60px;
-	float : left;
+	font-size: 60px;
+	float: left;
 }
 
-.userReview {   /* 유저 작성 관람평 */
+.userReview { /* 유저 작성 관람평 */
 	font-size: 1.5rem;
-	float : left;
+	float: left;
 	width: 70%;
-
 }
+
 .user_profile {
 	font-size: 5rem;
 }
@@ -286,23 +289,22 @@ a {
 	float: right;
 }
 
-
-#textarea{
+#textarea {
 	width: 100%;
 	font-size: 25px;
 }
 
 /*화살표*/
 .arrow-up {
-  background-color: var(--color-primary);
-  position: fixed;
-  bottom: 3rem;
-  right: 3rem;
-  font-size: 3rem;
-  width: 4.5rem;
-  height: 4.5rem;
-  border-radius: 100%;
-  text-align: center;
-  box-shadow: 5px 5px 0px 0px var(--color-accent);
-  transition: opacity 300ms ease-in;
+	background-color: var(--color-primary);
+	position: fixed;
+	bottom: 3rem;
+	right: 3rem;
+	font-size: 3rem;
+	width: 4.5rem;
+	height: 4.5rem;
+	border-radius: 100%;
+	text-align: center;
+	box-shadow: 5px 5px 0px 0px var(--color-accent);
+	transition: opacity 300ms ease-in;
 }

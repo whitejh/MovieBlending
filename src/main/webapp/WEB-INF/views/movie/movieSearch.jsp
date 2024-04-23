@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <title>영화 조회 페이지</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/boxOffice.css" />
+	href="${pageContext.request.contextPath}/resources/css/movieSearch.css" />
 <script src="https://kit.fontawesome.com/87f959d9dc.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <link
@@ -41,84 +41,140 @@ a, a:hover {
 		page="${pageContext.request.contextPath}/WEB-INF/views/include/header.jsp" />
 
 	<main>
-		<div class="boxoffice">
-			<div class="boxoffice_name">
-				<input id="searchInput" name="search" type="text"
-					placeholder="찾고 있는 영화가 있나요?" size="60" /> <input id="searchButton"
-					class="header__search__button" type="submit" value="검색" />
-				<ul>
-					<li><h1>${searchText}</h1></li>
-				</ul>
+		<div class="movieSearch_movie">
+			<div class="search-container">
+				<select id="searchType">
+					<option value="movieNm">영화 제목</option>
+					<option value="directorNm">감독명</option>
+				</select> <input id="searchInput" name="search" type="text"
+					placeholder="찾는 영화의 정보를 입력하세요" size="60" /> <input
+					id="searchButton" class="header__search__button" type="submit"
+					value="검색" />
 			</div>
-			<div class="boxoffice_movie">
-				<c:forEach items="${mList}" var="item">
-					<div class="card mb-3">
-						<div class="card-header">
-							<button class="bookmark-btn" data-bookmarked="false">&#9734;</button>
-						</div>
-						<div class="row g-0">
-							<div class="col-md-12 text-center">
-								<h5 class="card-title">${item.movieNm}</h5>
-								<img src="${item.posterUrl}" class="card-img-top"
-									alt="${item.movieNm} 이미지">
-							</div>
-						</div>
-						<div class="card-body text-center">
-							<p class="card-text">개봉일 : ${item.openDt}</p>
-							<form id="movieForm" action="/movie/movieDetail" method="get">
-								<input type="hidden" id="movieCd" name="movieCd"
-									value="${item.movieCd}" />
-								<button type="submit" id="movieButton" class="btn btn-primary">상세
-									보기</button>
-							</form>
-
-						</div>
-					</div>
-				</c:forEach>
-			</div>
+			<ul>
+				<li><h1>${searchText}</h1></li>
+			</ul>
+			<div class="movieSearch_list"></div>
 		</div>
 	</main>
 
 	<!-- Footer -->
 	<jsp:include
 		page="${pageContext.request.contextPath}/WEB-INF/views/include/footer.jsp" />
-	<script>
-		$(document).ready(function() { //페이지 로드 후 실행될 함수     	
 		
+	<script>
+		$(document).ready(function() { //페이지 로드 후 실행될 함수   		
+
 			//movieButton 버튼 클릭 이벤트 함수(상세보기)
 			$("#movieButton").on('click', function() {
 				document.getElementById('movieForm').submit();
 			});
 
-			//별 아이콘 클릭 시 색 채우기
-			$('.bookmark-btn').click(function() {
-				$(this).toggleClass('bookmarked'); //색상 클래스 토글
-				let isBookmarked = $(this).hasClass('bookmarked'); //북마크 여부 확인
-				$(this).attr('data-bookmarked', isBookmarked); //북마크 상태를 데이터 속성에 반영
-			});
-
- 			$("#searchButton").on('click', function() {
-				var inputText = $("#searchInput").val();
-				fetchData(inputText); //입력한 검색어를 fetchData 함수에 전달
-			}); 
+			//검색 버튼 이벤트
+			$("#searchButton").on('click', function() {
+				$(".movieSearch_list").empty();
+		        let inputText = $("#searchInput").val();
+		        let type = $("#searchType").val(); // 선택된 검색 유형 가져오기
+		        fetchSearchData(inputText, type); // 입력한 검색어와 선택된 검색 유형을 fetchData 함수에 전달
+		    });			
+			
+		    // 카드에 마우스를 갖다대면 주황색 그림자 효과 추가
+		    // 주의!! 검사기 모드에서는 클릭해야지만 효과가 보임
+		    $(document).on('mouseover', '.card', function() {
+		        $(this).addClass('active');
+		    });		    
+		    // 카드에서 마우스가 빠져나가면 주황색 그림자 효과 제거
+		    $(document).on('mouseout', '.card', function() {
+		        $(this).removeClass('active');
+		    });
 			
 		});
-
 		
-		function fetchData(inputText) {
+		function fetchSearchData(inputText, type) {
 			// AJAX 요청 보내기
-			$.ajax({
-				url : '/movieSearch',
+			$.getJSON({
+				url : '/movieSearch1',
 				type : 'GET',
 				data : {
-					searchText : inputText,
+					inputText : inputText,
+					type : type // 선택된 검색 유형도 함께 전달
 				},
 				success : function(data) {
 					console.log('AJAX 요청 성공 !!!');
+					positionWithPoster(data);
 				},
 				error : function(xhr, status, error) {
 					console.error('AJAX 요청 실패 ??? : ' + status + " " + error);
+					console.error('전달하려는 inputText: ' + inputText);
+					console.error('전달하려는 type: ' + type);
 				}
 			});
 		}
+		
+		// 포스터가 있는 카드를 먼저 나열하게 배치
+		function positionWithPoster(data) {
+			// posterUrl이 있는 영화와 없는 영화를 구분하기 위한 배열 선언
+		    let moviesWithPoster = [];
+		    let moviesWithoutPoster = [];
+		    
+		 	// posterUrl 유무에 따라 분류
+		    $.each(data, function(index, item) {  
+		        if (item.posterUrl) {
+		            moviesWithPoster.push(item);
+		        } else {
+		            moviesWithoutPoster.push(item);
+		        }
+		    });
+		 	
+		 	// 포스터가 있는 영화들 중에서 가장 최근에 개봉한 영화 순으로 정렬하여 출력
+		    $.each(moviesWithPoster.sort(function(a, b) {
+		        return new Date(b.openDt) - new Date(a.openDt);
+		    }), function(index, item) {    
+		        showSearchCard(item);
+		    });
+			// 그 후 posterUrl이 없는 영화들 이어서 출력
+			$.each(moviesWithoutPoster, function(index, item) {  
+				showSearchCard(item);
+			});
+		}
+		
+		//데이터 출력 함수(카드에다 출력)
+		function showSearchCard(item) {
+			// item.openDt를 날짜 형식으로 변환
+			let year = item.openDt.substring(0, 4);
+			let month = item.openDt.substring(4, 6);
+			let day = item.openDt.substring(6, 8);
+			let formattedDate = year + '-' + month + '-' + day;
+
+			let cardHtml = '<div class="card mb-3">'
+					+ '<div class="card-header text-center">' + '<span>'
+					+ item.movieNm
+					+ '</span>'
+					+ '<button class="bookmark-btn" data-bookmarked="false">&#9734;</button>'
+					+ '</div>'
+					+ '<div class="row g-0">'
+					+ '<div class="col-md-12 text-center">'
+					+ '<img src="' + item.posterUrl + '" class="card-img-top" alt="포스터가 존재하지 않습니다.">'
+					+ '</div>'
+					+ '</div>'
+					+ '<div class="card-body text-center">'
+					+ '<p class="card-text"><strong>개봉일: </strong>'
+					+ formattedDate
+					+ '</p>'
+					+ '<ul class="list-group list-group-flush">'
+					+ '<li class="list-group-item"><strong>장르: </strong>'
+					+ item.genre
+					+ '</li>'
+					+ '<li class="list-group-item"><strong>감독: </strong>'
+					+ item.directorNm
+					+ '</li>'
+					+ '</ul>'
+					+ '<a href="movie/movieDetail?movieCd='
+					+ item.movieCd
+					+ '" class="btn btn-primary">상세 보기</a>'
+					+ '</div>'
+					+ '</div>';
+			$(".movieSearch_list").append(cardHtml);
+		}
+		
 	</script>

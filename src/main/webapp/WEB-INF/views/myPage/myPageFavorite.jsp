@@ -37,11 +37,12 @@
             <a class="myMenu" href="/myPage/Favorite"
                 style="text-decoration: underline;">즐겨찾기<i class="fa-regular fa-greater-than"></i></a>
         </div>
-        <span class = mTitle><h1 class="mText">즐겨찾기</h1></span><hr>
+        <span class = mTitle><h1 class="mText">즐겨찾기   
+					<i class="fa-solid fa-star"></i>
+		</h1></span><hr>
     	<c:forEach var="favorite" items="${favorites}">
             <div class="favoriteBox">
                 <img class="favoritImg" src="${favorite.imgUrl}" width="200px"><br>
-                <img class="heart" src="../images/heart.fill@2x.png">
 
                 <div class="favoriteStarBox">
                 </div>
