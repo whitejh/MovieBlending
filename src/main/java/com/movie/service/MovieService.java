@@ -46,7 +46,7 @@ public class MovieService {
 	}
 
 	// 박스 오피스 데이터 조회 1단계(진흥원 API)
-	public List<Movie> fetchBoxOfficeData(String selectedDate, String type, Model model) throws IOException {
+	public List<Movie> fetchBoxOfficeData(String selectedDate, String type) throws IOException {
 		StringBuilder urlBuilder = new StringBuilder("http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/");
 		// 일별,주간,주말에 따른 파라미터 1차 구분
 		urlBuilder.append(type.equals("daily") ? "searchDailyBoxOfficeList.json" : "searchWeeklyBoxOfficeList.json");
@@ -75,11 +75,11 @@ public class MovieService {
 		conn.disconnect();
 		// log.info(sb.toString());
 
-		return parseResponse(sb.toString(), type, model);
+		return parseResponse(sb.toString(), type);
 	}
 
 	// 박스 오피스 데이터 조회 2단계(응답 전달받고 객체 생성)
-	public List<Movie> parseResponse(String response, String type, Model model) {
+	public List<Movie> parseResponse(String response, String type) {
 		List<Movie> mList = new ArrayList<>();
 		JSONObject jsonObject = new JSONObject(response);
 		JSONArray jsonArray = null;
