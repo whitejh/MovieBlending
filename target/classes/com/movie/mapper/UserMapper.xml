@@ -47,8 +47,7 @@
 		select reviewID,
 		userNickname,
 		movieCd, movieNm, rate, content, imgUrl from review where
-		reviewID =
-		#{reviewID}
+		reviewID = #{reviewID}
 	</select>
 
 	<update id="modifyReview" parameterType="Map">

@@ -52,7 +52,7 @@
 						<c:if test="${not empty user.userID}">
 							<i class="fa-solid fa-star" id="btn-favorite"></i>
 						</c:if>
-					</div>
+					</div>   
 					<div class="head-section2">
 						<div>
 							${movie.titleEng}<span>ㆍ</span> ${movie.prodYear}
