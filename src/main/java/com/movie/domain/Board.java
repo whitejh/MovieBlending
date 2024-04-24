@@ -1,7 +1,7 @@
 package com.movie.domain;
 
 
-import java.util.Date;
+/*import java.util.Date;*/
 
 import lombok.Data;
 // VO
@@ -15,6 +15,4 @@ public class Board {
 	private String boardDate; // 데이터타입 Date에서 String으로 바꿈
 	private Integer boardView; // hit
 	private Integer boardLike;
-	private Integer boardAvailable;
-	
 }

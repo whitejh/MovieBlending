@@ -40,7 +40,9 @@
 		<div class="mProfile">
 			<!-- 영화 포스터 출력 -->
 			<div class="mPoster">
-				<img src="${movie.posterUrl}" alt="포스터 이미지" />
+				<c:if test="${movie.posterUrl != null} }">
+					<img src="${movie.posterUrl}" alt="포스터 이미지" />
+				</c:if>
 			</div>
 			<!-- 영화 상세 정보 출력 -->
 			<div class=mProfile-detail>
@@ -48,17 +50,7 @@
 					<div class="head-section1">
 						${movie.movieNm}
 						<c:if test="${not empty user.userID}">
-							<form method="post" name="insertFavorite"
-								action="${pageContext.request.contextPath}/movie/insertFavorite">
-								<button type="submit" class="btn-favorite">
-									<i class="fa-solid fa-star"></i>
-								</button>
-								<input type="hidden" name="movieCd" value="${movie.movieCd}">
-								<input type="hidden" name="userID" value="${user.userID}">
-								<input type="hidden" name="movieNm" value="${movie.movieNm}">
-								<input type="hidden" name="rate" value="${avgRate}"> <input
-									type="hidden" name="imgUrl" value="${movie.posterUrl}">
-							</form>
+							<i class="fa-solid fa-star" id="btn-favorite"></i>
 						</c:if>
 					</div>
 					<div class="head-section2">
@@ -78,10 +70,11 @@
 						<dt>장르</dt>
 						<dd>${movie.genre}</dd>
 						<dt>출연</dt>
-						<dd>${movie.actorNm}</dd>
+						<dd>${movie.actorNm},,그외</dd>
 						<dt>평점</dt>
 						<dd class="vote-average">
-							<span class="popover-trigger">⭐&nbsp;${avgRate}</span>
+							<span class="popover-trigger">⭐&nbsp;${avgRate}&nbsp;&nbsp;&nbsp;&nbsp;⭐&nbsp;${avgRate}
+							</span>
 						</dd>
 					</dl>
 				</div>
@@ -100,6 +93,7 @@
 							allow="fullscreen; autoplay; encrypted-media" muted="false"
 							autoplay="0"></iframe>
 					</c:if>
+
 
 				</div>
 
@@ -134,13 +128,15 @@
 
 								<!-- 사용자 프로필 -->
 								<div class="userProfile">
-									<a class="user_profile" href="userDetail"> <i
-										class="fa-regular fa-user"></i>
+									<a class="user_profile"
+										href="/member/memberDetail?userNickname=${user.userNickname}">
+										<i class="fa-regular fa-user"> </i>
 									</a>
 									<!-- 로그인한 유저의 경우 -->
 									<c:if test="${not empty user.userID}">
 										<div>
-											<a href="/userDetail">${user.userNickname}</a>
+											<a
+												href="/member/memberDetail?userNickname=${user.userNickname}">${user.userNickname}</a>
 										</div>
 									</c:if>
 									<!-- 비로그인한 유저의 경우 -->
@@ -183,11 +179,13 @@
 				<c:forEach var="item" items="${reviews}">
 					<div class="reviewform">
 						<div class="userProfile">
-							<a class="user_profile" href="/userDetail"> <i
-								class="fa-regular fa-user"></i>
+							<a class="user_profile"
+								href="/member/memberDetail?userNickname=${item.userNickname}">
+								<i class="fa-regular fa-user"> </i>
 							</a>
 							<div>
-								<a href="userDetail">${item.userNickname}</a>
+								<a href="/member/memberDetail?userNickname=${item.userNickname}">
+									${item.userNickname}</a>
 							</div>
 							<div>⭐&nbsp;${item.rate}/10.0</div>
 						</div>
@@ -212,6 +210,9 @@
 	<script>
 		$(document).ready(function() {
 			
+			var vodUrl = "${movie.vodUrl}";
+			var posterUrl = "${movie.posterUrl}";
+			
 			/* 로그인 하지 않고 관람평을 작성했을 경우 */
 			$('#regBtn1').on('click', function(event) {
 				event.preventDefault();
@@ -229,25 +230,97 @@
 				return true;
 			});
 			
-			/* 입력한 관람평 text 몇글자 확인 */
-			$("#textarea").keyup(function(e) {
-				var content = $(this).val();
-				var contentLength = content.length;
-				$("#charCount").text("(" + contentLength + " / 255자)");
-				if (contentLength > 255) {
-					alert("최대 255자까지 입력 가능합니다.");
-					$(this).val(content.substring(0, 255));
-					$('#charCount').text("(255 / 최대 255자)");
-				}
+			$("#exampleFormControlTextarea1").keyup(function(e) {
+			    var content = $(this).val();
+			    var contentLength = content.length;
+			    $("#charCount").text("(" + contentLength + " / 255자)");
+			    if (contentLength > 255) {
+			        alert("최대 255자까지 입력 가능합니다.");
+			        $(this).val(content.substring(0, 255));
+			        $('#charCount').text("(255 / 최대 255자)");
+			    }
 			});
 			
-			/* 즐겨찾기 */
-			$('.fa-star').click(function() {
-		        $(this).toggleClass('clicked');
-		        
-		        window.location.href="/favorite"
-		    });
-		});
-	</script>
+			$(document).ready(function() {
+			    $('#btn-favorite').on('click', function(event) {
+			        event.preventDefault();
+
+			        if ($(this).hasClass('clicked')) {
+			            
+			            $(this).removeClass('clicked');
+			            deleteFromFavorites();
+			        } else {
+			            
+			            $(this).addClass('clicked');
+			            saveToFavorites();
+			        }
+			    });
+			    
+			    if (!vodUrl) {
+		            // 대체 비디오 출력
+		            let iframeHtml = '<iframe src="${pageContext.request.contextPath}/resources/images/movies/subTrailer1.mp4" alt="${movie.movieNm}" title="${movie.vodClass}" frameborder="0" allowfullscreen="true" allow="fullscreen; autoplay; encrypted-media" muted="false" autoplay="0"></iframe>';
+		            // 비디오를 출력할 HTML 요소에 추가
+		            $(".video-container").append(iframeHtml);
+		        }
+			    
+			    if (!posterUrl) {
+			        // 대체 이미지 출력
+			        let imgHtml = '<img src="${pageContext.request.contextPath}/resources/images/movies/subPoster.png" alt="대체 포스터 이미지">';
+			        // 이미지를 출력할 HTML 요소에 추가
+			        $(".mPoster").append(imgHtml);
+			    } else {
+			        // 실제 포스터 출력
+			        let imgHtml = '<img src="' + posterUrl + '" alt="${movie.movieNm}" class="mPosterImage">';
+			        // 포스터를 출력할 HTML 요소에 추가
+			        $(".mPoster").append(imgHtml);
+			    }
+			});
+
+			function saveToFavorites() {
+			    
+			    $('#btn-favorite').addClass('active');
+
+			    $.ajax({
+			        type: 'POST',
+			        url: '${pageContext.request.contextPath}/movie/insertFavorite',
+			        data: {
+			            movieCd: '${movie.movieCd}',
+			            userID: '${user.userID}',
+			            movieNm: '${movie.movieNm}',
+			            rate: '${avgRate}',
+			            imgUrl: '${movie.posterUrl}'
+			        },
+			        success: function(response) {
+			            alert('즐겨찾기에 추가되었습니다.');
+			        },
+			        error: function(xhr, status, error) {
+			            alert('Error occurred while adding to favorites.');
+			        }
+			    });
+			}
+
+			function deleteFromFavorites() {
+			    
+			    $('#btn-favorite').removeClass('active');
+
+			    $.ajax({
+			        type: 'POST',
+			        url: '${pageContext.request.contextPath}/movie/deleteFavorite',
+			        data: {
+			            movieCd: '${movie.movieCd}',
+			            userID: '${user.userID}'
+			        },
+			        success: function(response) {
+			            alert('즐겨찾기에서 삭제되었습니다.');
+			        },
+			        error: function(xhr, status, error) {
+			            alert('Error occurred while deleting from favorites.');
+			        }
+			    });
+			}
+
+		}); 
+		
+		</script>
 </body>
 </html>

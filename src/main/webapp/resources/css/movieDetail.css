@@ -68,18 +68,23 @@ a {
 
 .fa-solid:hover {
 	color: var(--color-accent-variant);
-}
-
-.fa-solid:focus {
-	color: var(--color-accent-variant);
-}
-
+	cursor: pointer
+}  
+ 
 .fa-solid.clicked {
 	color: var(--color-accent-variant);
 }
 
+/* .fa-star {
+	color: var(--color-accent-variant);
+} */
+
 .star {
 	margin-left: auto;
+}
+
+.orange {
+	color: var(--color-accent-variant);
 }
 
 .btn-favorite {
@@ -87,6 +92,7 @@ a {
     background: none; /* Remove background color */
     padding: 0; /* Remove padding */
 }
+
 
 /* 메인 */
 .main {

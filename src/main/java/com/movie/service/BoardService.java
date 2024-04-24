@@ -22,18 +22,12 @@ public class BoardService {
 		log.info("getList.............");
 		return mapper.getList(); // 목록 조회 성공
 	}
-	
+
 	public int count() {
 		return mapper.count(); // 게시물 총 개수
 	}
 
 	public List<Board> getListPage(int displayPost, int postNum) {
-
-		/*
-		 * HashMap<String, Integer> data = new HashMap<String, Integer>();
-		 * data.put("displayPost", displayPost); data.put("postNum", postNum);
-		 */
-
 		return mapper.getListPage(displayPost, postNum);
 	}
 
@@ -61,9 +55,23 @@ public class BoardService {
 		log.info("increaseView..." + boardID);
 		mapper.increaseView(boardID);
 	}
-	
+
 	public void increaseLike(Integer boardID) {
 		log.info("increaseLike..." + boardID);
 		mapper.increaseLike(boardID);
 	}
+
+	// 게시판 목록 + 검색
+	/*
+	 * public List<Board> listPageSearch(String searchType, String keyword) {
+	 * 
+	 * 
+	 * 
+	 * HashMap<String, Object> data = new HashMap<String, Object>();
+	 * data.put("searchType", searchType); data.put("keyword", keyword);
+	 * 
+	 * 
+	 * 
+	 * return mapper.listPageSearch(searchType, keyword); }
+	 */
 }

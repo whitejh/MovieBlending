@@ -57,6 +57,12 @@ a, a:hover {
 			<div class="movieSearch_list"></div>
 		</div>
 	</main>
+	
+	<!-- 화살표 -->
+	<aside>
+		<a class="arrow-up" title="back to top"
+			onclick="window.scrollTo(0,0);"> <i class="fa-solid fa-arrow-up"></i></a>
+	</aside>
 
 	<!-- Footer -->
 	<jsp:include
@@ -144,6 +150,7 @@ a, a:hover {
 			let year = item.openDt.substring(0, 4);
 			let month = item.openDt.substring(4, 6);
 			let day = item.openDt.substring(6, 8);
+			let posterUrl = item.posterUrl ? item.posterUrl : '${pageContext.request.contextPath}/resources/images/movies/subPoster.png';
 			let formattedDate = year + '-' + month + '-' + day;
 
 			let cardHtml = '<div class="card mb-3">'
@@ -154,7 +161,7 @@ a, a:hover {
 					+ '</div>'
 					+ '<div class="row g-0">'
 					+ '<div class="col-md-12 text-center">'
-					+ '<img src="' + item.posterUrl + '" class="card-img-top" alt="포스터가 존재하지 않습니다.">'
+					+ '<img src="' + posterUrl + '" class="card-img-top" alt="포스터가 존재하지 않습니다.">'
 					+ '</div>'
 					+ '</div>'
 					+ '<div class="card-body text-center">'

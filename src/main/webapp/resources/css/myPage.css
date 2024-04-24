@@ -88,6 +88,7 @@ td {
 }
 div.left {
     float: left;
+    margin-bottom: 2000px;
 }
 .myMenu {
     display: block;
@@ -149,6 +150,7 @@ img.posterImg {
     width: 112px;
     height: 160px;
     margin-right: 20px;
+    cursor: pointer;
 }
 .reviewUpdate {
     float: right;
@@ -175,6 +177,17 @@ img.star {
     width: 26px;
     height: 26px;
 }
+.rate {
+	padding: 0px;
+	margin: 0 auto;
+	font-size: 30px;
+	width: 65px;
+}
+
+.star {
+	font-size: 30px;
+}
+
 /* review-Sub */
 .subHeader {
     min-height: 50px;
@@ -222,14 +235,17 @@ div.favoriteBox {
     position: relative;
     overflow: auto;
     float: left;
-    border-right: 1px solid black;
-    padding: 50px 100px 50px 100px;
+    /* border-right: 1px solid black; */
+    padding: 50px 40px 50px 50px; /* Adjust the right padding value */
+    margin: 0 auto;
+    text-align: center;
 }
-img.favoritImg {
+img.favoriteImg {
     position: relative;
     width: 209;
     height: 300px;
     margin-right: 20px;
+    cursor: pointer;
 }
 .movieNameSub {
     line-height: 60px;
@@ -244,7 +260,7 @@ img.favoritImg {
 }
 span.favoriteMovieName {
     font-size: 30px;
-    /* margin-left: 77px; */
+   margin-right: 20px;
 }
 .favoriteStarBox {
     width: 150px;

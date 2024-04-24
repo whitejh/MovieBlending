@@ -23,11 +23,6 @@
 	integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
 	crossorigin="anonymous"></script>
 
-<!-- <script>
-$("#regBtn").on("click", function() {
-	self.location = "/board/write";
-}); // 버튼 클릭시 등록창으로 이동
-</script> -->
 <script type="text/javascript">
 	window.onload = function() {
 		$("#regBtn").on("click", function() {
@@ -63,17 +58,17 @@ $("#regBtn").on("click", function() {
 									<form action="">
 										<div class="search-wrap">
 											<label for="search" class="blind">게시글 검색</label> 
-											<select name="searchType">
-												<option value = "title">제목</option>
-												<option value= "content">내용</option>
-												<option value= "title_content">제목+내용</option>
-												<option value= "writer">작성자</option>
-											</select>
+												<select name="searchType">
+													<option value = "title">제목</option>
+													<option value= "content">내용</option>
+													<option value= "title_content">제목+내용</option>
+													<option value= "writer">작성자</option>
+												</select>
 											
 											<input
-												id="search" type="search" name="" placeholder="검색어를 입력해주세요."
+												id="search" type="search" name="keyword" placeholder="검색어를 입력해주세요."
 												value="" />
-											<button type="submit" class="btn btn-dark">검색</button>
+											<button type="submit" id="searchBtn" class="btn btn-dark">검색</button>
 										</div>
 									</form>
 									<div class="write">
@@ -103,7 +98,7 @@ $("#regBtn").on("click", function() {
 													<th class="th-user">글쓴이</th>
 													<th class="th-date">등록일</th>
 													<th class="th-view">조회👁️‍🗨️</th>
-													<th class="th-like">추천👍</th>
+													<!-- <th class="th-like">추천👍</th> -->
 												</tr>
 											</thead>
 											<c:forEach var="board" items="${bList}">
@@ -120,39 +115,14 @@ $("#regBtn").on("click", function() {
 														${fn:substring(board.boardDate,0,11)}${fn:substring(board.boardDate,11,13)}:${fn:substring(board.boardDate,14,16)}
 														</td>
 														<td class="th-b">${board.boardView}</td>
-														<td class="th-b">${board.boardLike}</td>
+														<%-- <td class="th-b">${board.boardLike}</td> --%>
 													</tr>
 												</tbody>
 											</c:forEach>
 										</table>
 									</div>
 							</table>
-
-							<!-- Modal -->
-							<div class="modal" id="myModal" tabindex="-1" role="dialog">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title">Modal title</h5>
-											<button type="button" class="close" data-dismiss="modal"
-												aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div class="modal-body">
-											<p>Modal body text goes here.</p>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-primary">Save
-												changes</button>
-											<button type="button" class="btn btn-secondary"
-												data-dismiss="modal">Close</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Modal -->
-
+							
 						</div>
 					</div>
 				</div>
@@ -167,7 +137,17 @@ $("#regBtn").on("click", function() {
 		page="${pageContext.request.contextPath}/WEB-INF/views/include/footer.jsp" />
 
 	<script>
-		$(document).ready(
+		document.getElementById("searchBtn").onclick =function() {
+			let searchType = document.getElementsByName("searchType")[0].value;
+			let keyword = document.getElementsByName("keyword")[0].value;
+			
+			console.log(searchType);
+			console.log(keyword);
+			
+			location.href= "/board/list?" + "searchType=" + searchType + "&keyword=" + keyword;
+		};
+		
+/* 		$(document).ready(
 				function() {
 					let result = '<c:out value = "${result}"/>';
 					console.log('result : ', result);
@@ -182,7 +162,7 @@ $("#regBtn").on("click", function() {
 						alert("게시글이 삭제되었습니다!");
 					}
 
-		}); // document ready 끝
+		}); // document ready 끝 */
 	</script>
 </body>
 </html>

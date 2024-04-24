@@ -394,6 +394,22 @@ footer {
 	color: yellow;
 }
 
+/*화살표*/
+.arrow-up {
+	background-color: var(--color-primary);
+	position: fixed;
+	bottom: 3rem;
+	right: 3rem;
+	font-size: 3rem;
+	width: 4.5rem;
+	height: 4.5rem;
+	border-radius: 100%;
+	text-align: center;
+	box-shadow: 5px 5px 0px 0px var(--color-accent);
+	transition: opacity 300ms ease-in;
+}
+
+
 
 @media screen and (max-width: 1200px) {
     .card {

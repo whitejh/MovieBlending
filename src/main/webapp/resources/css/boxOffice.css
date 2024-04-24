@@ -339,7 +339,7 @@ footer {
 	position: relative;
 	width: 100%; /* 전체 너비에 맞게 설정 */
 	margin-top: 50px;
-	min-height: 1600px;
+	min-height: 1700px;
 }
 
 .card {
@@ -354,7 +354,7 @@ footer {
 	
 	/* 마우스를 올렸을 때의 스타일 */
     transition: box-shadow 1s ease; /* 그림자 효과에 트랜지션 적용 */
-    min-height: 500px;
+   min-height: 400px;
 }
 
 .btn-primary {
@@ -393,7 +393,7 @@ footer {
 
 .rankOldAndNew {
 	display: flex;
-	left: 5%; /* 좌측에서 절반만큼 이동 */
+	right: 5%; /* 좌측에서 절반만큼 이동 */
 	justify-content: center;
 	color: white;
 	background-color: red; /* 배경색 지정 */
@@ -465,13 +465,12 @@ footer {
 
 .numberCircle {
     position: absolute;
-    top: 60px; /* 추가: 상단 여백 조정 */
-    left: 10px; /* 추가: 좌측 여백 조정 */
+    left: 5px; /* 추가: 좌측 여백 조정 */
     background-color: var(--color-orange); /* 배경색 지정 */
     color: #fff; /* 텍스트 색상 지정 */
     border-radius: 50%; /* 원형 모양으로 설정 */
-    width: 50px; /* 지름 설정 */
-    height: 50px; /* 지름 설정 */
+    width: 40px; /* 지름 설정 */
+    height: 40px; /* 지름 설정 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -482,6 +481,21 @@ footer {
 
 .fa-solid:hover {
 	color: var(--color-accent-variant);
+}
+
+/*화살표*/
+.arrow-up {
+	background-color: var(--color-primary);
+	position: fixed;
+	bottom: 3rem;
+	right: 3rem;
+	font-size: 3rem;
+	width: 4.5rem;
+	height: 4.5rem;
+	border-radius: 100%;
+	text-align: center;
+	box-shadow: 5px 5px 0px 0px var(--color-accent);
+	transition: opacity 300ms ease-in;
 }
 
 @media screen and (max-width: 1200px) {

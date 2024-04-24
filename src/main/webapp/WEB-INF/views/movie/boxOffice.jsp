@@ -66,13 +66,18 @@ a, a:hover {
 							<div>
 								<span>${item.movieNm}</span> <span>${item.rankOldAndNew}</span>
 							</div>
-							<div class="numberCircle"><strong>${item.rank}</strong></div>
+							<div class="numberCircle">
+								<strong>${item.rank}</strong>
+							</div>
 						</div>
 						<div class="row g-0">
 							<div class="col-md-12 text-center">
 								<h5 class="card-title">${item.movieNm}</h5>
-								<img src="${item.posterUrl}" class="card-img-top"
-									alt="${item.movieNm} 이미지">
+								<c:if test="${item.posterUrl != null} }">
+									<img src="${item.posterUrl}" class="card-img-top"
+										alt="${item.movieNm} 이미지">
+								</c:if>
+
 							</div>
 						</div>
 						<div class="card-body text-center">
@@ -89,6 +94,11 @@ a, a:hover {
 			</div>
 		</div>
 	</main>
+	
+	<aside>
+		<a class="arrow-up" title="back to top"
+			onclick="window.scrollTo(0,0);"> <i class="fa-solid fa-arrow-up"></i></a>
+	</aside>
 
 	<!-- Footer -->
 	<jsp:include
@@ -99,6 +109,20 @@ a, a:hover {
 			let result = $(".boxoffice_movie");
 			let dateRange = $(".date_range");
 			let yesterdayDate;
+			var posterUrl = "${item.posterUrl}";
+			
+			//대체 포스터 출력
+			if (!posterUrl) {
+		        // 대체 포스터 출력
+		        let imgHtml = '<img src="${pageContext.request.contextPath}/resources/images/movies/subPoster.png" alt="대체 포스터 이미지">';
+		        // 이미지를 출력할 HTML 요소에 추가
+		        $(".mPoster").append(imgHtml);
+		    } else {
+		        // 실제 포스터 출력
+		        let imgHtml = '<img src="' + posterUrl + '" alt="${movie.movieNm}" class="mPosterImage">';
+		        // 포스터를 출력할 HTML 요소에 추가
+		        $(".mPoster").append(imgHtml);
+		    }
 
 			//어제의 날짜를 계산
 			let d = new Date();
@@ -149,16 +173,16 @@ a, a:hover {
 				let isBookmarked = $(this).hasClass('bookmarked'); //북마크 여부 확인
 				$(this).attr('data-bookmarked', isBookmarked); //북마크 상태를 데이터 속성에 반영
 			});
-			
+
 			// 카드에 마우스를 갖다대면 주황색 그림자 효과 추가
-		    // 주의!! 검사기 모드에서는 클릭해야지만 효과가 보임
-		    $(document).on('mouseover', '.card', function() {
-		        $(this).addClass('active');
-		    });		    
-		    // 카드에서 마우스가 빠져나가면 주황색 그림자 효과 제거
-		    $(document).on('mouseout', '.card', function() {
-		        $(this).removeClass('active');
-		    });
+			// 주의!! 검사기 모드에서는 클릭해야지만 효과가 보임
+			$(document).on('mouseover', '.card', function() {
+				$(this).addClass('active');
+			});
+			// 카드에서 마우스가 빠져나가면 주황색 그림자 효과 제거
+			$(document).on('mouseout', '.card', function() {
+				$(this).removeClass('active');
+			});
 		});
 
 		//페이지 로드 시 초기 데이터 화면에 출력
@@ -203,44 +227,49 @@ a, a:hover {
 		//데이터 출력 함수(카드에다 출력)
 		function updateCardData(data) {
 			console.log('업데이트된 data : ' + data);
-			$.each(data, function(index, item) {		
-				let isNew
-					= item.rankOldAndNew === "NEW"; // rankOldAndNew 값이 "New"인지 확인
-				let cardHtml = '<div class="card mb-3">'
-						+ '<div class="card-header text-center">'
-					    + '<span>'
-					    + item.movieNm
-					    + '</span>'
-					    + (isNew ? '<span class="rankOldAndNew">' : '') // rankOldAndNew 값이 "New"일 때만 클래스 추가
-					    + item.rankOldAndNew
-					    + (isNew ? '</span>' : '') // rankOldAndNew 값이 "New"일 때만 클래스 추가
-						+ '</div>'
-						+ '<div class="numberCircle"><strong>'
-						+ item.rank
-						+ '</strong></div>'
-						+ '<div class="row g-0">'
-						+ '<div class="col-md-12 text-center">'
-						+ '<img src="' + item.posterUrl + '" class="card-img-top" alt="' + item.movieNm + ': 포스터가 존재하지 않습니다.">'
-						+ '</div>'
-						+ '</div>'
-						+ '<div class="card-body text-center">'
-						+ '<p class="card-text"><strong>개봉일: </strong>'
-						+ item.openDt
-						+ '</p>'
-						+ '<ul class="list-group list-group-flush">'
-						+ '<li class="list-group-item"><strong>당일 관객수: </strong>'
-						+ item.audiCnt
-						+ '명</li>'
-						+ '<li class="list-group-item"><strong>누적관객수: </strong>'
-						+ item.audiAcc
-						+ '명</li>'
-						+ '</ul>'
-						+ '<a href="movie/movieDetail?movieCd='
-						+ item.movieCd
-						+ '" class="btn btn-primary">상세 보기</a>'
-						+ '</div>' + '</div>';	
-						$(".boxoffice_movie").append(cardHtml);							
-			});
+			$
+					.each(
+							data,
+							function(index, item) {
+								let posterUrl = item.posterUrl ? item.posterUrl
+										: '${pageContext.request.contextPath}/resources/images/movies/subPoster.png';
+								let isNew = item.rankOldAndNew === "NEW"; // rankOldAndNew 값이 "New"인지 확인
+								let cardHtml = '<div class="card mb-3">'
+										+ '<div class="card-header text-center">'
+										+ '<span>'
+										+ item.movieNm
+										+ '</span>'
+										+ (isNew ? '<span class="rankOldAndNew">'
+												: '') // rankOldAndNew 값이 "New"일 때만 클래스 추가
+										+ item.rankOldAndNew
+										+ (isNew ? '</span>' : '') // rankOldAndNew 값이 "New"일 때만 클래스 추가
+										+ '</div>'
+										+ '<div class="numberCircle"><strong>'
+										+ item.rank
+										+ '</strong></div>'
+										+ '<div class="row g-0">'
+										+ '<div class="col-md-12 text-center">'
+										+ '<img src="' + posterUrl + '" class="card-img-top" alt="' + item.movieNm + ': 포스터가 존재하지 않습니다.">'
+										+ '</div>'
+										+ '</div>'
+										+ '<div class="card-body text-center">'
+										+ '<p class="card-text"><strong>개봉일: </strong>'
+										+ item.openDt
+										+ '</p>'
+										+ '<ul class="list-group list-group-flush">'
+										+ '<li class="list-group-item"><strong>당일 관객수: </strong>'
+										+ item.audiCnt
+										+ '명</li>'
+										+ '<li class="list-group-item"><strong>누적관객수: </strong>'
+										+ item.audiAcc
+										+ '명</li>'
+										+ '</ul>'
+										+ '<a href="movie/movieDetail?movieCd='
+										+ item.movieCd
+										+ '" class="btn btn-primary">상세 보기</a>'
+										+ '</div>' + '</div>';
+								$(".boxoffice_movie").append(cardHtml);
+							});
 		}
 	</script>
 

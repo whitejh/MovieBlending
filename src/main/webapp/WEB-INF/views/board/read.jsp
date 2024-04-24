@@ -59,10 +59,10 @@
 								<td>작성일자</td>
 								<td colspan="2">${fn:substring(board.boardDate,0,11)}${fn:substring(board.boardDate,11,13)}:${fn:substring(board.boardDate,14,16)}</td>
 							</tr>
-							<tr>
+					<%-- 		<tr>
 								<td>추천👍</td>
 								<td colspan="2">${board.getBoardLike()}</td>
-							</tr>
+							</tr> --%>
 							<tr>
 								<td>조회💬</td>
 								<td colspan="2">${board.getBoardView()}</td>
@@ -74,11 +74,11 @@
 									${board.getBoardContent()}</td>
 							</tr>
 							<tr>
-								<td colspan="2"><a href="/board/list"
-									class="btn btn-primary">목록</a> <a
+								<td colspan="2"><a href='<c:url value="/board/list"/>'
+									class="btn btn-primary">목록</a><%--  <a
 									onclick="return confirm('추천하시겠습니까?')"
 									href="/board/like?boardID=${board.boardID}"
-									class="btn btn-success pull-right">👍${board.getBoardLike()}</a>
+									class="btn btn-success pull-right">👍${board.getBoardLike()}</a> --%>
 
 									<c:if
 										test="${user.userID != null && user.userID.equals(board.getUserID()) }">
@@ -98,31 +98,42 @@
 							<c:if
 								test="${user.userID != null}">
 								<tr>
+									<td></td>
+									<td colspan="2">댓글 쓰기</td>
+								</tr>
+								<tr>
 									<form method="post" action="/reply/write">
-										<td><input type="hidden" name="writer"
-											value="${user.userID}"> <input type="hidden"
-											name="boardID" value="${board.boardID}"></td>
-										<td><textarea rows="5" cols="50" name="content"></textarea>
-											<button type="submit" class="btn btn-primary">댓글 작성</button>
+										<input type="hidden" name="writer" value="${user.userID}"> 
+										<input type="hidden" name="boardID" value="${board.boardID}"></td>					
+										<td class="user_profile"><i class="fa-regular fa-user"></i>${user.userID }</td>
+										<td>
+										<textarea rows="3" cols="70" name="content"></textarea>
+											<p>
+											<button type="submit" class="btn btn-success" style="float :right;">댓글 등록</button>
+											</p>
 										</td>
 									</form>
 								</tr>
 							</c:if>
 
 							<tr>
-								<td>작성자 / 작성날짜</td>
+								<td>작성자</td>
 								<td colspan="2">댓글 내용</td>
 							</tr>
 							<c:forEach var="reply" items="${reply}">
+								<div class="userProfile">
 								<tr>
 									<td>
-										<p>${reply.writer}</p>
+									<div class="user_Profile">
+									 <i class="fa-regular fa-user"></i>
+									${reply.writer}
+									</td>
+									</div>
+									<td colspan="2" style="text-align: left;">
 										<p>
 											<fmt:formatDate value="${reply.regDate}"
-												pattern="yyyy-MM-dd HH:mm:ss" />
+												pattern="yyyy-MM-dd HH:mm" />
 										</p>
-									</td>
-									<td colspan="2" style="text-align: left;">
 										${reply.content} <c:if
 											test="${user.userID != null && user.userID.equals(reply.getWriter()) }">
 											<div class="replyDelete">
@@ -132,7 +143,8 @@
 											</div>
 										</c:if>
 									</td>
-								<tr>
+								</tr>
+								</div>
 							</c:forEach>
 						</tbody>
 					</table>

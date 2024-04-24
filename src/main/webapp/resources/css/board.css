@@ -37,9 +37,20 @@ ul {
 	padding: 0;
 }
 
-a {
-	text-decoration: none;
-	color: var(--color-text);
+.a {
+	font-weight: bold;
+	font-size: 2rem;
+}
+
+.pageNum {
+	/* text-decoration: none; */
+	color: var(--color-primary); 
+	font-size: 1rem;
+}
+
+.paging {
+	display: flex;
+	justify-content: center;
 }
 
 /*Common (공통으로 사용하는 것)*/
@@ -63,101 +74,6 @@ a {
 	/*창 늘어날 때 박스 간격 벌어지는 것 방지*/
 	margin: auto;
 	/*block 레벨 수평정렬 - auto는 자동으로 중간 정렬*/
-}
-
-/*Header*/
-.header {
-	background-color: var(--color-primary);
-	/* position: fixed; */
-	top: 0;
-	width: 100%;
-	padding: 1rem;
-	display: block; /*flexbox*/
-	justify-content: space-between;
-	align-items: center;
-}
-
-.header1 {
-	background-color: var(--color-primary);
-	top: 0;
-	width: 100%;
-	padding: 1rem;
-	display: flex; /*flexbox*/
-	justify-content: space-between;
-	align-items: center;
-}
-
-.header__logo {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-}
-
-.header__logo__img {
-	width: 45px;
-	height: 45px;
-	border-radius: 20px;
-}
-
-.header__logo__title {
-	font-size: 1.8rem;
-}
-
-.header__menu {
-	display: flex;
-	gap: 4px;
-}
-
-.header__menu__item {
-	padding: 8px 16px;
-}
-
-.header__menu__item:hover {
-	border-bottom: 4px solid var(--color-accent);
-}
-
-.header__menu__item.active {
-	border: 4px solid var(--color-accent);
-	border-radius: 4px;
-}
-
-.header2 {
-	background-color: var(--color-primary);
-	display: flex; /*flexbox*/
-	top: 0;
-	width: 100%;
-	padding: 1rem;
-	justify-content: space-between;
-	align-items: center;
-}
-
-.header__search {
-	display: flex;
-}
-
-input[type="text"] {
-	border-radius: 20px;
-	border: 6px solid #697ef1;
-}
-
-input::placeholder {
-	font-weight: bold;
-	text-align: center;
-}
-
-.header__search__button {
-	background-color: #697ef1;
-	border-radius: 20px;
-	color: var(--color-text);
-	outline: 0;
-	border: 0;
-	padding: 10px 20px;
-	margin: 0 10px;
-	cursor: pointer;
-}
-
-.header__serach__button:hover {
-	outline: 1px solid var(--color-accent);
 }
 
 /*================================================================*/
@@ -391,6 +307,44 @@ section.notice {
 	margin: -1px;
 	width: 1px;
 	height: 1px;
+}
+
+/*댓글*/
+.userProfile { /* 유저 프로필 */
+	width: 24%;
+	float: left;
+	height: 100%;
+	border-right: 3px solid black;
+	margin-right: 30px;
+}
+
+.userProfile a {
+	width: 75px;
+	float: left;
+	color: #1b1e26;
+}
+
+.userProfile div a {
+	width: 220px;
+	float: right;
+	color: #1b1e26;
+	padding: 0 0 10px 10px;
+}
+
+.userProfile div {
+	width: 220px;
+	padding: 0 0 10px 10px;
+	font-size: 25px;
+	float: left;
+}
+
+.fa-regular {
+	font-size: 30px;
+	float: left;
+}
+
+.user_profile {
+	font-size: 1rem;
 }
 
 /*Footer*/

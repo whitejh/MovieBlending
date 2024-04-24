@@ -23,13 +23,6 @@
 	rel="stylesheet" />
 </head>
 <body>
-<%-- 	<%
-	User user = null;
-	if (session.getAttribute("user") != null) {
-		user = (User) session.getAttribute("user");
-	}
-	%> --%>
-
 	<!-- Header-->
 	<header class="header">
 		<div class="header1">
@@ -38,7 +31,7 @@
 					src="${pageContext.request.contextPath}/resources/images/favicon.ico"
 					alt="logo" />
 				<h1 class="header__logo__title">
-					<a href="${pageContext.request.contextPath}/boxOffice">Movie Blending</a>
+					<a href="/boxOffice">Movie Blending</a>
 				</h1>
 			</div>
 
@@ -70,7 +63,7 @@
 				<ul class="header__menu">
 					<li><a class="header__menu__item" href="/boxOffice">박스오피스</a></li>
 					<li><a class="header__menu__item" href="/movieSearch">영화조회</a></li>
-					<li><a class="header__menu__item" href="/board/list">영화Talk</a></li>
+					<li><a class="header__menu__item" href="/board/listPage?num=1">영화Talk</a></li>
 				</ul>
 			</nav>
 			<div class="header__search">

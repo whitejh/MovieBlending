@@ -21,7 +21,7 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 @AllArgsConstructor
-@RequestMapping("/member")
+@RequestMapping("/member/*")
 public class MemberController {
     private MemberService memberservice;
     private UserService userservice;

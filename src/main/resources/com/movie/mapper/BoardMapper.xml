@@ -4,17 +4,21 @@
 <mapper namespace="com.movie.mapper.BoardMapper">
 	<!-- 게시물 목록 -->
 	<select id="getList" resultType="com.movie.domain.Board">
-		select * from board where boardID > 0
+		select * from board order by boardView desc where boardID > 0
 	</select>
 	
 	<!-- 게시물 총 갯수 -->
 	<select id = "count" resultType="int">
-		select count(boardID) from board
+		select count(*) from board
 	</select>
 	
-	<!-- 게시물 목록 + 페이징 추가 -->
-	<select id="getListPage" parameterType = "hashMap" resultType="com.movie.domain.Board">
-		select * from board order by boardID desc limit #{displayPost}, #{postNum}
+	<!-- 게시물 목록 + 페이징  -->
+	<select id="getListPage" parameterType="hashmap" resultType="com.movie.domain.Board">
+	
+		select * from board 
+		order by boardID desc 
+		limit #{displayPost}, #{postNum}
+	
 	</select>
 	
 	<!-- 게시물 작성 -->
@@ -40,7 +44,34 @@
 		where boardID = #{boardID}
 	</update>
 	
-	<update id="increaseView"> <!-- 조회 수 증가 -->
+	<!-- 조회 수 증가 -->
+	<update id="increaseView">
+		update board set boardView = boardView+1 where boardID = #{boardID}
+	</update>
+	
+	 <!-- 조회 수 증가 -->
+	 <update id="increaseLike">
 		update board set boardLike = boardLike+1 where boardID = #{boardID}
 	</update>
+<!-- 	
+	게시물 목록 + 검색
+ 	<select id="listPageSearch" parameterType = "hashMap" resultType="com.movie.domain.Board">
+		select 
+			boardID, boardTitle, userID, boardDate, boardView 
+		from board
+		<if test = 'searchType.equals("title")'>
+		where boardTitle LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test = 'searchType.equals("content")'>
+		where boardContent LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test = 'searchType.equals("title_content")'>
+		where boardTitle LIKE concat('%', #{keyword}, '%')
+			or boardContent LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test = 'searchType.equals("writer")'>
+		where userID LIKE concat('%', #{keyword}, '%')	
+		</if>
+	</select>  -->
+	
 </mapper>
