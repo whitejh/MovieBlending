@@ -66,7 +66,7 @@
 										<input type="submit" class="btn btn-primary" value="작성완료"><!--  onclick="boardWrite();" -->
 										<input type="reset" class="btn btn-warning" value="다시 입력"> 
 										<input type="button" class="btn btn-success" value="목록"
-										onclick="location.href='/board/listPage?num=${num}';">
+										onclick="location.href='/board/listPage?num=1';">
 									</td>
 								</tr>
 							</tbody>

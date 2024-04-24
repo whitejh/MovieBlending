@@ -16,13 +16,17 @@ public interface BoardMapper {
 	public void delete(Integer boardID);			// 게시글 삭제
 	public void update(Board board);				// 게시글 수정
 	
-	public int count(); // 게시물 총 개수
+	// 게시물 총 개수
+	public int count(); 
+	// 게시물 총 개수 + 검색 적용
+	public int searchCount(@Param("searchType") String searchType, 
+			@Param("keyword") String keyword);
 	
-	// 게시판 목록 + 페이징 처리
+	// 게시판 목록 + 페이징 처리 + 검색 기능
 	public List<Board> getListPage(@Param("displayPost") int displayPost, 
-			@Param("postNum") int postNum); 
-	
-	// 게시판 목록 + 검색
-	//public List<Board> listPageSearch(String searchType, String keyword); 
+			@Param("postNum") int postNum,
+			@Param("searchType") String searchType,
+			@Param("keyword") String keyword);
+
 
 }

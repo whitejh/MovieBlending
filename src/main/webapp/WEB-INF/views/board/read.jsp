@@ -74,7 +74,7 @@
 									${board.getBoardContent()}</td>
 							</tr>
 							<tr>
-								<td colspan="2"><a href='<c:url value="/board/list"/>'
+								<td colspan="2"><a href='<c:url value="/board/listPage?num=1"/>'
 									class="btn btn-primary">목록</a><%--  <a
 									onclick="return confirm('추천하시겠습니까?')"
 									href="/board/like?boardID=${board.boardID}"

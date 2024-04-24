@@ -55,25 +55,35 @@
 						<div id="board-search">
 							<div class="container">
 								<div class="search-window">
+								
 									<form action="">
 										<div class="search-wrap">
-											<label for="search" class="blind">게시글 검색</label> <select
-												name="searchType">
-												<option value="title">제목</option>
-												<option value="content">내용</option>
-												<option value="title_content">제목+내용</option>
-												<option value="writer">작성자</option>
-											</select> <input id="search" type="search" name="keyword"
-												placeholder="검색어를 입력해주세요." value="" />
-											<button type="submit" id="searchBtn" class="btn btn-dark">검색</button>
+											<label for="search" class="blind">게시글 검색</label> 
+											 <select name="searchType">
+     											<option value="title" <c:if test="${page.searchType eq 'title'}">selected</c:if>>
+     												제목</option>
+										        <option value="content" <c:if test="${page.searchType eq 'content'}">selected</c:if>>
+										        	내용</option>
+										   <%--   	<option value="title_content" <c:if test="${page.searchType eq 'title_content'}">selected</c:if>>
+										     		제목+내용</option> --%>
+										     	<option value="writer" <c:if test="${page.searchType eq 'writer'}">selected</c:if>>
+										     		작성자</option>
+										 	</select>
+												
+											<input id="search" type="search" name="keyword"
+												placeholder="검색어를 입력해주세요." value="${page.keyword}" />
+											
+											<button type="button" id="searchBtn" class="btn btn-dark">검색</button>
 										</div>
 									</form>
+									
 									<div class="write">
 										<c:if test="${user.userID != null }">
 											<button id='regBtn' type="button" class=" write__button"
-												onclick="location.href='/board/write';">글쓰기</button>
+												onclick="location.href='/board/write';" style="margin-top:10px;">글쓰기</button>
 										</c:if>
 									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -117,33 +127,31 @@
 							</table>
 
 							<div class="paging">
-
-								<c:if test="${prev}">
-									<span style="color: black;">
-										[ <a class="pageNum"
-											href='<c:url value="/board/listPage?num=${startPageNum - 1}"/>'>이전</a> ]&nbsp
-									</span>
+								
+								<c:if test="${page.prev}">
+								 <span>&nbsp;[ <a class="pageNum" 
+								 		href="/board/listPage?num=${page.startPageNum - 1}${page.searchTypeKeyword}">이전</a> ]&nbsp; 
+								 </span>
 								</c:if>
-
-								<c:forEach begin="${startPageNum}" end="${endPageNum}" var="num">
-									<span style="color: black;"> 
-									
-										<c:if 	test="${select != num}">
-											<a class="pageNum" href='<c:url value="/board/listPage?num=${num}"/>'>&nbsp ${num} &nbsp</a>
-										</c:if> 
-									
-										<c:if test="${select == num}">
-												<strong>&nbsp${num}&nbsp</strong>
-										</c:if>
-										
-									</span>
+								
+								<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
+								 <span>
+								 
+								  <c:if test="${select != num}">
+								   		<a class="pageNum"
+								   		href="/board/listPage?num=${num}${page.searchTypeKeyword}">&nbsp;${num}&nbsp;</a>
+								  </c:if>    
+								  
+								  <c:if test="${select == num}">
+								   <b>&nbsp;${num}&nbsp;</b>
+								  </c:if>
+								    
+								  </span>
 								</c:forEach>
-
-
-								<c:if test="${next}">
-									<span style="color: black;">&nbsp[ <a class="pageNum"
-										href='<c:url value="/board/listPage?num=${endPageNum + 1}"/>'>다음</a> ]
-									</span>
+								
+								<c:if test="${page.next}">
+								 <span>&nbsp;[ <a class="pageNum"
+								 	href="/board/listPage?num=${page.endPageNum + 1}${page.searchTypeKeyword}">다음</a> ]&nbsp;</span>
 								</c:if>
 
 							</div>
@@ -168,13 +176,14 @@
 
 <script>
 	document.getElementById("searchBtn").onclick = function() {
+		
 		let searchType = document.getElementsByName("searchType")[0].value;
 		let keyword = document.getElementsByName("keyword")[0].value;
 
 		console.log(searchType);
 		console.log(keyword);
 
-		location.href = "/board/list?" + "searchType=" + searchType
+		location.href = "/board/listPage?num=1" + "&searchType=" + searchType
 				+ "&keyword=" + keyword;
 	};
 

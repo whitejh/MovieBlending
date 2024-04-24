@@ -313,11 +313,8 @@ footer {
 	justify-content: center; /* 카드를 중앙으로 정렬 */
 	gap: 20px;
 	padding: 20px;
-	overflow-y: auto; /* 스크롤 가능하도록 설정 */
-	max-height: calc(100vh - 250px); /* 화면 높이에서 헤더와 푸터의 높이를 제외한 값 */
 	position: relative;
 	width: 100%; /* 전체 너비에 맞게 설정 */
-/* 	min-height:1600px; */
 }
 
 .card {
@@ -332,7 +329,6 @@ footer {
 	
 	/* 마우스를 올렸을 때의 스타일 */
     transition: box-shadow 0.3s ease; /* 그림자 효과에 트랜지션 적용 */
-    /* min-height: 500px; */
 }
 
 .card.active {

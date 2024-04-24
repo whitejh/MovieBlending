@@ -26,9 +26,13 @@ public class BoardService {
 	public int count() {
 		return mapper.count(); // 게시물 총 개수
 	}
+	
+	public int searchCount(String searchType, String keyword) {
+		return mapper.searchCount(searchType, keyword);
+	}
 
-	public List<Board> getListPage(int displayPost, int postNum) {
-		return mapper.getListPage(displayPost, postNum);
+	public List<Board> getListPage(int displayPost, int postNum, String searchType, String keyword) {
+		return mapper.getListPage(displayPost, postNum, searchType, keyword);
 	}
 
 	public void write(Board board) {

@@ -219,6 +219,7 @@ img.posterImgSub {
 textarea {
     display: block;
     margin-bottom: 50px;
+    margin-left : 30px;
 }
 .update {
     display: block;

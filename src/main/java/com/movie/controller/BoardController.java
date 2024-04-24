@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.movie.domain.Board;
 import com.movie.domain.BoardReply;
+import com.movie.domain.Page;
 import com.movie.service.BoardService;
 import com.movie.service.ReplyService;
 
@@ -33,55 +34,32 @@ public class BoardController {
 		model.addAttribute("bList", service.getList());
 	}
 
-	// 게시글 목록 + 페이징 추가
+	// 게시글 목록 + 페이징 추가 + 검색
 	@GetMapping("/listPage") 
-	public void getListPage(Model model, @RequestParam(value="num") int num) { 
-		 
-		 // 게시물 총 갯수
-		 int count = service.count();
-		  
-		 // 한 페이지에 출력할 게시물 갯수
-		 int postNum = 10;
-		  
-		 // 하단 페이징 번호 ([ 게시물 총 갯수 ÷ 한 페이지에 출력할 갯수 ]의 올림)
-		 int pageNum = (int)Math.ceil((double)count/postNum);
-		  
-		 // 출력할 게시물
-		 int displayPost = (num - 1) * postNum;
-		 
-		// 한번에 표시할 페이징 번호의 갯수
-		 int pageNum_cnt = 5;
+	public void getListPage(Model model, @RequestParam(value="num") int num,
+			@RequestParam(value = "searchType", required = false, defaultValue = "title") String searchType, 
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) { 
+		
+		Page page = new Page();
+		
+		page.setNum(num);
+		//page.setCount(service.count());  
+		page.setCount(service.searchCount(searchType, keyword));
+		
+		// 검색 타입과 검색어
+		//page.setSearchTypeKeyword(searchType, keyword);
+		page.setSearchType(searchType);
+		page.setKeyword(keyword);
+		
+		List<Board> list = service.getListPage(page.getDisplayPost(), page.getPostNum(), searchType, keyword);
 
-		 // 표시되는 페이지 번호 중 마지막 번호
-		 int endPageNum = (int)(Math.ceil((double)num / (double)pageNum_cnt) * pageNum_cnt);
-
-		 // 표시되는 페이지 번호 중 첫번째 번호
-		 int startPageNum = endPageNum - (pageNum_cnt - 1);
-		 
-		// 마지막 번호 재계산
-		 int endPageNum_tmp = (int)(Math.ceil((double)count / (double)pageNum_cnt));
-		  
-		 if(endPageNum > endPageNum_tmp) {
-		  endPageNum = endPageNum_tmp;
-		 }
-		 
-		 boolean prev = startPageNum == 1 ? false : true;
-		 boolean next = endPageNum * pageNum_cnt >= count ? false : true;
-		    
-		 List list = service.getListPage(displayPost, postNum);
-		 model.addAttribute("bList", list);   
-		 model.addAttribute("pageNum", pageNum);
-		  
-		// 시작 및 끝 번호
-		 model.addAttribute("startPageNum", startPageNum);
-		 model.addAttribute("endPageNum", endPageNum);
-
-		 // 이전 및 다음 
-		 model.addAttribute("prev", prev);
-		 model.addAttribute("next", next);
-		 
-		// 현재 페이지
-		 model.addAttribute("select", num);
+		model.addAttribute("bList", list);   
+		model.addAttribute("page", page);	
+		model.addAttribute("select", num);	// 현재 페이지
+		
+		//model.addAttribute("searchType", searchType);
+		//model.addAttribute("keyword", keyword);
+		
 	}
 
 	// 게시글 작성, 등록
@@ -90,7 +68,7 @@ public class BoardController {
 		log.info("write : " + board);
 		service.write(board);
 		rttr.addFlashAttribute("result", board.getBoardID());
-		return "redirect:/board/list";
+		return "redirect:/board/listPage?num=1";
 	}
 
 	// 글쓰기 페이지로 이동
@@ -101,7 +79,7 @@ public class BoardController {
 
 	// 게시글 조회
 	@GetMapping("/read")
-	public void read(@RequestParam("boardID") Integer boardID, Model model, @RequestParam(value="num") int num) {
+	public void read(@RequestParam("boardID") Integer boardID, Model model) {
 		service.increaseView(boardID); // 게시글 조회 시 1 증가
 		Board board = service.read(boardID);
 		model.addAttribute("board", board);
@@ -110,8 +88,6 @@ public class BoardController {
 		List<BoardReply> reply = replyService.replyList(boardID);
 		model.addAttribute("reply", reply);
 		
-		// 현재 페이지
-		model.addAttribute("select", num);
 	}
 
 	// 게시글 수정
