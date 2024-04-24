@@ -54,18 +54,22 @@
 										id="title" value="${board.boardTitle}" /></td>
 								</tr>
 								<tr>
+									<td><input class="form-control" name="userID"
+										id="writer" value="${user.userID}" readonly/></td>
+								</tr>
+								<tr>
 									<td><input type="hidden" name="boardID" value="${board.userID}"></td>
 								</tr>
 								<tr>
 									<td><textarea class="form-control" name="boardContent"
-											id="content" value="${board.boardContent}" style="height: 300px;"></textarea></td>
+											id="content" style="height: 300px;">${board.boardContent}</textarea></td>
 								</tr>
 								<tr>
 									<td colspan="2">
 										<input type="submit" class="btn btn-primary" value="작성완료">
 										<input type="reset" class="btn btn-warning" value="다시 입력"> 
 										<input type="button" class="btn btn-success" value="목록"
-										onclick="location.href='/board/list';">
+										onclick="location.href='/board/listPage?num=1';">
 									</td>
 								</tr>
 							</tbody>

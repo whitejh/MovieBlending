@@ -55,7 +55,7 @@
 								</tr>
 								<tr>
 									<td><input class="form-control" name="userID"
-										id="writer" value="${user.userID}"/></td>
+										id="writer" value="${user.userID}" readonly/></td>
 								</tr>
 								<tr>
 									<td><textarea class="form-control" name="boardContent"
