@@ -46,7 +46,8 @@ a, a:hover {
 				<select id="searchType">
 					<option value="movieNm">영화 제목</option>
 					<option value="directorNm">감독명</option>
-				</select> <input id="searchInput" name="search" type="text"
+				</select>
+				<input id="searchInput" name="search" type="text"
 					placeholder="찾는 영화의 정보를 입력하세요" size="60" /> <input
 					id="searchButton" class="header__search__button" type="submit"
 					value="검색" />
@@ -57,19 +58,23 @@ a, a:hover {
 			<div class="movieSearch_list"></div>
 		</div>
 	</main>
-	
-	<!-- 화살표 -->
-	<aside>
-		<a class="arrow-up" title="back to top"
-			onclick="window.scrollTo(0,0);"> <i class="fa-solid fa-arrow-up"></i></a>
-	</aside>
 
 	<!-- Footer -->
 	<jsp:include
 		page="${pageContext.request.contextPath}/WEB-INF/views/include/footer.jsp" />
 		
 	<script>
-		$(document).ready(function() { //페이지 로드 후 실행될 함수   		
+		//페이지 로드 후 실행될 함수   
+		$(document).ready(function() {   
+			
+			// 각 카드를 숨김
+		    $('.card').css('opacity', 0);
+
+		    // 각 카드 요소에 대해 순차적으로 애니메이션 적용
+		    $('.card').each(function(index) {
+		        // index를 기준으로 순차적으로 애니메이션 지연 시간을 계산하여 적용
+		        $(this).delay(200 * index).animate({ opacity: 1 }, 500);
+		    });
 
 			//movieButton 버튼 클릭 이벤트 함수(상세보기)
 			$("#movieButton").on('click', function() {
@@ -79,9 +84,13 @@ a, a:hover {
 			//검색 버튼 이벤트
 			$("#searchButton").on('click', function() {
 				$(".movieSearch_list").empty();
+				$(".movieSearch_list").show(); // 검색 버튼 클릭 시에 보이게 설정
 		        let inputText = $("#searchInput").val();
 		        let type = $("#searchType").val(); // 선택된 검색 유형 가져오기
-		        fetchSearchData(inputText, type); // 입력한 검색어와 선택된 검색 유형을 fetchData 함수에 전달
+		        
+		     	// 입력한 검색어와 선택된 검색 유형을 fetchData 함수에 전달
+		      	// movieSearch.js에 있는 기능 함수 참조
+		        fetchSearchData(inputText, type);
 		    });			
 			
 		    // 카드에 마우스를 갖다대면 주황색 그림자 효과 추가
@@ -95,35 +104,35 @@ a, a:hover {
 		    });
 			
 		});
-		
+
 		function fetchSearchData(inputText, type) {
-			// AJAX 요청 보내기
-			$.getJSON({
-				url : '/movieSearch1',
-				type : 'GET',
-				data : {
-					inputText : inputText,
-					type : type // 선택된 검색 유형도 함께 전달
-				},
-				success : function(data) {
-					console.log('AJAX 요청 성공 !!!');
-					positionWithPoster(data);
-				},
-				error : function(xhr, status, error) {
-					console.error('AJAX 요청 실패 ??? : ' + status + " " + error);
-					console.error('전달하려는 inputText: ' + inputText);
-					console.error('전달하려는 type: ' + type);
-				}
-			});
+		    // AJAX 요청 보내기
+		    $.getJSON({
+		        url: '/movieSearch1',
+		        type: 'GET',
+		        data: {
+		            inputText: inputText,
+		            type: type // 선택된 검색 유형도 함께 전달
+		        },
+		        success: function(data) {
+		            console.log('AJAX 요청 성공 !!!');
+		            positionWithPoster(data);
+		        },
+		        error: function(xhr, status, error) {
+		            console.error('AJAX 요청 실패 ??? : ' + status + " " + error);
+		            console.error('전달하려는 inputText: ' + inputText);
+		            console.error('전달하려는 type: ' + type);
+		        }
+		    });
 		}
-		
+
 		// 포스터가 있는 카드를 먼저 나열하게 배치
 		function positionWithPoster(data) {
-			// posterUrl이 있는 영화와 없는 영화를 구분하기 위한 배열 선언
+		    // posterUrl이 있는 영화와 없는 영화를 구분하기 위한 배열 선언
 		    let moviesWithPoster = [];
 		    let moviesWithoutPoster = [];
 		    
-		 	// posterUrl 유무에 따라 분류
+		    // posterUrl 유무에 따라 분류
 		    $.each(data, function(index, item) {  
 		        if (item.posterUrl) {
 		            moviesWithPoster.push(item);
@@ -131,57 +140,60 @@ a, a:hover {
 		            moviesWithoutPoster.push(item);
 		        }
 		    });
-		 	
-		 	// 포스터가 있는 영화들 중에서 가장 최근에 개봉한 영화 순으로 정렬하여 출력
+		    
+		    // 포스터가 있는 영화들 중에서 가장 최근에 개봉한 영화 순으로 정렬하여 출력
 		    $.each(moviesWithPoster.sort(function(a, b) {
 		        return new Date(b.openDt) - new Date(a.openDt);
 		    }), function(index, item) {    
 		        showSearchCard(item);
 		    });
-			// 그 후 posterUrl이 없는 영화들 이어서 출력
-			$.each(moviesWithoutPoster, function(index, item) {  
-				showSearchCard(item);
-			});
+		    // 그 후 posterUrl이 없는 영화들 이어서 출력
+		    $.each(moviesWithoutPoster, function(index, item) {  
+		        showSearchCard(item);
+		    });
 		}
-		
+
 		//데이터 출력 함수(카드에다 출력)
 		function showSearchCard(item) {
-			// item.openDt를 날짜 형식으로 변환
-			let year = item.openDt.substring(0, 4);
-			let month = item.openDt.substring(4, 6);
-			let day = item.openDt.substring(6, 8);
-			let posterUrl = item.posterUrl ? item.posterUrl : '${pageContext.request.contextPath}/resources/images/movies/subPoster.png';
-			let formattedDate = year + '-' + month + '-' + day;
+		    // item.openDt를 날짜 형식으로 변환
+		    let year = item.openDt.substring(0, 4);
+		    let month = item.openDt.substring(4, 6);
+		    let day = item.openDt.substring(6, 8);
+		    let formattedDate = year + '-' + month + '-' + day;
 
-			let cardHtml = '<div class="card mb-3">'
-					+ '<div class="card-header text-center">' + '<span>'
-					+ item.movieNm
-					+ '</span>'
-					+ '<button class="bookmark-btn" data-bookmarked="false">&#9734;</button>'
-					+ '</div>'
-					+ '<div class="row g-0">'
-					+ '<div class="col-md-12 text-center">'
-					+ '<img src="' + posterUrl + '" class="card-img-top" alt="포스터가 존재하지 않습니다.">'
-					+ '</div>'
-					+ '</div>'
-					+ '<div class="card-body text-center">'
-					+ '<p class="card-text"><strong>개봉일: </strong>'
-					+ formattedDate
-					+ '</p>'
-					+ '<ul class="list-group list-group-flush">'
-					+ '<li class="list-group-item"><strong>장르: </strong>'
-					+ item.genre
-					+ '</li>'
-					+ '<li class="list-group-item"><strong>감독: </strong>'
-					+ item.directorNm
-					+ '</li>'
-					+ '</ul>'
-					+ '<a href="movie/movieDetail?movieCd='
-					+ item.movieCd
-					+ '" class="btn btn-primary">상세 보기</a>'
-					+ '</div>'
-					+ '</div>';
-			$(".movieSearch_list").append(cardHtml);
+		    let cardHtml = '<div class="card mb-3">'
+		            + '<div class="card-header">' + '<span>'
+		            + item.movieNm
+		            + '</span>'
+		            + '<button class="bookmark-btn" data-bookmarked="false">&#9734;</button>'
+		            + '</div>'
+		            + '<div class="row g-0">'
+		            + '<div class="col-md-12 text-center">'
+		            + '<img src="' + item.posterUrl + '" class="card-img-top" alt="포스터가 존재하지 않습니다.">'
+		            + '</div>'
+		            + '</div>'
+		            + '<div class="card-body text-center">'
+		            + '<p class="card-text"><strong>개봉일: </strong>'
+		            + formattedDate
+		            + '</p>'
+		            + '<ul class="list-group list-group-flush">'
+		            + '<li class="list-group-item"><strong>장르: </strong>'
+		            + item.genre
+		            + '</li>'
+		            + '<li class="list-group-item"><strong>감독: </strong>'
+		            + item.directorNm
+		            + '</li>'
+		            + '</ul>'
+		            + '<a href="movie/movieDetail?movieCd='
+		            + item.movieCd
+		            + '" class="btn btn-primary">상세 보기</a>'
+		            + '</div>'
+		            + '</div>'
+		            + '</div>';
+		    $(".movieSearch_list").append(cardHtml);
 		}
 		
+		
 	</script>
+</body>
+	</html>
