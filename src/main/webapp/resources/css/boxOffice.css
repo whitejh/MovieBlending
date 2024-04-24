@@ -339,7 +339,9 @@ footer {
 	margin-top: 50px;
 }
 
-.card {
+.card {	
+	opacity: 0; /* 초기에는 투명으로 설정하여 숨김 */
+	
 	flex: 0 1 calc(20% - 20px); /* 한 줄에 최대 5장의 카드를 표시하도록 설정 */
     max-width: calc(20% - 20px); /* 한 줄에 5장의 카드가 모두 표시되었을 때의 최대 카드 너비 */
 	margin-bottom: 20px; /* 카드 간격 설정 */
@@ -353,8 +355,52 @@ footer {
     transition: box-shadow 1s ease; /* 그림자 효과에 트랜지션 적용 */
 }
 
-.btn-primary {
-	margin-top: 15px;
+@keyframes fadeInFromBottom {
+    from {
+        opacity: 0; /* 시작 시 투명도 0으로 설정하여 숨김 */
+        transform: translateY(50%); /* 아래에서 시작 */
+    }
+    to {
+        opacity: 1; /* 끝나는 시점에 투명도 1로 설정하여 나타남 */
+        transform: translateY(0); /* 위로 이동하여 나타남 */
+    }
+}
+
+/* 각 카드에 애니메이션 효과 적용 */
+.card {
+    animation: fadeInFromBottom 1.0s ease forwards; /* fadeIn 애니메이션 효과를 0.5초 동안 적용 */
+}
+
+/* 순차적으로 나타나도록 각 카드에 지연 효과 적용 */
+.card:nth-child(1) {
+    animation-delay: 0.15s; /* 첫 번째 카드는 0.1초 후에 애니메이션 시작 */
+}
+.card:nth-child(2) {
+    animation-delay: 0.3s; /* 두 번째 카드는 0.2초 후에 애니메이션 시작 */
+}
+.card:nth-child(3) {
+    animation-delay: 0.45s; /* 두 번째 카드는 0.2초 후에 애니메이션 시작 */
+}
+.card:nth-child(4) {
+    animation-delay: 0.6s; /* 두 번째 카드는 0.2초 후에 애니메이션 시작 */
+}
+.card:nth-child(5) {
+    animation-delay: 0.75s; /* 두 번째 카드는 0.2초 후에 애니메이션 시작 */
+}
+.card:nth-child(6) {
+    animation-delay: 0.9s; /* 두 번째 카드는 0.2초 후에 애니메이션 시작 */
+}
+.card:nth-child(7) {
+    animation-delay: 1.05s; /* 두 번째 카드는 0.2초 후에 애니메이션 시작 */
+}
+.card:nth-child(8) {
+    animation-delay: 1.3s; /* 두 번째 카드는 0.2초 후에 애니메이션 시작 */
+}
+.card:nth-child(9) {
+    animation-delay: 1.45s; /* 두 번째 카드는 0.2초 후에 애니메이션 시작 */
+}
+.card:nth-child(10) {
+    animation-delay: 1.6s; /* 두 번째 카드는 0.2초 후에 애니메이션 시작 */
 }
 
 .card.active {
@@ -477,21 +523,6 @@ footer {
 
 .fa-solid:hover {
 	color: var(--color-accent-variant);
-}
-
-/*화살표*/
-.arrow-up {
-	background-color: var(--color-primary);
-	position: fixed;
-	bottom: 3rem;
-	right: 3rem;
-	font-size: 3rem;
-	width: 4.5rem;
-	height: 4.5rem;
-	border-radius: 100%;
-	text-align: center;
-	box-shadow: 5px 5px 0px 0px var(--color-accent);
-	transition: opacity 300ms ease-in;
 }
 
 @media screen and (max-width: 1200px) {
