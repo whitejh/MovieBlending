@@ -59,7 +59,7 @@
                             <li class="movie">
                                 <div class="movie_name">${review.movieNm}</div>
                                 <div class="star-rating">
-                                    <i class="fa-solid fa-star"></i>
+                                    <!-- <i class="fa-solid fa-star"></i> -->
                                 </div>
                                 <a href="/movie/movieDetail?movieCd=${review.movieCd}" target="_blank">
                                     <c:if test="${not empty review.imgUrl}">
@@ -70,7 +70,7 @@
                                     </c:if>
                                     <div class="movie__metadata">
                                         <h3 class="movie__title">${review.movieNm}</h3>
-                                        <p>개봉 : ${review.openDt}</p>
+                                        <p>개봉 일자 : ${review.openDt}</p>
                                         <div class="review_box">
                                             <div class="movie__review">
                                                 <div class="review">${review.content}</div>
