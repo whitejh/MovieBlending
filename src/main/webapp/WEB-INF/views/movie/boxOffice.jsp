@@ -65,19 +65,16 @@ a, a:hover {
 						<div class="card-header text-center">
 							<div>
 								<span>${item.movieNm}</span> <span>${item.rankOldAndNew}</span>
-							</div>
-							<div class="numberCircle">
-								<strong>${item.rank}</strong>
+								<div class="numberCircle">
+									<strong>${item.rank}</strong>
+								</div>
 							</div>
 						</div>
 						<div class="row g-0">
 							<div class="col-md-12 text-center">
 								<h5 class="card-title">${item.movieNm}</h5>
-								<c:if test="${item.posterUrl != null} }">
-									<img src="${item.posterUrl}" class="card-img-top"
-										alt="${item.movieNm} 이미지">
-								</c:if>
-
+								<img src="${item.posterUrl}" class="card-img-top"
+									alt="${item.movieNm} 이미지">
 							</div>
 						</div>
 						<div class="card-body text-center">
@@ -94,35 +91,26 @@ a, a:hover {
 			</div>
 		</div>
 	</main>
-	
-	<aside>
-		<a class="arrow-up" title="back to top"
-			onclick="window.scrollTo(0,0);"> <i class="fa-solid fa-arrow-up"></i></a>
-	</aside>
 
 	<!-- Footer -->
 	<jsp:include
 		page="${pageContext.request.contextPath}/WEB-INF/views/include/footer.jsp" />
 
 	<script>
-		$(document).ready(function() { //페이지 로드 후 실행될 함수     	
+		$(document).ready(function() { //페이지 로드 후 실행될 함수  
+
+			// 각 카드를 숨김
+		    $('.card').css('opacity', 0);
+
+		    // 각 카드 요소에 대해 순차적으로 애니메이션 적용
+		    $('.card').each(function(index) {
+		        // index를 기준으로 순차적으로 애니메이션 지연 시간을 계산하여 적용
+		        $(this).delay(200 * index).animate({ opacity: 1 }, 500);
+		    });
+			
 			let result = $(".boxoffice_movie");
 			let dateRange = $(".date_range");
 			let yesterdayDate;
-			var posterUrl = "${item.posterUrl}";
-			
-			//대체 포스터 출력
-			if (!posterUrl) {
-		        // 대체 포스터 출력
-		        let imgHtml = '<img src="${pageContext.request.contextPath}/resources/images/movies/subPoster.png" alt="대체 포스터 이미지">';
-		        // 이미지를 출력할 HTML 요소에 추가
-		        $(".mPoster").append(imgHtml);
-		    } else {
-		        // 실제 포스터 출력
-		        let imgHtml = '<img src="' + posterUrl + '" alt="${movie.movieNm}" class="mPosterImage">';
-		        // 포스터를 출력할 HTML 요소에 추가
-		        $(".mPoster").append(imgHtml);
-		    }
 
 			//어제의 날짜를 계산
 			let d = new Date();
@@ -144,7 +132,7 @@ a, a:hover {
 
 			let type = "daily";
 			fetchFirstData(yesterdayDate, type); //초기 화면 설정(버튼 클릭 없이 나오게)
-
+			
 			//박스오피스 버튼 클릭 시 해당 타입의 데이터 조회
 			$('.boxoffice_name ul li a').on('click', function() {
 				result.empty();
@@ -152,8 +140,8 @@ a, a:hover {
 				$('.boxoffice_name ul li a').removeClass('active');
 				$(this).addClass('active');
 				let type = $(this).data('type');
-				let selectedDate = $('#datepicker').val(); //선택한 날짜 가져오기
-				updateNewData(selectedDate, type); //선택한 날짜와 타입을 fetchData 함수에 전달
+				let selectedDate = $('#datepicker').val(); //선택한 날짜 가져오기					
+				updateNewData(selectedDate, type); //선택한 날짜와 타입을 서버에 전달
 			});
 
 			//페이지 로드 시 자동으로 일별 박스오피스 버튼 클릭
@@ -173,21 +161,19 @@ a, a:hover {
 				let isBookmarked = $(this).hasClass('bookmarked'); //북마크 여부 확인
 				$(this).attr('data-bookmarked', isBookmarked); //북마크 상태를 데이터 속성에 반영
 			});
+			
+			// 카드에 마우스 갖다대면 주황색 그림자 효과 추가
+		    // 주의!! 검사기 모드에서는 클릭해야지만 효과가 보임
+		    $(document).on('mouseover', '.card', function() {
+		        $(this).addClass('active');
+		    });		    
+		    $(document).on('mouseout', '.card', function() {
+		        $(this).removeClass('active');
+		    });
+		});	
 
-			// 카드에 마우스를 갖다대면 주황색 그림자 효과 추가
-			// 주의!! 검사기 모드에서는 클릭해야지만 효과가 보임
-			$(document).on('mouseover', '.card', function() {
-				$(this).addClass('active');
-			});
-			// 카드에서 마우스가 빠져나가면 주황색 그림자 효과 제거
-			$(document).on('mouseout', '.card', function() {
-				$(this).removeClass('active');
-			});
-		});
-
-		//페이지 로드 시 초기 데이터 화면에 출력
+		//페이지 로드 시 초기 데이터 요청
 		function fetchFirstData(selectedDate, type) {
-			// AJAX 요청 보내기
 			$.ajax({
 				url : 'http://localhost:9090/boxOffice',
 				type : 'GET',
@@ -204,9 +190,10 @@ a, a:hover {
 			});
 		}
 
-		//버튼 클릭 후 새로운 데이터 화면에 출력
+		//버튼 클릭 후 새로운 데이터 요청
 		function updateNewData(selectedDate, type) {
-			// AJAX 요청 보내기
+			//getJSON(무조건 JSON 요청)
+			//혹은 $.ajax 하고 밑에다 [, dataType:"json"] 붙여도 됨
 			$.getJSON({
 				url : 'http://localhost:9090/boxOffice1.json',
 				type : 'GET',
@@ -215,61 +202,68 @@ a, a:hover {
 					type : type
 				},
 				success : function(data) {
-					updateCardData(data);
-					console.log('AJAX 요청 성공 !!! ', data);
+					if(data.length <= 0) {
+						alert("선택하신 날짜의 박스오피스 데이터가 없습니다.");
+					}
+	                updateCardData(data, type);
+	                console.log('AJAX 요청 성공 !!! ', data);
 				},
 				error : function(xhr, status, error) {
+					alert("선택하신 날짜의 박스오피스 데이터가 없습니다.");
 					console.error('AJAX 요청 실패 ??? : ' + status + " " + error);
 				}
 			});
 		}
 
-		//데이터 출력 함수(카드에다 출력)
-		function updateCardData(data) {
-			console.log('업데이트된 data : ' + data);
-			$
-					.each(
-							data,
-							function(index, item) {
-								let posterUrl = item.posterUrl ? item.posterUrl
-										: '${pageContext.request.contextPath}/resources/images/movies/subPoster.png';
-								let isNew = item.rankOldAndNew === "NEW"; // rankOldAndNew 값이 "New"인지 확인
-								let cardHtml = '<div class="card mb-3">'
-										+ '<div class="card-header text-center">'
-										+ '<span>'
-										+ item.movieNm
-										+ '</span>'
-										+ (isNew ? '<span class="rankOldAndNew">'
-												: '') // rankOldAndNew 값이 "New"일 때만 클래스 추가
-										+ item.rankOldAndNew
-										+ (isNew ? '</span>' : '') // rankOldAndNew 값이 "New"일 때만 클래스 추가
-										+ '</div>'
-										+ '<div class="numberCircle"><strong>'
-										+ item.rank
-										+ '</strong></div>'
-										+ '<div class="row g-0">'
-										+ '<div class="col-md-12 text-center">'
-										+ '<img src="' + posterUrl + '" class="card-img-top" alt="' + item.movieNm + ': 포스터가 존재하지 않습니다.">'
-										+ '</div>'
-										+ '</div>'
-										+ '<div class="card-body text-center">'
-										+ '<p class="card-text"><strong>개봉일: </strong>'
-										+ item.openDt
-										+ '</p>'
-										+ '<ul class="list-group list-group-flush">'
-										+ '<li class="list-group-item"><strong>당일 관객수: </strong>'
-										+ item.audiCnt
-										+ '명</li>'
-										+ '<li class="list-group-item"><strong>누적관객수: </strong>'
-										+ item.audiAcc
-										+ '명</li>'
-										+ '</ul>'
-										+ '<a href="movie/movieDetail?movieCd='
-										+ item.movieCd
-										+ '" class="btn btn-primary">상세 보기</a>'
-										+ '</div>' + '</div>';
-								$(".boxoffice_movie").append(cardHtml);
-							});
+		//새로운 데이터 출력 함수(카드에다 출력)
+		function updateCardData(data, type) {
+			$.each(data, function(index, item) {	
+				//New일 때만 화면 출력하기 위한 조건부 선언
+				let isNew =
+					item.rankOldAndNew === "NEW";
+					
+				//주간, 주말일때만 날짜 범위 출력
+				if(type === "weekly" || type === "weekend") {
+					let showRange = item.showRange;
+					console.log('업데이트된 showRange : ' + showRange);
+					$(".date_range").text("조회 기간: " + showRange).show();
+				}
+					
+				let cardHtml = '<div class="card mb-3">'
+						+ '<div class="card-header text-center">'
+					    + '<span>'
+					    + item.movieNm
+					    + '</span>'
+					    + (isNew ? '<span class="rankOldAndNew">' : '') // rankOldAndNew 값이 "New"일 때만 <span> 추가
+					    + item.rankOldAndNew
+					    + (isNew ? '</span>' : '') // rankOldAndNew 값이 "New"일 때만 </span> 추가
+						+ '<div class="numberCircle"><strong>'
+						+ item.rank
+						+ '</strong></div>'
+					    + '</div>'
+						+ '<div class="row g-0">'
+						+ '<div class="col-md-12 text-center">'
+						+ '<img src="' + item.posterUrl + '" class="card-img-top" alt="' + item.movieNm + ': 포스터가 존재하지 않습니다.">'
+						+ '</div>'
+						+ '</div>'
+						+ '<div class="card-body text-center">'
+						+ '<p class="card-text"><strong>개봉일: </strong>'
+						+ item.openDt
+						+ '</p>'
+						+ '<ul class="list-group list-group-flush">'
+						+ '<li class="list-group-item"><strong>당일 관객수: </strong>'
+						+ item.audiCnt
+						+ '명</li>'
+						+ '<li class="list-group-item"><strong>누적관객수: </strong>'
+						+ item.audiAcc
+						+ '명</li>'
+						+ '</ul>'
+						+ '<a href="movie/movieDetail?movieCd='
+						+ item.movieCd
+						+ '" class="btn btn-primary">상세 보기</a>'
+						+ '</div>' + '</div>';	
+						$(".boxoffice_movie").append(cardHtml);							
+			});
 		}
 	</script>
 
