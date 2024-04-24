@@ -24,4 +24,5 @@ public class Movie {
 	private String audiCnt;
 	private String audiAcc;
 	private String state;
+	private String showRange;
 }
