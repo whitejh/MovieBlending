@@ -82,9 +82,12 @@ public class MovieService {
 		List<Movie> mList = new ArrayList<>();
 		JSONObject jsonObject = new JSONObject(response);
 		JSONArray jsonArray = null;
+		String showRange = null;
+		
 		if (type.equals("daily")) {
 			jsonArray = jsonObject.getJSONObject("boxOfficeResult").getJSONArray("dailyBoxOfficeList");
 		} else if (type.equals("weekly") || type.equals("weekend")) {
+			showRange = jsonObject.getJSONObject("boxOfficeResult").getString("showRange");
 			jsonArray = jsonObject.getJSONObject("boxOfficeResult").getJSONArray("weeklyBoxOfficeList");
 		}
 		if (jsonArray != null) {
@@ -101,7 +104,7 @@ public class MovieService {
 				if (rankOldAndNew.equals("OLD")) {
 					rankOldAndNew = " ";
 				}
-				/* log.info("변경된 랭크값 : " + rankOldAndNew); */
+				log.info("변경된 랭크값 : " + rankOldAndNew);
 				// =============================================================
 				Movie movie = new Movie();
 				movie.setRank(rank);
@@ -111,11 +114,12 @@ public class MovieService {
 				movie.setRankOldAndNew(rankOldAndNew);
 				movie.setAudiCnt(audiCnt);
 				movie.setAudiAcc(audiAcc);
+				movie.setShowRange(showRange);
 				// db 테이블에 저장(값이 1 나오면 저장 성공, 0 나오면 저장 실패)
 				log.info("insertBoxOfficeKobisData 결과 : " + mapper.insertBoxOfficeKobisData(movie));
 
 				// 진흥원 데이터로 검색해, 해당 영화에 일치되는 포스터 url 가져오기
-				fetchMoviePoster(mList, rank, movieCd, movieNm, openDt, rankOldAndNew, audiCnt, audiAcc);
+				fetchMoviePoster(mList, rank, movieCd, movieNm, openDt, rankOldAndNew, audiCnt, audiAcc, showRange);
 			}
 		}
 		return mList;
@@ -123,7 +127,7 @@ public class MovieService {
 
 	// 포스터 URL 조회 전용(리턴값은 String)
 	public void fetchMoviePoster(List<Movie> mList, int rank, String movieCd, String movieNm, String openDt,
-			String rankOldAndNew, String audiCnt, String audiAcc) {
+			String rankOldAndNew, String audiCnt, String audiAcc, String showRange) {
 		String posterUrl = null;
 		try {
 			// 한글이 들어있는 경우에 대비해, URLEncoder.encode 사용 필요
@@ -174,10 +178,10 @@ public class MovieService {
 						// movieNm과 일치하는 title 찾기
 						// 위치는 Data->Result->title
 						title = movieObject.getString("title").replaceAll("!HS|!HE", "").trim().replaceAll("\\s+", " ");
-						/* log.info(i + "번째의 추출한 영화의 제목:" + title); */
+						log.info(i + "번째의 추출한 영화의 제목:" + title);
 						if (title.equals(movieNm)) {
 							num = i; // 정보가 일치하는 Row의 순서 반환
-							/* log.info("추출한 영화의 제목과 순서: " + num + "번째의 " + title); */
+							log.info("추출한 영화의 제목과 순서: " + num + "번째의 " + title);
 							break;
 						}
 					}
@@ -197,7 +201,7 @@ public class MovieService {
 					releaseDates = releaseDate.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					releaseDate = releaseDates[0];
 					if (releaseDate.equals(openDt)) {
-						/* log.info("추출한 영화의 개봉일:" + releaseDate); */
+						log.info("추출한 영화의 개봉일:" + releaseDate);
 						break;
 					}
 				}
@@ -208,7 +212,7 @@ public class MovieService {
 				if (posterUrls.length > 0) {
 					// 첫 번째 포스터 URL 가져오기
 					posterUrl = posterUrls[0];
-					/* log.info("포스터 URL: " + posterUrl); */
+					log.info("포스터 URL: " + posterUrl);
 				}
 
 				// 올바른 포스터 이미지 URL과 해당 영화의 title과 releaseDate 값을 로그에 출력
@@ -224,6 +228,7 @@ public class MovieService {
 			movie.setRankOldAndNew(rankOldAndNew);
 			movie.setAudiCnt(audiCnt);
 			movie.setAudiAcc(audiAcc);
+			movie.setShowRange(showRange);
 			log.info("updatePosterUrl 결과 : " // 포스터 url만 db에 저장
 					+ mapper.updatePosterUrl(movie, movieCd));
 			mList.add(movie);
@@ -256,9 +261,9 @@ public class MovieService {
 					titleEngs = titleEng.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					titleEng = titleEngs[0];
 					if (titleEng.equals(null)) {
-						titleEng = " ";
+						titleEng = "&nbsp;";
 					}
-					/* log.info("titleEng 값: " + titleEng); */
+					log.info("titleEng 값: " + titleEng);
 
 					// genre 값 가져오기
 					// 위치는 Data->Result->genre
@@ -266,9 +271,9 @@ public class MovieService {
 					genres = genre.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					genre = genres[0];
 					if (genre.equals(null)) {
-						genre = " ";
+						genre = "&nbsp;";
 					}
-					/* log.info("genre 값: " + genre); */
+					log.info("genre 값: " + genre);
 
 					// prodYear 값 가져오기
 					// 위치는 Data->Result->prodYear
@@ -276,9 +281,9 @@ public class MovieService {
 					prodYears = prodYear.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					prodYear = prodYears[0];
 					if (prodYear.equals(null)) {
-						prodYear = " ";
+						prodYear = "&nbsp;";
 					}
-					/* log.info("prodYear 값: " + prodYear); */
+					log.info("prodYear 값: " + prodYear);
 
 					// directorNm 값 가져오기
 					// 위치는 Data->Result->directors->director->directorNm
@@ -293,9 +298,9 @@ public class MovieService {
 					directorNms = directorNm.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					directorNm = directorNms[0];
 					if (directorNm.equals(null)) {
-						directorNm = " ";
+						directorNm = "&nbsp;";
 					}
-					/* log.info("directorNm 값: " + directorNm); */
+					log.info("directorNm 값: " + directorNm);
 
 					// actorNm 값 가져오기
 					// 위치는 Data->Result->actors->actor->actorNm
@@ -321,7 +326,7 @@ public class MovieService {
 					if (actorNmList.equals(null)) {
 						actorNmList = " ";
 					}
-					/* log.info("actorNm 값: " + actorNmList); */
+					log.info("actorNm 값: " + actorNmList);
 
 					// company 값 가져오기
 					// 위치는 Data->Result->company
@@ -329,9 +334,9 @@ public class MovieService {
 					companies = company.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					company = companies[0];
 					if (company.equals(null)) {
-						company = " ";
+						company = "&nbsp;";
 					}
-					/* log.info("company 값: " + company); */
+					log.info("company 값: " + company);
 
 					// rating 값 가져오기
 					// 위치는 Data->Result->rating
@@ -339,9 +344,9 @@ public class MovieService {
 					ratings = rating.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					rating = ratings[0];
 					if (rating.equals(null)) {
-						rating = " ";
+						rating = "&nbsp;";
 					}
-					/* log.info("rating 값: " + rating); */
+					log.info("rating 값: " + rating);
 
 					// vodUrl, vodClass 값 가져오기
 					// 위치는 Data->Result->vods->vod->vodUrl(vodClass)
@@ -357,11 +362,11 @@ public class MovieService {
 					}
 					vodUrls = vodUrl.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					vodUrl = vodUrls[0];
-					/* log.info("vodUrl 값: " + vodUrl); */
+					log.info("vodUrl 값: " + vodUrl);
 
 					vodClasses = vodClass.split("\\|"); // <![CDATA[ ]]> 안에 들어있는 값만 쏙 가져오게 split하기
 					vodClass = vodClasses[0];
-					/* log.info("vodClass 값: " + vodClass); */
+					log.info("vodClass 값: " + vodClass);
 				}
 			}
 			Movie movie = new Movie();
@@ -530,7 +535,7 @@ public class MovieService {
 				JSONObject dataObject = dataArray.getJSONObject(0);
 				JSONArray resultArray = dataObject.getJSONArray("Result");
 
-				// 동명의 다른 영화들까지 등장하는 경우, for문으로 내가 원하는 영화만 딱 골라서 거르기
+				// 동명의 다른 영화들까지 등장하는 경우, for문으로 내가 원하는 영화만 딱 꼽아서 해당 위치 추적
 				for (int i = 0; i < resultArray.length(); i++) {
 					if (resultArray.length() > 0) {
 						JSONObject movieObject = resultArray.getJSONObject(i);

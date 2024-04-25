@@ -85,10 +85,17 @@ table {
 
 section.notice {
 	padding: 20px 0;
-	width: 50%;
+	width: 70%; //
 	margin-inline: auto;
 	min-height: 800px; /*  이거 수정필요 */
 
+}
+
+section.notice2 {
+	padding: 20px 0;
+	width: 50%; //
+	margin-inline: auto;
+	min-height: 800px; /*  이거 수정필요 */
 }
 
 .page-title {
@@ -228,7 +235,7 @@ section.notice {
 }
 
 .board-table .th-num {
-	width: 60px;
+	width: 30px;
 }
 
 .board-table .th-cate {
@@ -240,11 +247,11 @@ section.notice {
 }
 
 .board-table .th-user {
-	width: 80px;
+	width: 30px;
 }
 
 .board-table .th-date {
-	width: 100px;
+	width: 50px;
 }
 
 .board-table .th-view {

@@ -66,11 +66,11 @@
 					<li><a class="header__menu__item" href="/board/listPage?num=1">영화Talk</a></li>
 				</ul>
 			</nav>
-			<div class="header__search">
+<!-- 			<div class="header__search">
 				<input name="search" type="text" placeholder="찾고 있는 영화가 있나요?"
 					size="60" />
 				<button class="header__search__button" type="submit">검색</button>
-			</div>
+			</div> -->
 		</div>
 	</header>
 	

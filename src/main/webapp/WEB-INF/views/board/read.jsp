@@ -28,7 +28,7 @@
 		page="${pageContext.request.contextPath}/WEB-INF/views/include/header.jsp" />
 	<!-- 메인 -->
 	<main>
-		<section class="notice">
+		<section class="notice2" style="margin-inline: auto;">
 			<div class="page-title">
 				<div class="container">
 					<!-- <h1>영화Talk 상세페이지</h1> -->
@@ -69,10 +69,10 @@
 							</tr>
 							<tr>
 								<td>내용</td>
-								<td colspan="2"
-									style="display: block; min-height: 200px; text-align: left;">
-									${board.getBoardContent()}</td>
-							</tr>
+								
+								<td width="100%"
+									style="display: block; min-height: 400px; text-align: left;">
+									<div style="white-space:pre-wrap"><c:out value="${board.getBoardContent()}" /></div></td>
 							<tr>
 								<td colspan="2"><a href='<c:url value="/board/listPage?num=1"/>'
 									class="btn btn-primary">목록</a><%--  <a

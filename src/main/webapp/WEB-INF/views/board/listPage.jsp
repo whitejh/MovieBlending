@@ -37,7 +37,7 @@
 
 	<!-- 메인 -->
 	<main>
-		<section class="notice">
+		<section class="notice" style="margin-inline: auto;">
 			<!-- Begin Page Content -->
 			<div class="container-fluid">
 
@@ -101,22 +101,22 @@
 													<th class="th-title">제목</th>
 													<th class="th-user">글쓴이</th>
 													<th class="th-date">등록일</th>
-													<th class="th-view">조회👁️‍🗨️</th>
+													<th class="th-num">조회👁️‍🗨️</th>
 													<!-- <th class="th-like">추천👍</th> -->
 												</tr>
 											</thead>
 											<c:forEach var="board" items="${bList}">
 												<tbody>
 													<tr>
-														<td class="th-b">${board.boardID}</td>
-														<td class="th-b"><a
+														<td class="th-num">${board.boardID}</td>
+														<td class="th-title"><a
 															href="read?boardID=${board.boardID}">
 																${board.boardTitle} </a></td>
-														<td class="th-b">${board.userID}</td>
-														<td class="th-b">
+														<td class="th-user">${board.userID}</td>
+														<td class="th-date">
 															${fn:substring(board.boardDate,0,11)}${fn:substring(board.boardDate,11,13)}:${fn:substring(board.boardDate,14,16)}
 														</td>
-														<td class="th-b">${board.boardView}</td>
+														<td class="th-num">${board.boardView}</td>
 
 													</tr>
 

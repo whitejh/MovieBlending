@@ -27,7 +27,7 @@
 
 	<!-- 메인 -->
 	<main>
-		<section class="notice">
+		<section class="notice2" style="margin-inline: auto;">
 			<div class="page-title">
 				<div class="container">
 					<!-- <h1>영화Talk 상세페이지</h1> -->
